@@ -1,0 +1,60 @@
+[07-May-2025 04:24:02 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\PhraseBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php on line 10
+[07-May-2025 05:22:08 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\CaptchaBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php on line 14
+[07-May-2025 05:57:39 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\PhraseBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php on line 10
+[07-May-2025 05:57:45 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\CaptchaBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php on line 14
+[07-May-2025 06:06:00 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\PhraseBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php on line 10
+[07-May-2025 06:06:20 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\CaptchaBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php on line 14
+[13-May-2025 23:03:27 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\CaptchaBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php on line 14
+[13-May-2025 23:08:54 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\PhraseBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php on line 10
+[16-May-2025 07:50:57 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\CaptchaBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php on line 14
+[16-May-2025 08:04:57 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\PhraseBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php on line 10
+[19-May-2025 09:41:48 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\PhraseBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php on line 10
+[19-May-2025 21:03:14 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\PhraseBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php on line 10
+[20-May-2025 20:47:41 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\PhraseBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php on line 10
+[24-May-2025 01:15:04 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\CaptchaBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php:14
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/CaptchaBuilder.php on line 14
+[24-May-2025 01:43:39 UTC] PHP Fatal error:  Uncaught Error: Interface "Gregwar\Captcha\PhraseBuilderInterface" not found in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php:10
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/gregwar/captcha/PhraseBuilder.php on line 10

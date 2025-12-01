@@ -1,0 +1,90 @@
+[07-May-2025 04:21:00 UTC] PHP Fatal error:  Uncaught Error: Class "PHPMailer" not found in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php on line 26
+[07-May-2025 04:21:01 UTC] PHP Warning:  require(vendor/autoload.php): Failed to open stream: No such file or directory in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[07-May-2025 04:21:01 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[07-May-2025 04:24:01 UTC] PHP Fatal error:  __autoload() is no longer supported, use spl_autoload_register() instead in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/PHPMailerAutoload.php on line 45
+[07-May-2025 05:39:02 UTC] PHP Fatal error:  Uncaught Error: Class "PHPMailer" not found in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php on line 26
+[07-May-2025 05:39:03 UTC] PHP Warning:  require(vendor/autoload.php): Failed to open stream: No such file or directory in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[07-May-2025 05:39:03 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[07-May-2025 05:39:38 UTC] PHP Fatal error:  __autoload() is no longer supported, use spl_autoload_register() instead in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/PHPMailerAutoload.php on line 45
+[07-May-2025 05:43:09 UTC] PHP Fatal error:  Uncaught Error: Class "PHPMailer" not found in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php on line 26
+[07-May-2025 05:43:19 UTC] PHP Warning:  require(vendor/autoload.php): Failed to open stream: No such file or directory in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[07-May-2025 05:43:19 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[07-May-2025 05:47:04 UTC] PHP Fatal error:  __autoload() is no longer supported, use spl_autoload_register() instead in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/PHPMailerAutoload.php on line 45
+[13-May-2025 22:25:57 UTC] PHP Fatal error:  Uncaught Error: Class "PHPMailer" not found in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php on line 26
+[13-May-2025 22:31:24 UTC] PHP Warning:  require(vendor/autoload.php): Failed to open stream: No such file or directory in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[13-May-2025 22:31:24 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[14-May-2025 00:52:33 UTC] PHP Fatal error:  __autoload() is no longer supported, use spl_autoload_register() instead in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/PHPMailerAutoload.php on line 45
+[15-May-2025 23:15:24 UTC] PHP Fatal error:  Uncaught Error: Class "PHPMailer" not found in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php on line 26
+[15-May-2025 23:26:39 UTC] PHP Warning:  require(vendor/autoload.php): Failed to open stream: No such file or directory in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[15-May-2025 23:26:39 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[16-May-2025 03:26:56 UTC] PHP Fatal error:  __autoload() is no longer supported, use spl_autoload_register() instead in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/PHPMailerAutoload.php on line 45
+[19-May-2025 08:02:08 UTC] PHP Fatal error:  Uncaught Error: Class "PHPMailer" not found in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php on line 26
+[19-May-2025 08:48:45 UTC] PHP Warning:  require(vendor/autoload.php): Failed to open stream: No such file or directory in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[19-May-2025 08:48:45 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[19-May-2025 09:49:27 UTC] PHP Fatal error:  __autoload() is no longer supported, use spl_autoload_register() instead in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/PHPMailerAutoload.php on line 45
+[19-May-2025 13:51:35 UTC] PHP Fatal error:  Uncaught Error: Class "PHPMailer" not found in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php on line 26
+[19-May-2025 14:20:54 UTC] PHP Fatal error:  __autoload() is no longer supported, use spl_autoload_register() instead in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/PHPMailerAutoload.php on line 45
+[20-May-2025 00:09:11 UTC] PHP Warning:  require(vendor/autoload.php): Failed to open stream: No such file or directory in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[20-May-2025 00:09:11 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[20-May-2025 01:40:17 UTC] PHP Fatal error:  __autoload() is no longer supported, use spl_autoload_register() instead in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/PHPMailerAutoload.php on line 45
+[20-May-2025 02:14:02 UTC] PHP Fatal error:  Uncaught Error: Class "PHPMailer" not found in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php on line 26
+[20-May-2025 14:51:42 UTC] PHP Warning:  require(vendor/autoload.php): Failed to open stream: No such file or directory in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[20-May-2025 14:51:42 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[24-May-2025 02:12:22 UTC] PHP Fatal error:  Uncaught Error: Class "PHPMailer" not found in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php:26
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/class.phpmaileroauth.php on line 26
+[24-May-2025 02:31:44 UTC] PHP Warning:  require(vendor/autoload.php): Failed to open stream: No such file or directory in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[24-May-2025 02:31:44 UTC] PHP Fatal error:  Uncaught Error: Failed opening required 'vendor/autoload.php' (include_path='.:/opt/alt/php80/usr/share/pear:/opt/alt/php80/usr/share/php:/usr/share/pear:/usr/share/php') in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php:18
+Stack trace:
+#0 {main}
+  thrown in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/get_oauth_token.php on line 18
+[24-May-2025 02:46:39 UTC] PHP Fatal error:  __autoload() is no longer supported, use spl_autoload_register() instead in /home/maxtijvr/maxtechbd.com/vendor/phpmailer/phpmailer/PHPMailerAutoload.php on line 45
