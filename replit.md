@@ -60,7 +60,7 @@ nextjs-app/                    # Next.js 14 application
   - Bootstrap 5.0.2
   - Font Awesome 4 & 6
 
-## Database Models (18 Total)
+## Database Models (19 Total)
 1. **SiteSettings** - Global site configuration (logo, contact info, etc.)
 2. **MenuItem** - Navigation menu with hierarchical structure
 3. **HeroSlide** - Homepage slider content
@@ -79,6 +79,7 @@ nextjs-app/                    # Next.js 14 application
 16. **TimelineMilestone** - Company history timeline events with images
 17. **StatCounter** - Statistics counters (experience, projects, clients, etc.)
 18. **AdminUser** - Admin dashboard users with JWT authentication
+19. **SaaSProduct** - SaaS product listings with features, tech stack, and demo links
 
 ## Pages & Routes
 
@@ -93,6 +94,8 @@ nextjs-app/                    # Next.js 14 application
 | `/news/[slug]` | News article | Individual NewsPost |
 | `/portfolio` | Portfolio listing | Projects, Testimonials |
 | `/portfolio/[slug]` | Case study | Individual Project with challenges/solutions |
+| `/saas-products` | SaaS Products listing | SaaSProducts with card layout |
+| `/saas-products/[slug]` | Product detail | Individual SaaSProduct with full-width hero |
 
 ### Admin Dashboard
 | Route | Description |
@@ -116,6 +119,7 @@ nextjs-app/                    # Next.js 14 application
 | `/admin/about-section` | Edit about section |
 | `/admin/vision-section` | Edit vision section |
 | `/admin/contact-submissions` | View contact form submissions |
+| `/admin/saas-products` | Manage SaaS products (CRUD) |
 
 ## Development Commands
 ```bash

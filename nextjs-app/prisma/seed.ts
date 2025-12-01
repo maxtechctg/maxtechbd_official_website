@@ -62,7 +62,7 @@ async function main() {
   await prisma.menuItem.createMany({
     data: [
       { label: 'Client Projects', href: '/portfolio', order: 1, parentId: portfolioMenu.id },
-      { label: 'Our SaaS Products', href: '/portfolio/saas', order: 2, parentId: portfolioMenu.id },
+      { label: 'Our SaaS Products', href: '/saas-products', order: 2, parentId: portfolioMenu.id },
     ],
   });
 
@@ -616,6 +616,64 @@ async function main() {
         title: "We're a group of IT passionate",
         subtitle: 'Our team',
         description: 'Meet our talented team of IT professionals.',
+      },
+      {
+        pageSlug: 'saas-products',
+        title: 'Our SaaS Products',
+        subtitle: 'Products',
+        description: 'Explore our suite of software-as-a-service solutions.',
+        metaTitle: 'SaaS Products - MaxTech',
+        metaDescription: 'Discover MaxTech SaaS products designed to streamline your business.',
+      },
+    ],
+  });
+
+  // SaaS Products
+  await prisma.saaSProduct.deleteMany();
+  await prisma.saaSProduct.createMany({
+    data: [
+      {
+        title: 'CloudSync Pro',
+        slug: 'cloudsync-pro',
+        tagline: 'Seamless Cloud Integration',
+        shortDescription: 'Enterprise-grade cloud synchronization platform that keeps your data in sync across all devices and services.',
+        longDescription: 'CloudSync Pro is our flagship cloud integration solution designed for businesses that need reliable, real-time data synchronization. With support for over 100 popular cloud services and on-premise systems, CloudSync Pro ensures your team always has access to the latest information, regardless of where they are or what device they use.',
+        mainImage: '/images/services/1.webp',
+        features: 'Real-time bidirectional sync across unlimited devices|End-to-end encryption with AES-256|Automatic conflict resolution with version history|REST API for custom integrations|99.99% uptime SLA|24/7 enterprise support',
+        techStack: 'Node.js, PostgreSQL, Redis, Kubernetes, AWS',
+        liveDemoUrl: 'https://demo.cloudsync.example.com',
+        documentationUrl: 'https://docs.cloudsync.example.com',
+        order: 1,
+        isActive: true,
+      },
+      {
+        title: 'SecureVault',
+        slug: 'securevault',
+        tagline: 'Enterprise Password Management',
+        shortDescription: 'Zero-knowledge password manager with team collaboration features and advanced security analytics.',
+        longDescription: 'SecureVault provides military-grade password protection for organizations of all sizes. Our zero-knowledge architecture means even we cannot access your data. With advanced features like breach monitoring, password health scores, and seamless SSO integration, SecureVault is the complete solution for enterprise credential management.',
+        mainImage: '/images/services/3.webp',
+        features: 'Zero-knowledge encryption architecture|SSO integration with SAML 2.0 and OIDC|Breach monitoring and alerts|Password health analytics dashboard|Role-based access controls|Audit logs and compliance reports',
+        techStack: 'Rust, PostgreSQL, React, Docker, GCP',
+        liveDemoUrl: 'https://demo.securevault.example.com',
+        githubUrl: 'https://github.com/example/securevault',
+        documentationUrl: 'https://docs.securevault.example.com',
+        order: 2,
+        isActive: true,
+      },
+      {
+        title: 'Analytics360',
+        slug: 'analytics360',
+        tagline: 'Business Intelligence Made Simple',
+        shortDescription: 'Comprehensive analytics platform with AI-powered insights and beautiful, customizable dashboards.',
+        longDescription: 'Analytics360 transforms your raw data into actionable insights. Our AI-powered analytics engine automatically identifies trends, anomalies, and opportunities in your data. With drag-and-drop dashboard builders and natural language queries, anyone on your team can become a data analyst.',
+        mainImage: '/images/services/2.webp',
+        features: 'AI-powered trend detection and forecasting|Natural language query interface|Drag-and-drop dashboard builder|Real-time data streaming support|50+ data source connectors|White-label reporting options',
+        techStack: 'Python, TensorFlow, PostgreSQL, React, Kubernetes',
+        liveDemoUrl: 'https://demo.analytics360.example.com',
+        documentationUrl: 'https://docs.analytics360.example.com',
+        order: 3,
+        isActive: true,
       },
     ],
   });
