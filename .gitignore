@@ -1,0 +1,31 @@
+# PHP
+*.log
+.env
+.env.local
+
+# Cache and temporary files
+.cache/
+.local/
+*.tmp
+*.temp
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Replit specific
+.replit
+.upm/
+
+# Composer (if regenerating)
+# vendor/
+
+# Zip archives (build artifacts from original repo)
+*.zip
