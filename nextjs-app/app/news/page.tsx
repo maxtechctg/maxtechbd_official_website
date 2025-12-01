@@ -1,0 +1,140 @@
+import prisma from '@/lib/prisma';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import PageHeader from '@/components/PageHeader';
+import Link from 'next/link';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
+async function getData() {
+  const [
+    settings,
+    menuItems,
+    newsPosts,
+    socialLinks,
+    footerLinks,
+  ] = await Promise.all([
+    prisma.siteSettings.findFirst(),
+    prisma.menuItem.findMany({
+      where: { parentId: null },
+      include: { children: true },
+      orderBy: { order: 'asc' },
+    }),
+    prisma.newsPost.findMany({
+      where: { isActive: true },
+      orderBy: { publishedAt: 'desc' },
+    }),
+    prisma.socialLink.findMany({
+      where: { isActive: true },
+      orderBy: { order: 'asc' },
+    }),
+    prisma.footerLink.findMany({
+      where: { isActive: true },
+      orderBy: { order: 'asc' },
+    }),
+  ]);
+
+  return {
+    settings,
+    menuItems,
+    newsPosts,
+    socialLinks,
+    footerLinks,
+  };
+}
+
+function formatDate(date: Date | null): string {
+  if (!date) return '';
+  const now = new Date();
+  const diffTime = Math.abs(now.getTime() - date.getTime());
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  
+  if (diffDays === 1) return '1 day ago';
+  if (diffDays < 7) return `${diffDays} days ago`;
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+  
+  return date.toLocaleDateString('en-US', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+}
+
+export default async function NewsPage() {
+  const data = await getData();
+
+  const headerSettings = {
+    logoUrl: data.settings?.logoUrl || null,
+    logoMobileUrl: data.settings?.logoMobileUrl || null,
+    phone: data.settings?.phone || null,
+  };
+
+  const footerSettings = {
+    logoUrl: data.settings?.logoUrl || null,
+    phone: data.settings?.phone || null,
+    email: data.settings?.email || null,
+    address: data.settings?.address || null,
+    copyright: data.settings?.copyright || null,
+    description: data.settings?.description || null,
+  };
+
+  return (
+    <>
+      <Header 
+        menuItems={data.menuItems} 
+        settings={headerSettings} 
+        transparent={true} 
+      />
+
+      <div className="no-bottom no-top" id="content">
+        <div id="top"></div>
+
+        <PageHeader
+          subtitle="Latest News"
+          title="Providing best IT solutions"
+          breadcrumb={[
+            { label: 'Home', href: '/' },
+            { label: 'News' },
+          ]}
+        />
+
+        <section className="no-top">
+          <div className="container">
+            <div className="row g-4">
+              {data.newsPosts.map((post) => (
+                <div key={post.id} className="col-lg-4 col-md-6 mb10">
+                  <div className="bloglist item">
+                    <div className="post-content">
+                      <div className="post-image">
+                        <div className="d-tagline">
+                          {post.tags?.split(',').slice(0, 2).map((tag: string, index: number) => (
+                            <span key={index}>{tag.trim()}</span>
+                          ))}
+                        </div>
+                        <img alt={post.title} src={post.image || ''} className="lazy" />
+                      </div>
+                      <div className="post-text">
+                        <div className="d-date">{formatDate(post.publishedAt)}</div>
+                        <h4>
+                          <Link href={`/news/${post.slug}`}>{post.title}</Link>
+                        </h4>
+                        <p>{post.excerpt}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <Footer 
+        settings={footerSettings}
+        socialLinks={data.socialLinks}
+        footerLinks={data.footerLinks}
+      />
+    </>
+  );
+}
