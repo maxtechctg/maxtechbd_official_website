@@ -1,0 +1,204 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SiteSettings {
+  id          Int      @id @default(autoincrement())
+  siteName    String
+  siteTitle   String
+  description String?
+  phone       String?
+  email       String?
+  address     String?
+  logoUrl     String?
+  logoMobileUrl String?
+  favicon     String?
+  copyright   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model MenuItem {
+  id          Int        @id @default(autoincrement())
+  label       String
+  href        String
+  order       Int        @default(0)
+  parentId    Int?
+  parent      MenuItem?  @relation("MenuHierarchy", fields: [parentId], references: [id])
+  children    MenuItem[] @relation("MenuHierarchy")
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model HeroSlide {
+  id              Int      @id @default(autoincrement())
+  subtitle        String
+  title           String
+  titleHighlight  String?
+  description     String
+  primaryBtnText  String?
+  primaryBtnUrl   String?
+  secondaryBtnText String?
+  secondaryBtnUrl String?
+  backgroundImage String
+  order           Int      @default(0)
+  isActive        Boolean  @default(true)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  image       String?
+  icon        String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model VisionSection {
+  id              Int      @id @default(autoincrement())
+  subtitle        String
+  heading         String
+  buttonText      String?
+  buttonUrl       String?
+  backgroundImage String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model TeamMember {
+  id          Int      @id @default(autoincrement())
+  name        String
+  role        String
+  image       String
+  facebook    String?
+  twitter     String?
+  instagram   String?
+  discord     String?
+  linkedin    String?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AboutSection {
+  id              Int      @id @default(autoincrement())
+  subtitle        String
+  heading         String
+  description     String
+  buttonText      String?
+  buttonUrl       String?
+  image1          String?
+  image2          String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Testimonial {
+  id          Int      @id @default(autoincrement())
+  authorName  String
+  authorRole  String
+  authorImage String?
+  quote       String
+  rating      Int      @default(5)
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ClientLogo {
+  id        Int      @id @default(autoincrement())
+  name      String?
+  image     String
+  url       String?
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SocialLink {
+  id        Int      @id @default(autoincrement())
+  platform  String
+  url       String
+  icon      String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model FooterLink {
+  id        Int      @id @default(autoincrement())
+  category  String
+  label     String
+  url       String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  description String?
+  content     String?
+  image       String?
+  category    String?
+  client      String?
+  date        DateTime?
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NewsPost {
+  id          Int      @id @default(autoincrement())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String?
+  image       String?
+  author      String?
+  publishedAt DateTime?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ContactSubmission {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  phone     String?
+  subject   String?
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model PageContent {
+  id          Int      @id @default(autoincrement())
+  pageSlug    String   @unique
+  title       String
+  subtitle    String?
+  description String?
+  metaTitle   String?
+  metaDescription String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
