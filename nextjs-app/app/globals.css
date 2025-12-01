@@ -1,0 +1,4 @@
+/* Global styles - minimal reset for admin pages */
+*, *::before, *::after {
+  box-sizing: border-box;
+}

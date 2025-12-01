@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Script from 'next/script';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'MaxTech — IT Solutions and Services',
@@ -21,22 +21,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/images/icon.png" type="image/gif" sizes="16x16" />
-        <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="/css/plugins.css" rel="stylesheet" type="text/css" />
-        <link href="/css/swiper.css" rel="stylesheet" type="text/css" />
-        <link href="/css/style.css" rel="stylesheet" type="text/css" />
-        <link href="/css/coloring.css" rel="stylesheet" type="text/css" />
-        <link id="colors" href="/css/colors/scheme-01.css" rel="stylesheet" type="text/css" />
       </head>
       <body suppressHydrationWarning>
-        <div id="wrapper">
-          {children}
-        </div>
-        <Script src="/js/plugins.js" strategy="beforeInteractive" />
-        <Script src="/js/designesia.js" strategy="afterInteractive" />
-        <Script src="/js/swiper.js" strategy="afterInteractive" />
-        <Script src="/js/custom-marquee.js" strategy="afterInteractive" />
-        <Script src="/js/custom-swiper-1.js" strategy="afterInteractive" />
+        {children}
       </body>
     </html>
   );

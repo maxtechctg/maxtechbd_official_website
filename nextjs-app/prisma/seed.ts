@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -6,6 +7,7 @@ async function main() {
   console.log('Starting database seed...');
 
   // Clear existing data
+  await prisma.adminUser.deleteMany();
   await prisma.heroSlide.deleteMany();
   await prisma.service.deleteMany();
   await prisma.visionSection.deleteMany();
@@ -19,6 +21,18 @@ async function main() {
   await prisma.siteSettings.deleteMany();
   await prisma.timelineMilestone.deleteMany();
   await prisma.statCounter.deleteMany();
+
+  // Create Admin User
+  const hashedPassword = await bcrypt.hash('admin123', 10);
+  await prisma.adminUser.create({
+    data: {
+      email: 'admin@maxtech.com',
+      password: hashedPassword,
+      name: 'Admin',
+      isActive: true,
+    },
+  });
+  console.log('Admin user created: admin@maxtech.com / admin123');
 
   // Site Settings
   await prisma.siteSettings.create({

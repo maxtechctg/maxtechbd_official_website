@@ -60,7 +60,7 @@ nextjs-app/                    # Next.js 14 application
   - Bootstrap 5.0.2
   - Font Awesome 4 & 6
 
-## Database Models (17 Total)
+## Database Models (18 Total)
 1. **SiteSettings** - Global site configuration (logo, contact info, etc.)
 2. **MenuItem** - Navigation menu with hierarchical structure
 3. **HeroSlide** - Homepage slider content
@@ -78,8 +78,11 @@ nextjs-app/                    # Next.js 14 application
 15. **PageContent** - Page headers and subtitles for all routes
 16. **TimelineMilestone** - Company history timeline events with images
 17. **StatCounter** - Statistics counters (experience, projects, clients, etc.)
+18. **AdminUser** - Admin dashboard users with JWT authentication
 
 ## Pages & Routes
+
+### Public Pages
 | Route | Description | Database Content |
 |-------|-------------|------------------|
 | `/` | Homepage | HeroSlides, Services, Vision, Team, Testimonials, Client Logos |
@@ -90,6 +93,29 @@ nextjs-app/                    # Next.js 14 application
 | `/news/[slug]` | News article | Individual NewsPost |
 | `/portfolio` | Portfolio listing | Projects, Testimonials |
 | `/portfolio/[slug]` | Case study | Individual Project with challenges/solutions |
+
+### Admin Dashboard
+| Route | Description |
+|-------|-------------|
+| `/login` | Admin login page |
+| `/admin` | Dashboard home with statistics |
+| `/admin/services` | Manage services (CRUD) |
+| `/admin/hero-slides` | Manage hero slider content |
+| `/admin/team-members` | Manage team members |
+| `/admin/testimonials` | Manage testimonials |
+| `/admin/projects` | Manage portfolio/case studies |
+| `/admin/news-posts` | Manage news articles |
+| `/admin/site-settings` | Edit site configuration |
+| `/admin/client-logos` | Manage client logos |
+| `/admin/social-links` | Manage social media links |
+| `/admin/footer-links` | Manage footer links |
+| `/admin/menu-items` | Manage navigation menu |
+| `/admin/stat-counters` | Manage statistics counters |
+| `/admin/timeline-milestones` | Manage company timeline |
+| `/admin/page-content` | Manage page headers/subtitles |
+| `/admin/about-section` | Edit about section |
+| `/admin/vision-section` | Edit vision section |
+| `/admin/contact-submissions` | View contact form submissions |
 
 ## Development Commands
 ```bash
@@ -132,10 +158,19 @@ npm run start             # Start production server
 - Legacy jQuery scripts loaded via Next.js Script component
 - Hydration warnings from legacy jQuery integration are expected behavior
 
+## Admin Dashboard Authentication
+- **Login URL**: `/login`
+- **Default Credentials**: admin@maxtech.com / admin123
+- **Authentication**: JWT-based with HTTP-only cookies
+- **Session Duration**: 7 days
+- **Protected Routes**: All `/admin/*` routes require authentication
+
 ## Current State (December 1, 2025)
-- All 8 pages fully migrated and functional
+- All 8 public pages fully migrated and functional
 - All content database-driven (no hardcoded text)
-- 17 database models with comprehensive seed data
+- 18 database models with comprehensive seed data
+- Admin dashboard with complete CRUD for all models
+- JWT authentication with secure session management
 - Timeline milestones support multiple images for carousel
 - Portfolio projects have complete content (challenges, solutions, testimonials)
 - Dynamic rendering enabled for real-time database updates

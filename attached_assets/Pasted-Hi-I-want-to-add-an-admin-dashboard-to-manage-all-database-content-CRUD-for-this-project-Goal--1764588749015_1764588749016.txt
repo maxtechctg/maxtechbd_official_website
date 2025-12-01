@@ -1,0 +1,116 @@
+Hi, I want to add an admin dashboard to manage all database content (CRUD) for this project.
+
+Goal:
+Build a secure admin dashboard in the existing Next.js + Prisma + PostgreSQL setup so I can manage all tables you see in my database screenshot:
+
+AboutSection
+
+ClientLogo
+
+ContactSubmission
+
+FooterLink
+
+HeroSlide
+
+MenuItem
+
+NewsPost
+
+PageContent
+
+Project
+
+Service
+
+SiteSettings
+
+SocialLink
+
+StatCounter
+
+TeamMember
+
+Testimonial
+
+TimelineMilestone
+
+VisionSection
+
+1. Authentication (very important)
+
+Create only a login page for admin, no signup page.
+
+Admin credentials and info must come from the database (e.g. AdminUser table seeded with one default user).
+
+Use JWT-based authentication:
+
+On successful login, issue a JWT and store it in a secure way (preferably httpOnly cookie).
+
+Protect all dashboard routes so only authenticated admin can access them.
+
+Add logout functionality that clears the token.
+
+2. Admin Dashboard structure
+
+Create a dashboard layout (e.g. /admin) with sidebar/menu links for each module based on the tables above:
+
+/admin/about-section
+
+/admin/hero-slides
+
+/admin/services
+
+/admin/projects
+
+/admin/news-posts
+
+/admin/testimonials
+
+/admin/team-members
+
+/admin/client-logos
+
+/admin/social-links
+
+/admin/footer-links
+
+/admin/site-settings
+
+/admin/stat-counters
+
+/admin/timeline-milestones
+
+/admin/vision-section
+
+/admin/page-content
+
+/admin/contact-submissions (read-only list is enough)
+
+3. CRUD functionality
+
+For each module (except maybe ContactSubmission which can be read-only):
+
+List view: table with pagination/search if possible
+
+Create: form to add a new record
+
+Edit: form to update existing record
+
+Delete: option to remove a record (with confirmation)
+
+All operations should use Prisma and update the existing PostgreSQL tables.
+
+4. UI / Design
+
+Use a simple, clean admin UI (it doesn’t have to match the frontend marketing site, just be clear and usable).
+
+Keep the existing public site unchanged; only add new admin routes and components.
+
+5. Security & structure
+
+Protect all /admin/** routes with the JWT auth middleware/guard.
+
+Make sure API routes for CRUD are also protected (only accessible when logged in as admin).
+
+Please implement this full admin dashboard, hook it up to the current Prisma schema, and let me know how to log in (initial admin email/password and where it’s seeded in the database).

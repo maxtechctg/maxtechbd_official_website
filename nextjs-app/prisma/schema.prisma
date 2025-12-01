@@ -234,3 +234,13 @@ model StatCounter {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+model AdminUser {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String
+  name        String
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
