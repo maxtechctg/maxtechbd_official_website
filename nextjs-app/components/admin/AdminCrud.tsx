@@ -3,13 +3,15 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ImageUpload from './ImageUpload';
 
 interface Field {
   name: string;
   label: string;
-  type: 'text' | 'textarea' | 'number' | 'email' | 'url' | 'checkbox' | 'date' | 'datetime-local';
+  type: 'text' | 'textarea' | 'number' | 'email' | 'url' | 'checkbox' | 'date' | 'datetime-local' | 'image';
   required?: boolean;
   placeholder?: string;
+  folder?: string;
 }
 
 interface AdminFormProps {
@@ -78,6 +80,19 @@ export function AdminForm({ title, fields, apiEndpoint, backUrl, initialData, is
                   />
                   {field.label}
                 </label>
+              ) : field.type === 'image' ? (
+                <>
+                  <label className="admin-form-label">
+                    {field.label}
+                    {field.required && <span style={{ color: '#dc3545' }}> *</span>}
+                  </label>
+                  <ImageUpload
+                    value={String(formData[field.name] || '')}
+                    onChange={(url) => handleChange(field.name, url)}
+                    folder={field.folder || 'maxtech'}
+                    required={field.required}
+                  />
+                </>
               ) : (
                 <>
                   <label className="admin-form-label">

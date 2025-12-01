@@ -15,8 +15,8 @@ interface Service {
 const fields = [
   { name: 'title', label: 'Title', type: 'text' as const, required: true },
   { name: 'description', label: 'Description', type: 'textarea' as const, required: true },
-  { name: 'icon', label: 'Icon URL', type: 'text' as const, placeholder: '/images/svg/example.svg' },
-  { name: 'image', label: 'Image URL', type: 'text' as const },
+  { name: 'icon', label: 'Icon', type: 'image' as const, folder: 'maxtech/icons' },
+  { name: 'image', label: 'Service Image', type: 'image' as const, folder: 'maxtech/services' },
   { name: 'order', label: 'Order', type: 'number' as const },
   { name: 'isActive', label: 'Active', type: 'checkbox' as const },
 ];

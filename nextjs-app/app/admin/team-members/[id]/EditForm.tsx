@@ -3,7 +3,7 @@ import { AdminForm } from '@/components/admin/AdminCrud';
 const fields = [
   { name: 'name', label: 'Name', type: 'text' as const, required: true },
   { name: 'role', label: 'Role', type: 'text' as const, required: true },
-  { name: 'image', label: 'Image URL', type: 'text' as const, required: true },
+  { name: 'image', label: 'Profile Photo', type: 'image' as const, required: true, folder: 'maxtech/team' },
   { name: 'facebook', label: 'Facebook URL', type: 'text' as const },
   { name: 'twitter', label: 'Twitter URL', type: 'text' as const },
   { name: 'instagram', label: 'Instagram URL', type: 'text' as const },

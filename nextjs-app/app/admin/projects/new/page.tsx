@@ -8,7 +8,7 @@ const fields = [
   { name: 'challenges', label: 'Challenges (separate with |)', type: 'textarea' as const },
   { name: 'solutions', label: 'Solutions (separate with |)', type: 'textarea' as const },
   { name: 'testimonialQuote', label: 'Testimonial Quote', type: 'textarea' as const },
-  { name: 'image', label: 'Image URL', type: 'text' as const },
+  { name: 'image', label: 'Project Image', type: 'image' as const, folder: 'maxtech/projects' },
   { name: 'category', label: 'Category', type: 'text' as const },
   { name: 'client', label: 'Client', type: 'text' as const },
   { name: 'positiveFeedbacks', label: 'Positive Feedbacks Count', type: 'number' as const },

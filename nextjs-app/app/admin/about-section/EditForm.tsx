@@ -6,8 +6,8 @@ const fields = [
   { name: 'description', label: 'Description', type: 'textarea' as const, required: true },
   { name: 'buttonText', label: 'Button Text', type: 'text' as const },
   { name: 'buttonUrl', label: 'Button URL', type: 'text' as const },
-  { name: 'image1', label: 'Image 1 URL', type: 'text' as const },
-  { name: 'image2', label: 'Image 2 URL', type: 'text' as const },
+  { name: 'image1', label: 'Image 1', type: 'image' as const, folder: 'maxtech/about' },
+  { name: 'image2', label: 'Image 2', type: 'image' as const, folder: 'maxtech/about' },
 ];
 export default function EditForm({ item }: { item: Record<string, unknown> }) {
   return <AdminForm title="About Section" fields={fields} apiEndpoint="/api/admin/about-section" backUrl="/admin" initialData={item} isEdit />;

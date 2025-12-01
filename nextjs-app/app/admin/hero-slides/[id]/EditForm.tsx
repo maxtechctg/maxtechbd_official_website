@@ -10,7 +10,7 @@ const fields = [
   { name: 'primaryBtnUrl', label: 'Primary Button URL', type: 'text' as const },
   { name: 'secondaryBtnText', label: 'Secondary Button Text', type: 'text' as const },
   { name: 'secondaryBtnUrl', label: 'Secondary Button URL', type: 'text' as const },
-  { name: 'backgroundImage', label: 'Background Image URL', type: 'text' as const, required: true },
+  { name: 'backgroundImage', label: 'Background Image', type: 'image' as const, required: true, folder: 'maxtech/hero' },
   { name: 'order', label: 'Order', type: 'number' as const },
   { name: 'isActive', label: 'Active', type: 'checkbox' as const },
 ];

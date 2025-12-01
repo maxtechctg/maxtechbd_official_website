@@ -439,3 +439,124 @@ body {
   font-size: 0.9rem;
   text-align: center;
 }
+
+/* Image Upload Component */
+.image-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.image-upload-preview {
+  position: relative;
+  display: inline-block;
+  max-width: 300px;
+}
+
+.image-upload-preview img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.image-upload-remove {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 24px;
+  height: 24px;
+  background: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-upload-remove:hover {
+  background: #c82333;
+}
+
+.image-upload-dropzone {
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 30px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: #fafafa;
+}
+
+.image-upload-dropzone:hover,
+.image-upload-dropzone.active {
+  border-color: #f5a623;
+  background: #fffbf2;
+}
+
+.image-upload-dropzone.uploading {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.image-upload-input {
+  display: none;
+}
+
+.image-upload-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+}
+
+.image-upload-placeholder svg {
+  color: #999;
+}
+
+.image-upload-placeholder small {
+  font-size: 0.8rem;
+  color: #999;
+}
+
+.image-upload-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  color: #666;
+}
+
+.image-upload-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid #ddd;
+  border-top-color: #f5a623;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.image-upload-error {
+  color: #dc3545;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
+
+.image-upload-url {
+  margin-top: 10px;
+}
+
+.image-upload-url::placeholder {
+  font-style: italic;
+  color: #999;
+}
