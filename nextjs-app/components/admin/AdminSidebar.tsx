@@ -21,8 +21,9 @@ const menuItems = [
     { label: 'Team Members', href: '/admin/team-members' },
     { label: 'Testimonials', href: '/admin/testimonials' },
   ]},
-  { section: 'Portfolio & News', items: [
+  { section: 'Portfolio & Products', items: [
     { label: 'Projects', href: '/admin/projects' },
+    { label: 'SaaS Products', href: '/admin/saas-products' },
     { label: 'News Posts', href: '/admin/news-posts' },
   ]},
   { section: 'Navigation', items: [
