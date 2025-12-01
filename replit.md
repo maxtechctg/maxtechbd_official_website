@@ -143,6 +143,10 @@ npm run start             # Start production server
 
 ## Environment Variables
 - **DATABASE_URL** - PostgreSQL connection string (auto-configured by Replit)
+- **JWT_SECRET** - Secret key for JWT authentication (required)
+- **CLOUDINARY_CLOUD_NAME** - Cloudinary cloud name for image uploads
+- **CLOUDINARY_API_KEY** - Cloudinary API key
+- **CLOUDINARY_API_SECRET** - Cloudinary API secret
 
 ## Content Management
 - All content is stored in the PostgreSQL database
@@ -165,12 +169,31 @@ npm run start             # Start production server
 - **Session Duration**: 7 days
 - **Protected Routes**: All `/admin/*` routes require authentication
 
+## Cloudinary Image Uploads
+The admin dashboard integrates with Cloudinary for image management:
+- **Drag & Drop Upload**: Drag images directly onto upload areas
+- **Click to Upload**: Click upload areas to select files from device
+- **Image Preview**: See uploaded images with option to remove
+- **Direct URL Entry**: Optionally paste image URLs directly
+- **Organized Folders**: Images are organized in Cloudinary by type:
+  - `maxtech/hero` - Hero slider backgrounds
+  - `maxtech/services` - Service images and icons
+  - `maxtech/team` - Team member photos
+  - `maxtech/testimonials` - Testimonial author photos
+  - `maxtech/projects` - Portfolio/case study images
+  - `maxtech/news` - News article images
+  - `maxtech/clients` - Client logos
+  - `maxtech/about` - About section images
+  - `maxtech/vision` - Vision section backgrounds
+  - `maxtech/branding` - Site logos and favicon
+
 ## Current State (December 1, 2025)
 - All 8 public pages fully migrated and functional
 - All content database-driven (no hardcoded text)
 - 18 database models with comprehensive seed data
 - Admin dashboard with complete CRUD for all models
 - JWT authentication with secure session management
+- Cloudinary integration for image uploads in admin forms
 - Timeline milestones support multiple images for carousel
 - Portfolio projects have complete content (challenges, solutions, testimonials)
 - Dynamic rendering enabled for real-time database updates

@@ -7,9 +7,9 @@ const fields = [
   { name: 'phone', label: 'Phone', type: 'text' as const },
   { name: 'email', label: 'Email', type: 'email' as const },
   { name: 'address', label: 'Address', type: 'textarea' as const },
-  { name: 'logoUrl', label: 'Logo URL', type: 'text' as const },
-  { name: 'logoMobileUrl', label: 'Mobile Logo URL', type: 'text' as const },
-  { name: 'favicon', label: 'Favicon URL', type: 'text' as const },
+  { name: 'logoUrl', label: 'Logo', type: 'image' as const, folder: 'maxtech/branding' },
+  { name: 'logoMobileUrl', label: 'Mobile Logo', type: 'image' as const, folder: 'maxtech/branding' },
+  { name: 'favicon', label: 'Favicon', type: 'image' as const, folder: 'maxtech/branding' },
   { name: 'copyright', label: 'Copyright Text', type: 'text' as const },
 ];
 export default function EditForm({ item }: { item: Record<string, unknown> }) {
