@@ -61,7 +61,7 @@ nextjs-app/                    # Next.js 14 application
   - Font Awesome 4 & 6
 
 ## Database Models (19 Total)
-1. **SiteSettings** - Global site configuration (logo, contact info, etc.)
+1. **SiteSettings** - Global site configuration (separate navbar/footer logos with customizable sizes, contact info, etc.)
 2. **MenuItem** - Navigation menu with hierarchical structure
 3. **HeroSlide** - Homepage slider content
 4. **Service** - Service offerings (8 services seeded)
