@@ -21,7 +21,8 @@ export async function POST(request: NextRequest) {
     const buffer = Buffer.from(bytes);
     const base64 = `data:${file.type};base64,${buffer.toString('base64')}`;
 
-    const url = await uploadToCloudinary(base64, folder);
+    const isSvg = file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg');
+    const url = await uploadToCloudinary(base64, folder, isSvg);
 
     return NextResponse.json({ url });
   } catch (error) {

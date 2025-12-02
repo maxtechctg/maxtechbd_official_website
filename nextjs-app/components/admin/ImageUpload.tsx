@@ -23,8 +23,10 @@ export default function ImageUpload({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleUpload = async (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      setError('Please select an image file');
+    const isSvg = file.type === 'image/svg+xml' || file.name.toLowerCase().endsWith('.svg');
+    
+    if (!file.type.startsWith('image/') && !isSvg) {
+      setError('Please select an image file (JPG, PNG, GIF, WebP, or SVG)');
       return;
     }
 
@@ -99,7 +101,17 @@ export default function ImageUpload({
     <div className="image-upload-wrapper">
       {value && (
         <div className="image-upload-preview">
-          <img src={value} alt="Preview" />
+          {value.toLowerCase().endsWith('.svg') ? (
+            <object 
+              data={value} 
+              type="image/svg+xml" 
+              style={{ maxWidth: '100%', maxHeight: '150px' }}
+            >
+              <img src={value} alt="Preview" />
+            </object>
+          ) : (
+            <img src={value} alt="Preview" />
+          )}
           <button
             type="button"
             className="image-upload-remove"
@@ -122,7 +134,7 @@ export default function ImageUpload({
         <input
           ref={inputRef}
           type="file"
-          accept="image/*"
+          accept="image/*,.svg"
           onChange={handleFileChange}
           className="image-upload-input"
           required={required && !value}

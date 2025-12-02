@@ -8,12 +8,20 @@ cloudinary.config({
 
 export async function uploadToCloudinary(
   file: string,
-  folder: string = 'maxtech'
+  folder: string = 'maxtech',
+  isSvg: boolean = false
 ): Promise<string> {
-  const result = await cloudinary.uploader.upload(file, {
+  const uploadOptions: Record<string, unknown> = {
     folder,
-    resource_type: 'auto',
-  });
+    resource_type: 'image',
+  };
+
+  if (isSvg) {
+    uploadOptions.format = 'svg';
+    uploadOptions.flags = 'sanitize';
+  }
+
+  const result = await cloudinary.uploader.upload(file, uploadOptions);
   return result.secure_url;
 }
 
