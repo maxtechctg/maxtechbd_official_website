@@ -1,6 +1,13 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
+
+declare global {
+  interface Window {
+    Swiper: any;
+  }
+}
 
 interface HeroSlide {
   id: number;
@@ -20,6 +27,71 @@ interface HeroSliderProps {
 }
 
 export default function HeroSlider({ slides }: HeroSliderProps) {
+  const swiperRef = useRef<any>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const initSwiper = () => {
+      if (typeof window === 'undefined' || !window.Swiper) return;
+      
+      if (swiperRef.current) {
+        swiperRef.current.destroy(true, true);
+        swiperRef.current = null;
+      }
+
+      const container = containerRef.current;
+      if (!container) return;
+
+      container.querySelectorAll('[data-bgimage]').forEach((el) => {
+        const bgImage = el.getAttribute('data-bgimage');
+        if (bgImage) {
+          (el as HTMLElement).style.backgroundImage = bgImage;
+        }
+      });
+
+      const swiperEl = container.querySelector('.swiper');
+      if (!swiperEl) return;
+
+      swiperRef.current = new window.Swiper(swiperEl, {
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false
+        },
+        direction: 'horizontal',
+        loop: true,
+        speed: 1200,
+        watchSlidesProgress: true,
+        parallax: true,
+        pagination: {
+          el: ".swiper-pagination",
+          type: "fraction",
+        },
+        navigation: {
+          nextEl: '.swiper-button-next',
+          prevEl: '.swiper-button-prev',
+        },
+      });
+    };
+
+    const checkAndInit = () => {
+      if (window.Swiper) {
+        initSwiper();
+      } else {
+        setTimeout(checkAndInit, 100);
+      }
+    };
+
+    const timer = setTimeout(checkAndInit, 50);
+
+    return () => {
+      clearTimeout(timer);
+      if (swiperRef.current) {
+        swiperRef.current.destroy(true, true);
+        swiperRef.current = null;
+      }
+    };
+  }, [slides]);
+
   const formatTitle = (title: string, highlight: string | null) => {
     if (!highlight) return title;
     const parts = title.split(highlight);
@@ -32,15 +104,16 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   };
 
   return (
-    <section className="text-light no-top no-bottom position-relative z-1000">
+    <section ref={containerRef} className="text-light no-top no-bottom position-relative z-1000">
       <div className="v-center">
         <div className="swiper">
           <div className="swiper-wrapper">
             {slides.map((slide) => (
-              <div key={slide.id} className="swiper-slide" data-jarallax-element="150">
+              <div key={slide.id} className="swiper-slide">
                 <div 
                   className="swiper-inner" 
                   data-bgimage={`url(${slide.backgroundImage})`}
+                  style={{ backgroundImage: `url(${slide.backgroundImage})` }}
                 >
                   <div className="sw-caption">
                     <div className="container">

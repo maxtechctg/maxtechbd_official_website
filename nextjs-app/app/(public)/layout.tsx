@@ -1,4 +1,5 @@
 import Script from 'next/script';
+import ScriptInitializer from '@/components/ScriptInitializer';
 
 export default function PublicLayout({
   children,
@@ -16,11 +17,11 @@ export default function PublicLayout({
       <div id="wrapper">
         {children}
       </div>
+      <ScriptInitializer />
       <Script src="/js/plugins.js" strategy="beforeInteractive" />
       <Script src="/js/designesia.js" strategy="afterInteractive" />
       <Script src="/js/swiper.js" strategy="afterInteractive" />
       <Script src="/js/custom-marquee.js" strategy="afterInteractive" />
-      <Script src="/js/custom-swiper-1.js" strategy="afterInteractive" />
     </>
   );
 }

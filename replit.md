@@ -165,6 +165,7 @@ npm run start             # Start production server
 - Contact form now stores submissions in database
 - Legacy jQuery scripts loaded via Next.js Script component
 - Hydration warnings from legacy jQuery integration are expected behavior
+- **Client-side Navigation Fix**: `ScriptInitializer` component re-initializes legacy scripts (Swiper, WOW.js, Jarallax, Owl Carousel) on route changes to ensure proper rendering after client-side navigation
 
 ## Admin Dashboard Authentication
 - **Login URL**: `/login`
@@ -191,16 +192,18 @@ The admin dashboard integrates with Cloudinary for image management:
   - `maxtech/vision` - Vision section backgrounds
   - `maxtech/branding` - Site logos and favicon
 
-## Current State (December 1, 2025)
-- All 8 public pages fully migrated and functional
+## Current State (December 2, 2025)
+- All 10 public pages fully migrated and functional
 - All content database-driven (no hardcoded text)
-- 18 database models with comprehensive seed data
+- 19 database models with comprehensive seed data
 - Admin dashboard with complete CRUD for all models
 - JWT authentication with secure session management
 - Cloudinary integration for image uploads in admin forms
 - Timeline milestones support multiple images for carousel
 - Portfolio projects have complete content (challenges, solutions, testimonials)
 - Dynamic rendering enabled for real-time database updates
+- Separate navbar/footer logos with customizable sizes
+- Client-side navigation properly re-initializes interactive components
 - Development server running on port 5000
 
 ## Deployment
