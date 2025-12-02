@@ -2,6 +2,9 @@ import Link from 'next/link';
 
 interface SiteSettings {
   logoUrl: string | null;
+  footerLogo: string | null;
+  footerLogoWidth: number | null;
+  footerLogoHeight: number | null;
   phone: string | null;
   email: string | null;
   address: string | null;
@@ -38,7 +41,16 @@ export default function Footer({ settings, socialLinks, footerLinks }: FooterPro
       <div className="container">
         <div className="row gx-5">
           <div className="col-lg-4 col-sm-6">
-            <img src={settings.logoUrl || '/images/logo.png'} alt="MaxTech Logo" />
+            <img 
+              src={settings.footerLogo || settings.logoUrl || '/images/logo.png'} 
+              alt="MaxTech Logo"
+              style={{
+                width: settings.footerLogoWidth ? `${settings.footerLogoWidth}px` : 'auto',
+                height: settings.footerLogoHeight ? `${settings.footerLogoHeight}px` : 'auto',
+                maxWidth: '100%',
+                objectFit: 'contain'
+              }}
+            />
             <div className="spacer-20"></div>
             <p>{settings.description}</p>
 
