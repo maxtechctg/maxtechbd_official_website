@@ -192,6 +192,14 @@ The admin dashboard integrates with Cloudinary for image management:
   - `maxtech/vision` - Vision section backgrounds
   - `maxtech/branding` - Site logos and favicon
 
+## Smart Header Feature
+The header automatically adapts its text color based on the background it's over:
+- **Over dark sections** (HeroSlider, VisionSection, TestimonialsCarousel, PageHeader with parallax): White text for visibility
+- **Over light sections** (ServicesGrid, AboutSection, etc.): Black text for readability
+- **Smooth transitions**: CSS transitions provide smooth color changes (0.3s)
+- **Implementation**: Scroll detection using getBoundingClientRect, sections tagged with `data-header-theme="dark"`
+- **CSS file**: `public/css/header-theme.css` contains all theme-related styles
+
 ## Current State (December 2, 2025)
 - All 10 public pages fully migrated and functional
 - All content database-driven (no hardcoded text)
@@ -204,6 +212,7 @@ The admin dashboard integrates with Cloudinary for image management:
 - Dynamic rendering enabled for real-time database updates
 - Separate navbar/footer logos with customizable sizes
 - Client-side navigation properly re-initializes interactive components
+- Smart header with adaptive text color based on background sections
 - Development server running on port 5000
 
 ## Deployment
