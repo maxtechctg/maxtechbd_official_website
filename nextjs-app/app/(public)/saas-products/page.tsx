@@ -53,11 +53,17 @@ export default async function SaaSProductsPage() {
   const headerSettings = {
     logoUrl: data.settings?.logoUrl || null,
     logoMobileUrl: data.settings?.logoMobileUrl || null,
+    navbarLogo: data.settings?.navbarLogo || null,
+    navbarLogoWidth: data.settings?.navbarLogoWidth || null,
+    navbarLogoHeight: data.settings?.navbarLogoHeight || null,
     phone: data.settings?.phone || null,
   };
 
   const footerSettings = {
     logoUrl: data.settings?.logoUrl || null,
+    footerLogo: data.settings?.footerLogo || null,
+    footerLogoWidth: data.settings?.footerLogoWidth || null,
+    footerLogoHeight: data.settings?.footerLogoHeight || null,
     phone: data.settings?.phone || null,
     email: data.settings?.email || null,
     address: data.settings?.address || null,
