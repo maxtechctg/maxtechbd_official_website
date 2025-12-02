@@ -16,7 +16,7 @@ export default function VisionSection({
   backgroundImage 
 }: VisionSectionProps) {
   return (
-    <section className="jarallax text-light">
+    <section className="jarallax text-light" data-header-theme="dark">
       {backgroundImage && (
         <img src={backgroundImage} className="jarallax-img" alt="" />
       )}

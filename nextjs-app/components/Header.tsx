@@ -1,7 +1,7 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import Image from "next/image";
 
 interface MenuItem {
   id: number;
@@ -30,9 +30,43 @@ export default function Header({
   settings,
   transparent = false,
 }: HeaderProps) {
-  const parentItems = menuItems.filter((item) =>
-    !item.children || item.children.length === 0 ? true : true,
-  );
+  const [isDarkSection, setIsDarkSection] = useState(true);
+
+  useEffect(() => {
+    const checkBackgroundColor = () => {
+      const header = document.querySelector('header');
+      if (!header) return;
+
+      const headerRect = header.getBoundingClientRect();
+      const headerMiddle = headerRect.top + headerRect.height / 2;
+
+      const darkSections = document.querySelectorAll('[data-header-theme="dark"]');
+      let isOverDark = false;
+
+      darkSections.forEach((section) => {
+        const sectionRect = section.getBoundingClientRect();
+        if (headerMiddle >= sectionRect.top && headerMiddle <= sectionRect.bottom) {
+          isOverDark = true;
+        }
+      });
+
+      setIsDarkSection(isOverDark);
+    };
+
+    checkBackgroundColor();
+
+    window.addEventListener('scroll', checkBackgroundColor);
+    window.addEventListener('resize', checkBackgroundColor);
+
+    const observer = new MutationObserver(checkBackgroundColor);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      window.removeEventListener('scroll', checkBackgroundColor);
+      window.removeEventListener('resize', checkBackgroundColor);
+      observer.disconnect();
+    };
+  }, []);
 
   const renderMenuItem = (item: MenuItem) => {
     const hasChildren = item.children && item.children.length > 0;
@@ -58,7 +92,7 @@ export default function Header({
   };
 
   return (
-    <header className={`header-full ${transparent ? "transparent" : ""}`}>
+    <header className={`header-full ${transparent ? "transparent" : ""} ${!isDarkSection ? "header-light-bg" : ""}`}>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">

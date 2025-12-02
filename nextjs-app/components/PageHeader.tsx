@@ -15,7 +15,7 @@ export default function PageHeader({
 }: PageHeaderProps) {
   if (hasParallax && backgroundImage) {
     return (
-      <section id="subheader" className="text-light jarallax">
+      <section id="subheader" className="text-light jarallax" data-header-theme="dark">
         <img src={backgroundImage} className="jarallax-img" alt="" />
         <div className="container">
           <div className="row text-center">

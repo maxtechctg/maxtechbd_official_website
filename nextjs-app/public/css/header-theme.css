@@ -1,0 +1,81 @@
+/* Header Theme Switching - Dark/Light Background Detection */
+
+/* Transition for smooth color changes */
+header.header-full {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+header.header-full #mainmenu > li > a,
+header.header-full .menu-item,
+header.header-full .h-phone,
+header.header-full .h-phone span {
+  transition: color 0.3s ease;
+}
+
+header.header-full .btn-line {
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Light background mode - dark text */
+header.header-full.header-light-bg {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+header.header-full.header-light-bg #mainmenu > li > a,
+header.header-full.header-light-bg .menu-item {
+  color: #1D1D1F !important;
+}
+
+header.header-full.header-light-bg #mainmenu > li > a:hover,
+header.header-full.header-light-bg .menu-item:hover {
+  color: #f0b90b !important;
+}
+
+header.header-full.header-light-bg .h-phone {
+  color: #1D1D1F !important;
+}
+
+header.header-full.header-light-bg .h-phone span {
+  color: #666 !important;
+}
+
+header.header-full.header-light-bg .btn-line {
+  color: #1D1D1F !important;
+  border-color: #1D1D1F !important;
+}
+
+header.header-full.header-light-bg .btn-line:hover {
+  color: #fff !important;
+  background-color: #1D1D1F !important;
+}
+
+/* Menu numbering color */
+header.header-full.header-light-bg #mainmenu > li > a::before {
+  color: #f0b90b !important;
+}
+
+/* Dropdown menu styling when header is light */
+header.header-full.header-light-bg #mainmenu li ul {
+  background-color: #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+header.header-full.header-light-bg #mainmenu li ul li a {
+  color: #1D1D1F !important;
+}
+
+header.header-full.header-light-bg #mainmenu li ul li a:hover {
+  color: #f0b90b !important;
+}
+
+/* Mobile menu button color */
+header.header-full.header-light-bg #menu-btn::before,
+header.header-full.header-light-bg #menu-btn::after {
+  background-color: #1D1D1F;
+}
+
+/* Scrolled state - ensure proper styling */
+header.header-full.scrollOn.header-light-bg {
+  background-color: rgba(255, 255, 255, 0.98) !important;
+}

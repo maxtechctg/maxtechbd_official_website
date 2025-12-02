@@ -104,7 +104,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   };
 
   return (
-    <section ref={containerRef} className="text-light no-top no-bottom position-relative z-1000">
+    <section ref={containerRef} className="text-light no-top no-bottom position-relative z-1000" data-header-theme="dark">
       <div className="v-center">
         <div className="swiper">
           <div className="swiper-wrapper">

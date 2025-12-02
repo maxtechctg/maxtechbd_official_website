@@ -27,7 +27,7 @@ export default function TestimonialsCarousel({
   };
 
   return (
-    <section className="bg-color">
+    <section className="bg-color" data-header-theme="dark">
       <div className="container">
         <div className="row">
           <div className="col-md-12 text-light">
