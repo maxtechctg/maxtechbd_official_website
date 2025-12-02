@@ -8,19 +8,25 @@ datasource db {
 }
 
 model SiteSettings {
-  id          Int      @id @default(autoincrement())
-  siteName    String
-  siteTitle   String
-  description String?
-  phone       String?
-  email       String?
-  address     String?
-  logoUrl     String?
-  logoMobileUrl String?
-  favicon     String?
-  copyright   String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               Int      @id @default(autoincrement())
+  siteName         String
+  siteTitle        String
+  description      String?
+  phone            String?
+  email            String?
+  address          String?
+  logoUrl          String?
+  logoMobileUrl    String?
+  navbarLogo       String?
+  navbarLogoWidth  Int?     @default(150)
+  navbarLogoHeight Int?     @default(40)
+  footerLogo       String?
+  footerLogoWidth  Int?     @default(150)
+  footerLogoHeight Int?     @default(50)
+  favicon          String?
+  copyright        String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 model MenuItem {
