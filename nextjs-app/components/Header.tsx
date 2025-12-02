@@ -13,6 +13,9 @@ interface MenuItem {
 interface SiteSettings {
   logoUrl: string | null;
   logoMobileUrl: string | null;
+  navbarLogo: string | null;
+  navbarLogoWidth: number | null;
+  navbarLogoHeight: number | null;
   phone: string | null;
 }
 
@@ -60,12 +63,18 @@ export default function Header({ menuItems, settings, transparent = false }: Hea
                     <Link href="/">
                       <img 
                         className="logo-main" 
-                        src={settings.logoUrl || '/images/logo.png'} 
-                        alt="MaxTech Logo" 
+                        src={settings.navbarLogo || settings.logoUrl || '/images/logo.png'} 
+                        alt="MaxTech Logo"
+                        style={{
+                          width: settings.navbarLogoWidth ? `${settings.navbarLogoWidth}px` : 'auto',
+                          height: settings.navbarLogoHeight ? `${settings.navbarLogoHeight}px` : 'auto',
+                          maxWidth: '100%',
+                          objectFit: 'contain'
+                        }}
                       />
                       <img 
                         className="logo-mobile" 
-                        src={settings.logoMobileUrl || '/images/logo-mobile.png'} 
+                        src={settings.logoMobileUrl || settings.navbarLogo || '/images/logo-mobile.png'} 
                         alt="MaxTech Logo" 
                       />
                     </Link>
