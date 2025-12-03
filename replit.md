@@ -201,19 +201,20 @@ The header automatically adapts its text color based on the background it's over
 - **CSS file**: `public/css/header-theme.css` contains all theme-related styles
 
 ## TabbedSaaSProducts Component
-A modern tabbed interface for displaying SaaS products on the `/saas-products` page:
+A modern tabbed interface for displaying SaaS products on the `/saas-products` page with dark theme layout:
 - **Database-driven**: All products fetched from SaaSProduct database model
 - **Horizontal scrolling tabs**: Each product displayed as a card tab with hover effects
 - **Accessible tabs**: Full ARIA support with role="tablist"/"tab", keyboard navigation (Arrow keys, Home, End)
-- **Content sections displayed in order**:
-  1. Hero Banner with title, tagline, and banner image
-  2. Rating & Stats (star rating, total users)
-  3. Key Features Grid (numbered cards with icons)
-  4. Pricing Plans (with popular badge support)
-  5. Parallax Video Section (with YouTube/video embed)
-  6. Feature Detail Cards (icon-based cards)
-  7. Core Features (from pipe-separated list)
-  8. Client Reviews Carousel (auto-rotating testimonials)
+- **Dark Theme Layout**: Matches wireframe with sections in specific order:
+  1. **Title + Total Users Row**: Product title/tagline on left, user count on right
+  2. **Short Description + Ratings Row**: Description on left, star rating on right
+  3. **Banner Image**: Full-width product banner
+  4. **Key Features + Pricing Table**: Features grid on left, pricing comparison table on right
+  5. **Parallax Video Section**: Background parallax with video player
+  6. **Feature Detail Cards**: Icon-based feature cards in grid
+  7. **Client Reviews Carousel**: Auto-rotating customer testimonials
+  8. **Request Demo CTA**: Call-to-action button with configurable text/URL
+- **Pricing Table Format**: 3-tier comparison table (1 Month, 6 Months, 12 Months)
 - **Content fade transitions**: Smooth fade effect when switching between tabs
 - **Safe JSON parsing**: Handles malformed JSON gracefully with fallback to empty arrays
 - **CSS file**: `public/css/tabbed-bootstrap.css` contains all component styles
@@ -224,12 +225,14 @@ Extended fields for comprehensive product pages:
 - **Content Sections**: bannerImage, rating, totalUsers
 - **JSON Fields** (stored as strings):
   - `keyFeatures`: `[{icon, title, description, buttonText?, buttonUrl?}]`
-  - `pricingPlans`: `[{name, price, period, features[], isPopular, buttonText}]`
+  - `pricingPlans`: `[{name, price1Month, price6Month, price12Month, features[], isPopular}]`
   - `featureCards`: `[{icon, title, description}]`
   - `clientReviews`: `[{authorName, authorRole, authorImage, quote, rating, companyUrl?}]`
 - **Parallax**: parallaxTitle, parallaxDescription, parallaxImage, demoVideoUrl
+- **Request Demo**: requestDemoText, requestDemoUrl (configurable CTA button)
 - **Links**: liveDemoUrl, documentationUrl, techStack
 - **Admin**: `/admin/saas-products` with full CRUD and Cloudinary uploads
+- **Admin Form Sections**: Grouped inputs matching page layout (Basic Info, Images, Rating/Stats, Key Features, Pricing, Parallax, Feature Cards, Client Reviews, Request Demo)
 
 ## Current State (December 3, 2025)
 - All 10 public pages fully migrated and functional
