@@ -25,6 +25,7 @@ const menuItems = [
     { label: 'Projects', href: '/admin/projects' },
     { label: 'SaaS Products', href: '/admin/saas-products' },
     { label: 'News Posts', href: '/admin/news-posts' },
+    { label: 'Blog Manager', href: '/admin/blog' },
   ]},
   { section: 'Navigation', items: [
     { label: 'Menu Items', href: '/admin/menu-items' },

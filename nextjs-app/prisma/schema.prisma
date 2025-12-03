@@ -297,3 +297,29 @@ model SaaSProduct {
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 }
+
+model BlogPost {
+  id              Int      @id @default(autoincrement())
+  title           String
+  slug            String   @unique
+  category        String?
+  markdownContent String?  @db.Text
+  htmlContent     String?  @db.Text
+  featuredImage   String?
+  active          Boolean  @default(true)
+  publishedAt     DateTime?
+  source          String   @default("manual")
+  metaDescription String?
+  tags            String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model BlogGenerationLog {
+  id             Int      @id @default(autoincrement())
+  status         String
+  generatedTitle String?
+  errorMessage   String?
+  blogPostId     Int?
+  createdAt      DateTime @default(now())
+}
