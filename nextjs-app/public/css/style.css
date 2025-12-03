@@ -881,11 +881,17 @@ header.header-light #mainmenu a {
   color:var(--primary-color) !important;
 }
 
+#mainmenu > li {
+  position: relative;
+}
+
 #mainmenu li ul {
   width: 190px;
   height: auto;
   position: absolute;
   left: 0px;
+  top: 100%;
+  margin-top: 0;
   z-index: 10;
   visibility: hidden;
   opacity: 0;
