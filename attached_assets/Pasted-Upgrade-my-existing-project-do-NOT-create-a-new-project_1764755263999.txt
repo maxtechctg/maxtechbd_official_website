@@ -1,0 +1,135 @@
+Upgrade my existing project (do NOT create a new project).
+Add a full Blog Management Module inside the current admin dashboard.
+Follow all instructions below exactly and integrate into the current folder structure.
+
+🔹 1. BLOG ADMIN FORM (inside existing dashboard layout)
+
+Add a new menu item: Blog Manager
+
+Inside the Blog Manager, create a form with the following fields:
+
+• Title (text input)
+• Featured Image (file upload, store in existing uploads folder)
+• Content (Markdown/HTML editor)
+Use Toast UI Editor OR SimpleMDE with toolbar:
+H1, H2, Bold, Italic, Link, List, Quote, Code Block, Preview
+
+• Category (dropdown + option to add new category)
+• Active / Inactive toggle
+• Publish button
+
+The editor must save content as markdown, and also generate HTML version on save.
+
+The blog form must use the existing Bootstrap styling of the product UI.
+
+🔹 2. DATABASE CHANGES
+
+Inside the existing database system, add a new table/collection:
+
+blog_posts:
+
+id
+
+title
+
+slug
+
+category
+
+markdown_content
+
+html_content
+
+featured_image
+
+active (boolean)
+
+published_at
+
+source (“manual” or “auto”)
+
+created_at
+
+updated_at
+
+Add migrations if needed.
+
+🔹 3. ROUTES TO ADD
+
+Add REST endpoints inside existing route structure:
+
+GET    /admin/blog
+POST   /admin/blog
+PUT    /admin/blog/:id
+DELETE /admin/blog/:id
+GET    /blog/:slug    (public view page)
+
+
+Public /blog/:slug must render markdown as HTML.
+
+🔹 4. ADD DAILY AUTO-BLOG GENERATOR (ChatGPT API)
+
+Add a scheduled cron job using the existing backend system:
+
+• Runs once per day
+• Generates an SEO-optimized blog post using ChatGPT
+• Saves the generated post in the blog table
+• Mark as source = "auto"
+• Set active = true and publish immediately
+
+Use this API prompt:
+
+You are an expert SEO content writer. Produce one complete blog post in MARKDOWN only.
+Include:
+- Title (≤ 70 characters)
+- Meta description (≤ 160 characters)
+- 800–1200 word article with H1, H2, lists, links
+- 5 tags
+- CTA at the end
+Deliver valid markdown only.
+
+
+Use model:
+
+gpt-4o-mini (configurable by ENV)
+
+Environment variable:
+
+OPENAI_API_KEY
+
+Add error logging if API fails.
+
+🔹 5. ADMIN PANEL FEATURE: AUTO-BLOG HISTORY
+
+Add a simple table inside Blog Manager:
+
+Columns:
+• Date
+• Status (Success / Failed)
+• Generated Title
+
+🔹 6. REQUIREMENTS
+
+✔ Do NOT break existing modules
+✔ Do NOT replace design — follow existing Bootstrap UI
+✔ Fit inside existing admin layout, routes, controllers, and DB patterns
+✔ Use existing auth & middleware
+✔ Keep code structure identical to current architecture
+
+🟩 Deliverables Required from Replit
+
+All new pages (admin blog list, editor page, public view page)
+
+Updated backend routes, controllers, DB models
+
+Integrated markdown editor
+
+Working cron job for daily AI blog generation
+
+Working image upload within existing system
+
+README section explaining new environment variables and cron
+
+IMPORTANT:
+Modify the existing code — do NOT create a new standalone module or new framework.
+Everything must be fully integrated into the current product layout and workflow.
