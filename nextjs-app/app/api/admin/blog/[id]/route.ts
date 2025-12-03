@@ -57,7 +57,10 @@ export async function PUT(
       );
     }
 
-    const htmlContent = data.markdownContent ? await marked(data.markdownContent) : null;
+    let htmlContent = data.htmlContent || null;
+    if (!htmlContent && data.markdownContent) {
+      htmlContent = await marked(data.markdownContent);
+    }
 
     const post = await prisma.blogPost.update({
       where: { id },

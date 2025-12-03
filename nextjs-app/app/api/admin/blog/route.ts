@@ -42,7 +42,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const htmlContent = data.markdownContent ? await marked(data.markdownContent) : null;
+    let htmlContent = data.htmlContent || null;
+    if (!htmlContent && data.markdownContent) {
+      htmlContent = await marked(data.markdownContent);
+    }
 
     const post = await prisma.blogPost.create({
       data: {
@@ -51,10 +54,10 @@ export async function POST(request: NextRequest) {
         category: data.category?.trim() || null,
         markdownContent: data.markdownContent || null,
         htmlContent,
+        source: data.source || 'manual',
         featuredImage: data.featuredImage?.trim() || null,
         active: data.active ?? true,
         publishedAt: data.publishedAt ? new Date(data.publishedAt) : null,
-        source: 'manual',
         metaDescription: data.metaDescription?.trim() || null,
         tags: data.tags?.trim() || null,
       },

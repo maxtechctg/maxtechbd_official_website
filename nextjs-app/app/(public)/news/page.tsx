@@ -11,7 +11,7 @@ async function getData() {
   const [
     settings,
     menuItems,
-    newsPosts,
+    blogPosts,
     socialLinks,
     footerLinks,
   ] = await Promise.all([
@@ -21,8 +21,8 @@ async function getData() {
       include: { children: true },
       orderBy: { order: 'asc' },
     }),
-    prisma.newsPost.findMany({
-      where: { isActive: true },
+    prisma.blogPost.findMany({
+      where: { active: true, publishedAt: { not: null } },
       orderBy: { publishedAt: 'desc' },
     }),
     prisma.socialLink.findMany({
@@ -38,7 +38,7 @@ async function getData() {
   return {
     settings,
     menuItems,
-    newsPosts,
+    blogPosts,
     socialLinks,
     footerLinks,
   };
@@ -108,24 +108,38 @@ export default async function NewsPage() {
         <section className="no-top">
           <div className="container">
             <div className="row g-4">
-              {data.newsPosts.map((post) => (
+              {data.blogPosts.map((post) => (
                 <div key={post.id} className="col-lg-4 col-md-6 mb10">
                   <div className="bloglist item">
                     <div className="post-content">
                       <div className="post-image">
                         <div className="d-tagline">
-                          {post.tags?.split(',').slice(0, 2).map((tag: string, index: number) => (
-                            <span key={index}>{tag.trim()}</span>
-                          ))}
+                          {post.category && <span>{post.category}</span>}
+                          {post.source === 'auto' && <span style={{ background: '#17a2b8' }}>AI</span>}
                         </div>
-                        <img alt={post.title} src={post.image || ''} className="lazy" />
+                        {post.featuredImage ? (
+                          <img alt={post.title} src={post.featuredImage} className="lazy" />
+                        ) : (
+                          <div style={{ 
+                            width: '100%', 
+                            height: '200px', 
+                            background: 'linear-gradient(135deg, #0a0f1a 0%, #1a2744 100%)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            color: '#f5a623',
+                            fontSize: '3rem'
+                          }}>
+                            <i className="fa fa-newspaper-o"></i>
+                          </div>
+                        )}
                       </div>
                       <div className="post-text">
                         <div className="d-date">{formatDate(post.publishedAt)}</div>
                         <h4>
                           <Link href={`/news/${post.slug}`}>{post.title}</Link>
                         </h4>
-                        <p>{post.excerpt}</p>
+                        <p>{post.metaDescription || ''}</p>
                       </div>
                     </div>
                   </div>

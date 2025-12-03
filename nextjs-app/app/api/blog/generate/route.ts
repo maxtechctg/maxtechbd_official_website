@@ -2,9 +2,16 @@ import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { marked } from 'marked';
 import { getAuthUser } from '@/lib/auth';
+import { v2 as cloudinary } from 'cloudinary';
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 const SEO_PROMPT = `You are an expert SEO content writer. Produce one complete blog post in MARKDOWN only.
 Include:
@@ -13,6 +20,7 @@ Include:
 - 800–1200 word article with H1, H2, lists, links
 - 5 tags
 - CTA at the end
+- imagePrompt: A detailed description for DALL-E to generate a featured image (include style like "professional", "modern", "technology themed", colors, and composition)
 
 Format your response EXACTLY like this:
 ---
@@ -20,6 +28,7 @@ title: Your Title Here
 metaDescription: Your meta description here
 tags: tag1, tag2, tag3, tag4, tag5
 category: Technology
+imagePrompt: A professional technology themed image showing...
 ---
 
 # Your H1 Title
@@ -50,6 +59,7 @@ function parseGeneratedContent(content: string) {
       metaDescription: '',
       tags: '',
       category: 'Technology',
+      imagePrompt: 'A professional technology themed image with modern abstract design, blue and white colors, featuring digital elements and innovation',
       markdownContent: content,
     };
   }
@@ -61,14 +71,60 @@ function parseGeneratedContent(content: string) {
   const metaMatch = frontmatter.match(/metaDescription:\s*(.+)/);
   const tagsMatch = frontmatter.match(/tags:\s*(.+)/);
   const categoryMatch = frontmatter.match(/category:\s*(.+)/);
+  const imagePromptMatch = frontmatter.match(/imagePrompt:\s*(.+)/);
 
   return {
     title: titleMatch ? titleMatch[1].trim() : 'AI Generated Post',
     metaDescription: metaMatch ? metaMatch[1].trim() : '',
     tags: tagsMatch ? tagsMatch[1].trim() : '',
     category: categoryMatch ? categoryMatch[1].trim() : 'Technology',
+    imagePrompt: imagePromptMatch ? imagePromptMatch[1].trim() : 'A professional technology themed image with modern abstract design, blue and white colors',
     markdownContent,
   };
+}
+
+async function generateImage(prompt: string): Promise<string | null> {
+  try {
+    const imageResponse = await fetch('https://api.openai.com/v1/images/generations', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: 'dall-e-3',
+        prompt: `${prompt}. Style: professional, clean, modern corporate, suitable for a technology company blog. No text or words in the image.`,
+        n: 1,
+        size: '1792x1024',
+        quality: 'standard',
+      }),
+    });
+
+    if (!imageResponse.ok) {
+      console.error('DALL-E API error:', await imageResponse.text());
+      return null;
+    }
+
+    const imageData = await imageResponse.json();
+    const imageUrl = imageData.data[0]?.url;
+
+    if (!imageUrl) {
+      return null;
+    }
+
+    const uploadResult = await cloudinary.uploader.upload(imageUrl, {
+      folder: 'maxtech/news',
+      transformation: [
+        { width: 1200, height: 630, crop: 'fill' },
+        { quality: 'auto', fetch_format: 'auto' }
+      ],
+    });
+
+    return uploadResult.secure_url;
+  } catch (error) {
+    console.error('Error generating image:', error);
+    return null;
+  }
 }
 
 export async function POST() {
@@ -117,6 +173,8 @@ export async function POST() {
     const slug = generateSlug(parsed.title) + '-' + Date.now();
     const htmlContent = await marked(parsed.markdownContent);
 
+    const featuredImage = await generateImage(parsed.imagePrompt);
+
     const post = await prisma.blogPost.create({
       data: {
         title: parsed.title,
@@ -124,6 +182,7 @@ export async function POST() {
         category: parsed.category,
         markdownContent: parsed.markdownContent,
         htmlContent,
+        featuredImage,
         metaDescription: parsed.metaDescription,
         tags: parsed.tags,
         active: true,
@@ -157,4 +216,3 @@ export async function POST() {
     );
   }
 }
-

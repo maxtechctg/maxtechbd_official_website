@@ -26,11 +26,11 @@ async function getData(slug: string) {
       include: { children: true },
       orderBy: { order: 'asc' },
     }),
-    prisma.newsPost.findFirst({
-      where: { slug, isActive: true },
+    prisma.blogPost.findFirst({
+      where: { slug, active: true },
     }),
-    prisma.newsPost.findMany({
-      where: { isActive: true },
+    prisma.blogPost.findMany({
+      where: { active: true, publishedAt: { not: null } },
       orderBy: { publishedAt: 'desc' },
       take: 4,
     }),
@@ -53,12 +53,6 @@ async function getData(slug: string) {
     footerLinks,
   };
 }
-
-const popularTags = [
-  'Art', 'Application', 'Design', 'Entertainment', 
-  'Internet', 'Marketing', 'Multipurpose', 'Music',
-  'Print', 'Programming', 'Responsive', 'Website'
-];
 
 export default async function NewsPostPage({ params }: PageProps) {
   const { slug } = await params;
@@ -89,6 +83,8 @@ export default async function NewsPostPage({ params }: PageProps) {
     description: data.settings?.description || null,
   };
 
+  const tags = data.post.tags ? data.post.tags.split(',').map(t => t.trim()) : [];
+
   return (
     <>
       <Header 
@@ -104,21 +100,38 @@ export default async function NewsPostPage({ params }: PageProps) {
           <div className="container">
             <div className="row gx-5 align-items-center">
               <div className="col-lg-6">
-                <div className="subtitle s2 wow fadeInUp mb-3">Latest News</div>
+                <div className="subtitle s2 wow fadeInUp mb-3">{data.post.category || 'Latest News'}</div>
                 <h2 className="wow fadeInUp mb20" data-wow-delay=".2s">{data.post.title}</h2>
                 <ul className="crumb">
                   <li><Link href="/">Home</Link></li>
-                  <li className="active">News</li>
+                  <li><Link href="/news">News</Link></li>
+                  <li className="active">{data.post.title}</li>
                 </ul>
                 <div className="spacer-single"></div>
               </div>
 
               <div className="col-lg-6">
-                <img 
-                  src={data.post.image || '/images/news/1.webp'} 
-                  className="img-fluid rounded-30" 
-                  alt={data.post.title} 
-                />
+                {data.post.featuredImage ? (
+                  <img 
+                    src={data.post.featuredImage} 
+                    className="img-fluid rounded-30" 
+                    alt={data.post.title} 
+                  />
+                ) : (
+                  <div style={{ 
+                    width: '100%', 
+                    height: '300px', 
+                    background: 'linear-gradient(135deg, #0a0f1a 0%, #1a2744 100%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#f5a623',
+                    fontSize: '4rem',
+                    borderRadius: '30px'
+                  }}>
+                    <i className="fa fa-newspaper-o"></i>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -129,48 +142,81 @@ export default async function NewsPostPage({ params }: PageProps) {
             <div className="row gx-5">
               <div className="col-lg-8">
                 <div className="blog-read">
-                  <div className="post-text" dangerouslySetInnerHTML={{ __html: data.post.content || '' }} />
+                  <div className="d-flex gap-3 mb-4">
+                    {data.post.publishedAt && (
+                      <span style={{ color: '#6c757d', fontSize: '0.9rem' }}>
+                        {data.post.publishedAt.toLocaleDateString('en-US', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric' 
+                        })}
+                      </span>
+                    )}
+                    {data.post.source === 'auto' && (
+                      <span style={{ 
+                        background: '#17a2b8', 
+                        color: '#fff', 
+                        padding: '0.2rem 0.6rem', 
+                        borderRadius: '4px',
+                        fontSize: '0.75rem'
+                      }}>
+                        AI Generated
+                      </span>
+                    )}
+                  </div>
+                  <div 
+                    className="post-text blog-content" 
+                    dangerouslySetInnerHTML={{ __html: data.post.htmlContent || '' }} 
+                  />
                 </div>
+
+                {tags.length > 0 && (
+                  <div className="mt-4 pt-4" style={{ borderTop: '1px solid #e9ecef' }}>
+                    <strong>Tags: </strong>
+                    {tags.map((tag, index) => (
+                      <span 
+                        key={index}
+                        style={{ 
+                          display: 'inline-block',
+                          background: '#f8f9fa', 
+                          padding: '0.25rem 0.75rem', 
+                          borderRadius: '20px',
+                          margin: '0.25rem',
+                          fontSize: '0.85rem',
+                          color: '#495057'
+                        }}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
 
                 <div className="spacer-single"></div>
-
-                <div id="blog-comment">
-                  <h4>Comments (0)</h4>
-                  <div className="spacer-half"></div>
-                  <p>No comments yet. Be the first to comment!</p>
-
-                  <div className="spacer-single"></div>
-
-                  <div id="comment-form-wrapper">
-                    <h4>Leave a Comment</h4>
-                    <div className="comment_form_holder">
-                      <form id="contact_form" name="form1" className="form-border" method="post" action="#">
-                        <label>Name</label>
-                        <input type="text" name="name" id="name" className="form-control" />
-
-                        <label>Email <span className="req">*</span></label>
-                        <input type="text" name="email" id="email" className="form-control" />
-
-                        <label>Message <span className="req">*</span></label>
-                        <textarea cols={10} rows={10} name="message" id="message" className="form-control"></textarea>
-
-                        <p id="btnsubmit">
-                          <input type="submit" id="send" value="Send" className="btn-main" />
-                        </p>
-                      </form>
-                    </div>
-                  </div>
-                </div>
               </div>
 
               <div className="col-lg-4">
                 <div className="widget widget-post">
                   <h4>Recent Posts</h4>
                   <ul className="de-bloglist-type-1">
-                    {data.recentPosts.map((recentPost) => (
+                    {data.recentPosts.filter(p => p.id !== data.post!.id).slice(0, 3).map((recentPost) => (
                       <li key={recentPost.id}>
                         <div className="d-image">
-                          <img src={recentPost.thumbnail || recentPost.image || ''} alt={recentPost.title} />
+                          {recentPost.featuredImage ? (
+                            <img src={recentPost.featuredImage} alt={recentPost.title} />
+                          ) : (
+                            <div style={{ 
+                              width: '80px', 
+                              height: '60px', 
+                              background: '#1a2744',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              color: '#f5a623'
+                            }}>
+                              <i className="fa fa-newspaper-o"></i>
+                            </div>
+                          )}
                         </div>
                         <div className="d-content">
                           <Link href={`/news/${recentPost.slug}`}>
@@ -189,16 +235,18 @@ export default async function NewsPostPage({ params }: PageProps) {
                   </ul>
                 </div>
                 
-                <div className="widget widget_tags">
-                  <h4>Popular Tags</h4>
-                  <ul>
-                    {popularTags.map((tag) => (
-                      <li key={tag}>
-                        <a href="#">{tag}</a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+                {tags.length > 0 && (
+                  <div className="widget widget_tags">
+                    <h4>Tags</h4>
+                    <ul>
+                      {tags.map((tag) => (
+                        <li key={tag}>
+                          <a href="#">{tag}</a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           </div>
