@@ -152,39 +152,6 @@ export default async function BlogPostPage({ params }: Props) {
       </section>
 
       <Footer settings={siteSettings!} socialLinks={socialLinks} footerLinks={footerLinks} />
-
-      <style jsx global>{`
-        .blog-content h1 { font-size: 2rem; margin: 1.5rem 0 1rem; color: #0a0f1a; }
-        .blog-content h2 { font-size: 1.5rem; margin: 1.5rem 0 0.75rem; color: #0a0f1a; }
-        .blog-content h3 { font-size: 1.25rem; margin: 1.25rem 0 0.5rem; color: #0a0f1a; }
-        .blog-content p { margin-bottom: 1rem; }
-        .blog-content ul, .blog-content ol { margin: 1rem 0; padding-left: 1.5rem; }
-        .blog-content li { margin-bottom: 0.5rem; }
-        .blog-content blockquote { 
-          border-left: 4px solid #f5a623; 
-          padding: 1rem 1.5rem; 
-          margin: 1.5rem 0; 
-          background: #f8f9fa;
-          font-style: italic;
-        }
-        .blog-content code { 
-          background: #f1f3f5; 
-          padding: 0.2rem 0.4rem; 
-          border-radius: 4px;
-          font-family: monospace;
-        }
-        .blog-content pre { 
-          background: #0a0f1a; 
-          color: #f8f9fa;
-          padding: 1rem; 
-          border-radius: 8px;
-          overflow-x: auto;
-          margin: 1rem 0;
-        }
-        .blog-content pre code { background: transparent; padding: 0; color: inherit; }
-        .blog-content a { color: #f5a623; text-decoration: underline; }
-        .blog-content img { max-width: 100%; height: auto; border-radius: 8px; margin: 1rem 0; }
-      `}</style>
     </>
   );
 }

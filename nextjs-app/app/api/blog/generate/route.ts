@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
 import { marked } from 'marked';
+import { getAuthUser } from '@/lib/auth';
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 const MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
@@ -71,6 +72,11 @@ function parseGeneratedContent(content: string) {
 }
 
 export async function POST() {
+  const user = await getAuthUser();
+  if (!user) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
   if (!OPENAI_API_KEY) {
     await prisma.blogGenerationLog.create({
       data: {
@@ -78,7 +84,7 @@ export async function POST() {
         errorMessage: 'OPENAI_API_KEY not configured',
       },
     });
-    return NextResponse.redirect(new URL('/admin/blog', process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:5000'));
+    return NextResponse.json({ error: 'OPENAI_API_KEY not configured' }, { status: 500 });
   }
 
   try {
@@ -134,7 +140,7 @@ export async function POST() {
       },
     });
 
-    return NextResponse.redirect(new URL('/admin/blog', process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:5000'));
+    return NextResponse.json({ success: true, post });
   } catch (error) {
     console.error('Error generating blog post:', error);
     
@@ -145,10 +151,10 @@ export async function POST() {
       },
     });
 
-    return NextResponse.redirect(new URL('/admin/blog', process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:5000'));
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : 'Failed to generate blog post' },
+      { status: 500 }
+    );
   }
 }
 
-export async function GET() {
-  return POST();
-}

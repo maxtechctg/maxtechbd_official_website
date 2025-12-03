@@ -1,25 +1,87 @@
-import prisma from '@/lib/prisma';
+'use client';
+
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { DeleteButton } from '@/components/admin/AdminCrud';
 
-export const dynamic = 'force-dynamic';
+interface BlogPost {
+  id: number;
+  title: string;
+  slug: string;
+  category: string | null;
+  featuredImage: string | null;
+  active: boolean;
+  publishedAt: string | null;
+  source: string;
+}
 
-export default async function BlogManagerPage() {
-  const posts = await prisma.blogPost.findMany({ orderBy: { createdAt: 'desc' } });
-  const generationLogs = await prisma.blogGenerationLog.findMany({ 
-    orderBy: { createdAt: 'desc' },
-    take: 10
-  });
-  
+interface GenerationLog {
+  id: number;
+  status: string;
+  generatedTitle: string | null;
+  errorMessage: string | null;
+  createdAt: string;
+}
+
+export default function BlogManagerPage() {
+  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [generationLogs, setGenerationLogs] = useState<GenerationLog[]>([]);
+  const [generating, setGenerating] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      const [postsRes, logsRes] = await Promise.all([
+        fetch('/api/admin/blog'),
+        fetch('/api/admin/blog/logs')
+      ]);
+      if (postsRes.ok) setPosts(await postsRes.json());
+      if (logsRes.ok) setGenerationLogs(await logsRes.json());
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const handleGenerateAI = async () => {
+    setGenerating(true);
+    try {
+      const res = await fetch('/api/blog/generate', { method: 'POST' });
+      if (res.ok) {
+        await fetchData();
+      } else {
+        const data = await res.json();
+        alert(data.error || 'Failed to generate blog post');
+      }
+    } catch (error) {
+      alert('Failed to generate blog post');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  if (loading) {
+    return <div className="admin-card"><p>Loading...</p></div>;
+  }
+
   return (
     <div>
       <div className="admin-header">
         <h1 className="admin-title">Blog Manager</h1>
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <Link href="/admin/blog/new" className="admin-btn admin-btn-primary">Add Blog Post</Link>
-          <form action="/api/blog/generate" method="POST" style={{ display: 'inline' }}>
-            <button type="submit" className="admin-btn admin-btn-secondary">Generate AI Post</button>
-          </form>
+          <button 
+            onClick={handleGenerateAI} 
+            className="admin-btn admin-btn-secondary"
+            disabled={generating}
+          >
+            {generating ? 'Generating...' : 'Generate AI Post'}
+          </button>
         </div>
       </div>
 

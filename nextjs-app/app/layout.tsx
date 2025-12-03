@@ -21,6 +21,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="icon" href="/images/icon.png" type="image/gif" sizes="16x16" />
+        <link rel="stylesheet" href="/css/blog.css" />
       </head>
       <body suppressHydrationWarning>
         {children}
