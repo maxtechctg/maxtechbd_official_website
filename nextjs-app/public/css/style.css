@@ -727,7 +727,7 @@ header .header-col.mid .social-icons {
   margin: 0px 0px;
   padding: 0px 0px;
   float: left;
-  display: inline;
+  display: inline-block;
   list-style: none;
   position: relative;
 }
@@ -887,15 +887,22 @@ header.header-light #mainmenu a {
 
 #mainmenu li ul {
   width: 190px;
-  height: auto;
+  height: auto !important;
   position: absolute;
   left: 0px;
-  top: 100%;
-  margin-top: 0;
+  top: 100% !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
   z-index: 10;
   visibility: hidden;
   opacity: 0;
   border-radius: 3px;
+}
+
+#mainmenu > li > ul {
+  top: 100% !important;
+  margin-top: 0 !important;
+  height: auto !important;
 }
 
 #mainmenu ul li b {
@@ -19873,3 +19880,14 @@ img {
 
   .container-timeline ul li::before {
     left: 0
+/* Fix dropdown menu positioning - make it continuous with nav tab */
+header #mainmenu > li > ul {
+  top: 100% !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  left: 0 !important;
+}
+
+header:not(.header-mobile) #mainmenu > li:hover > ul {
+  margin-top: 0 !important;
+}
