@@ -35,18 +35,15 @@
 .tab-card {
   min-width: 260px;
   border-radius: 14px;
-  transition: transform .12s ease, box-shadow .12s ease;
+  transition: transform .12s ease, box-shadow .12s ease, border-color .2s ease;
   cursor: pointer;
 }
 .tab-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 10px 30px rgba(0,0,0,0.06);
 }
-
-/* gradient header inside main card */
-.card-header.bg-gradient {
-  border-top-left-radius: 0.75rem;
-  border-top-right-radius: 0.75rem;
+.tab-card.tab-active {
+  border-width: 2px;
 }
 
 /* subtle fade edges on desktop to hint horizontal scroll */
@@ -81,6 +78,136 @@
   border-radius: 0.75rem;
 }
 
-.tabbed-saas .card-header.bg-gradient {
-  border-bottom: none;
+/* ===== Content Transition Effects ===== */
+.module-content {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.module-content.content-fade-out {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.module-content.content-fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== Module Detail Styles ===== */
+.module-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #212529;
+}
+
+.module-tagline {
+  font-size: 1.1rem;
+}
+
+.module-overview {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* Features List */
+.module-features {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.module-features li {
+  position: relative;
+  padding-left: 1.75rem;
+  margin-bottom: 0.75rem;
+  color: #505050;
+  line-height: 1.5;
+}
+
+.module-features li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 10px;
+  height: 10px;
+  background: linear-gradient(135deg, #6f42c1, #4f46e5);
+  border-radius: 50%;
+}
+
+/* ===== Media Slide-in Animation ===== */
+.module-media-wrap {
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+.module-media {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+  transform: translateX(60px) scale(0.95);
+  opacity: 0;
+  transition: transform 0.7s cubic-bezier(0.25, 0.9, 0.35, 1), opacity 0.7s ease;
+  will-change: transform, opacity;
+}
+
+.module-media-wrap.in-view .module-media {
+  transform: translateX(0) scale(1);
+  opacity: 1;
+}
+
+/* Rounded corners helper */
+.rounded-20 {
+  border-radius: 20px !important;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 991.98px) {
+  .module-title {
+    font-size: 1.75rem;
+  }
+  
+  .module-media {
+    transform: translateY(40px) scale(0.95);
+  }
+  
+  .module-media-wrap.in-view .module-media {
+    transform: translateY(0) scale(1);
+  }
+  
+  .module-content .col-lg-6:last-child {
+    margin-top: 2rem;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .module-title {
+    font-size: 1.5rem;
+  }
+  
+  .module-features li {
+    font-size: 0.9rem;
+  }
+}
+
+/* ===== Additional Polish ===== */
+.subtitle-badge .badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+/* Smooth button transitions */
+.module-content .btn {
+  transition: all 0.2s ease;
+}
+
+.module-content .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(111, 66, 193, 0.3);
+}
+
+.module-content .btn-outline-secondary:hover {
+  transform: translateY(-2px);
 }

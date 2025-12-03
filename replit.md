@@ -203,10 +203,14 @@ The header automatically adapts its text color based on the background it's over
 ## TabbedSaaSProducts Component
 A modern tabbed interface for displaying SaaS products on the `/saas-products` page:
 - **Horizontal scrolling tabs**: Each product displayed as a card tab with hover effects
-- **Product details panel**: Shows full description, highlights, and call-to-action buttons
-- **Side panel**: Implementation timeline and support information
+- **Two-column detail layout**: Overview + features list on left, media (image/video/gif) on right
+- **Scroll-triggered animations**: Media slides in from side with smooth cubic-bezier transition using IntersectionObserver
+- **Content fade transitions**: Smooth fade effect when switching between tabs
+- **Media support**: Supports images, videos, and GIFs with automatic fallback placeholders
+- **Features list**: Styled bullet points with gradient accent
+- **Media directory**: `public/images/modules/` for product screenshots/demos
 - **CSS file**: `public/css/tabbed-bootstrap.css` contains all component styles
-- **Products**: SchoolERP, CRM, ERP, HRMS, Helpdesk (hardcoded in component)
+- **Products**: SchoolERP, CRM, ERP, HRMS, Helpdesk (data in component, media paths configurable)
 
 ## Current State (December 3, 2025)
 - All 10 public pages fully migrated and functional
