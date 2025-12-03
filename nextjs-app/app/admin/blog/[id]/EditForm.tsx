@@ -94,9 +94,6 @@ export default function EditBlogForm({ post }: { post: BlogPost }) {
     <div>
       <div className="admin-header">
         <h1 className="admin-title">Edit Blog Post</h1>
-        {post.source === 'auto' && (
-          <span className="badge badge-info" style={{ marginLeft: '1rem' }}>AI Generated</span>
-        )}
       </div>
 
       {error && <div className="admin-alert admin-alert-error">{error}</div>}

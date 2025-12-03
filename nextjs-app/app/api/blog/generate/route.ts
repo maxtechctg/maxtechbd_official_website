@@ -13,6 +13,33 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+const TOPIC_AREAS = [
+  'cybersecurity best practices and threat prevention',
+  'artificial intelligence and machine learning in business',
+  'remote work technology and collaboration tools',
+  'data analytics and business intelligence',
+  'IT infrastructure modernization',
+  'software development best practices',
+  'network security and zero trust architecture',
+  'digital transformation strategies',
+  'enterprise software solutions',
+  'managed IT services benefits',
+  'disaster recovery and business continuity',
+  'IoT and smart technology integration',
+  'mobile app development trends',
+  'DevOps and automation',
+  'customer experience technology',
+  'e-commerce solutions and optimization',
+  'blockchain technology applications',
+  'green IT and sustainable technology',
+  'API integration and microservices',
+  'tech talent acquisition and retention',
+];
+
+function getRandomTopic(): string {
+  return TOPIC_AREAS[Math.floor(Math.random() * TOPIC_AREAS.length)];
+}
+
 const SEO_PROMPT = `You are an expert SEO content writer. Produce one complete blog post in MARKDOWN only.
 Include:
 - Title (≤ 70 characters)
@@ -39,7 +66,7 @@ Your article content here in markdown format...
 
 More content...
 
-Deliver valid markdown only. Focus on technology, IT solutions, cloud computing, cybersecurity, or digital transformation topics relevant to a modern IT company.`;
+Deliver valid markdown only.`;
 
 function generateSlug(title: string): string {
   return title
@@ -154,10 +181,10 @@ export async function POST() {
         model: MODEL,
         messages: [
           { role: 'system', content: SEO_PROMPT },
-          { role: 'user', content: 'Generate a new SEO-optimized blog post for an IT solutions company website.' },
+          { role: 'user', content: `Generate a new SEO-optimized blog post for an IT solutions company website. Focus specifically on the topic of: ${getRandomTopic()}. Make it unique and engaging with fresh insights.` },
         ],
         max_tokens: 2000,
-        temperature: 0.7,
+        temperature: 0.9,
       }),
     });
 

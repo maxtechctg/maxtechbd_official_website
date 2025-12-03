@@ -96,7 +96,6 @@ export default function NewsManagerPage() {
                 <th>Image</th>
                 <th>Title</th>
                 <th>Category</th>
-                <th>Source</th>
                 <th>Published</th>
                 <th>Active</th>
                 <th>Actions</th>
@@ -116,11 +115,6 @@ export default function NewsManagerPage() {
                     <small style={{ color: '#6c757d' }}>/news/{post.slug}</small>
                   </td>
                   <td>{post.category || '-'}</td>
-                  <td>
-                    <span className={`badge ${post.source === 'auto' ? 'badge-info' : 'badge-secondary'}`}>
-                      {post.source === 'auto' ? 'AI Generated' : 'Manual'}
-                    </span>
-                  </td>
                   <td>{post.publishedAt ? new Date(post.publishedAt).toLocaleDateString() : 'Draft'}</td>
                   <td>
                     <span className={`badge ${post.active ? 'badge-success' : 'badge-danger'}`}>
