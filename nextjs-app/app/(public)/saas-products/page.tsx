@@ -1,41 +1,35 @@
-import prisma from '@/lib/prisma';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import PageHeader from '@/components/PageHeader';
-import Link from 'next/link';
+import prisma from "@/lib/prisma";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import PageHeader from "@/components/PageHeader";
+import Link from "next/link";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 async function getData() {
-  const [
-    settings,
-    menuItems,
-    products,
-    socialLinks,
-    footerLinks,
-    pageContent,
-  ] = await Promise.all([
-    prisma.siteSettings.findFirst(),
-    prisma.menuItem.findMany({
-      where: { parentId: null },
-      include: { children: true },
-      orderBy: { order: 'asc' },
-    }),
-    prisma.saaSProduct.findMany({
-      where: { isActive: true },
-      orderBy: { order: 'asc' },
-    }),
-    prisma.socialLink.findMany({
-      where: { isActive: true },
-      orderBy: { order: 'asc' },
-    }),
-    prisma.footerLink.findMany({
-      where: { isActive: true },
-      orderBy: { order: 'asc' },
-    }),
-    prisma.pageContent.findFirst({ where: { pageSlug: 'saas-products' } }),
-  ]);
+  const [settings, menuItems, products, socialLinks, footerLinks, pageContent] =
+    await Promise.all([
+      prisma.siteSettings.findFirst(),
+      prisma.menuItem.findMany({
+        where: { parentId: null },
+        include: { children: true },
+        orderBy: { order: "asc" },
+      }),
+      prisma.saaSProduct.findMany({
+        where: { isActive: true },
+        orderBy: { order: "asc" },
+      }),
+      prisma.socialLink.findMany({
+        where: { isActive: true },
+        orderBy: { order: "asc" },
+      }),
+      prisma.footerLink.findMany({
+        where: { isActive: true },
+        orderBy: { order: "asc" },
+      }),
+      prisma.pageContent.findFirst({ where: { pageSlug: "saas-products" } }),
+    ]);
 
   return {
     settings,
@@ -73,21 +67,21 @@ export default async function SaaSProductsPage() {
 
   return (
     <>
-      <Header 
-        menuItems={data.menuItems} 
-        settings={headerSettings} 
-        transparent={true} 
+      <Header
+        menuItems={data.menuItems}
+        settings={headerSettings}
+        transparent={true}
       />
 
       <div className="no-bottom no-top" id="content">
         <div id="top"></div>
 
         <PageHeader
-          subtitle={data.pageContent?.subtitle || 'Our Products'}
-          title={data.pageContent?.title || 'SaaS Products'}
+          subtitle={data.pageContent?.subtitle || "Our Products"}
+          title={data.pageContent?.title || "SaaS Products"}
           breadcrumb={[
-            { label: 'Home', href: '/' },
-            { label: 'SaaS Products' },
+            { label: "Home", href: "/" },
+            { label: "SaaS Products" },
           ]}
         />
 
@@ -101,22 +95,36 @@ export default async function SaaSProductsPage() {
               ) : (
                 data.products.map((product) => (
                   <div key={product.id} className="col-lg-4 col-md-6">
-                    <div className="de-item wow fadeInUp" style={{ background: '#fff', borderRadius: '20px', overflow: 'hidden', boxShadow: '0 5px 30px rgba(0,0,0,0.08)' }}>
-                      <div style={{ position: 'relative', paddingTop: '60%', overflow: 'hidden' }}>
-                        <img 
-                          src={product.mainImage || '/images/misc/empty.webp'} 
+                    <div
+                      className="de-item wow fadeInUp"
+                      style={{
+                        background: "#fff",
+                        borderRadius: "20px",
+                        overflow: "hidden",
+                        boxShadow: "0 5px 30px rgba(0,0,0,0.08)",
+                      }}
+                    >
+                      {/* <div
+                        style={{
+                          position: "relative",
+                          paddingTop: "60%",
+                          overflow: "hidden",
+                        }}
+                      >
+                        <img
+                          src={product.mainImage || "/images/misc/empty.webp"}
                           alt={product.title}
-                          style={{ 
-                            position: 'absolute', 
-                            top: 0, 
-                            left: 0, 
-                            width: '100%', 
-                            height: '100%', 
-                            objectFit: 'cover' 
+                          style={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
                           }}
                         />
-                      </div>
-                      <div style={{ padding: '25px' }}>
+                      </div> */}
+                      {/* <div style={{ padding: '25px' }}>
                         <h4 style={{ marginBottom: '10px' }}>{product.title}</h4>
                         {product.tagline && (
                           <p style={{ color: '#f5a623', fontSize: '14px', marginBottom: '10px' }}>
@@ -132,7 +140,7 @@ export default async function SaaSProductsPage() {
                         >
                           View Details
                         </Link>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 ))
@@ -142,7 +150,7 @@ export default async function SaaSProductsPage() {
         </section>
       </div>
 
-      <Footer 
+      <Footer
         settings={footerSettings}
         socialLinks={data.socialLinks}
         footerLinks={data.footerLinks}

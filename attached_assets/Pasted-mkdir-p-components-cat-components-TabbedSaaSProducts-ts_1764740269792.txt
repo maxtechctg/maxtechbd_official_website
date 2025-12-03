@@ -1,0 +1,254 @@
+mkdir -p components
+
+cat > components/TabbedSaaSProducts.tsx <<'TSX'
+'use client';
+
+import React, { useState } from "react";
+
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  tagline: string;
+  shortDescription: string;
+  description: string;
+  users: string;
+  highlight: string;
+}
+
+const PRODUCTS: Product[] = [
+  {
+    id: "school-erp",
+    name: "SchoolERP",
+    category: "Education",
+    tagline: "Let us run your campus operations.",
+    shortDescription: "All-in-one platform for schools: admissions, academics, finance, transport, hostel & more.",
+    description:
+      "SchoolERP centralizes student data, attendance, fees, examinations, and communication with parents. Timetables, digital report cards, and role-based access keep everyone aligned while reducing manual paperwork.",
+    users: "5,000+ students managed",
+    highlight: "Ideal for schools, colleges & coaching centers."
+  },
+  {
+    id: "crm",
+    name: "CRM",
+    category: "Sales & Marketing",
+    tagline: "Never lose a high-value lead again.",
+    shortDescription: "Track leads, deals, and client communication in one shared workspace.",
+    description:
+      "Our CRM gives you visual pipelines, automated follow-ups, and a single view of every customer touchpoint. From first contact to closed deal, your team always knows what to do next.",
+    users: "200+ sales teams",
+    highlight: "Great for B2B agencies & SaaS companies."
+  },
+  {
+    id: "erp",
+    name: "ERP",
+    category: "Business Operations",
+    tagline: "One system for the entire company.",
+    shortDescription: "Integrated modules for inventory, accounts, HR, procurement, and projects.",
+    description:
+      "ERP connects your finance, HR, inventory, and operations into a single real-time system. Get clear profitability, stock visibility, and approval workflows without juggling multiple tools.",
+    users: "Multi-branch businesses",
+    highlight: "Perfect for SMEs, distributors & manufacturers."
+  },
+  {
+    id: "hrms",
+    name: "HRMS",
+    category: "People & Payroll",
+    tagline: "Keep your team engaged and paid on time.",
+    shortDescription: "Employee profiles, attendance, leave, performance reviews, and payroll.",
+    description:
+      "HRMS automates attendance tracking, leave approvals, payroll runs, and performance reviews so your HR team can focus on people, not paperwork.",
+    users: "1,000+ employees served",
+    highlight: "Suitable for growing teams."
+  },
+  {
+    id: "helpdesk",
+    name: "Helpdesk",
+    category: "Support",
+    tagline: "Delight customers with fast, consistent support.",
+    shortDescription: "Ticketing, SLAs, canned responses, and a customer portal.",
+    description:
+      "Helpdesk turns emails and messages into organized tickets with SLAs, automations, and a self-service portal, helping your support team respond faster.",
+    users: "24/7 support teams",
+    highlight: "Great for IT, agencies & product teams."
+  }
+];
+
+const TabbedSaaSProducts: React.FC = () => {
+  const [activeId, setActiveId] = useState<string>(PRODUCTS[0].id);
+  const active = PRODUCTS.find(p => p.id === activeId) ?? PRODUCTS[0];
+
+  return (
+    <section className="relative isolate overflow-hidden bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-500 py-16">
+      {/* soft vignette like the fitness UI */}
+      <div className="pointer-events-none absolute inset-0 opacity-20 mix-blend-soft-light bg-[radial-gradient(circle_at_top,_white,_transparent_55%)]" />
+
+      <div className="relative mx-auto flex max-w-6xl flex-col gap-10 px-4 text-slate-900 lg:px-0">
+        {/* Top heading */}
+        <header className="flex flex-col gap-4 text-center md:text-left md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-xs font-semibold tracking-[0.3em] uppercase text-indigo-100">
+              Products
+            </p>
+            <h2 className="mt-2 text-3xl font-bold text-white md:text-4xl">
+              Our SaaS Products
+            </h2>
+            <p className="mt-2 max-w-2xl text-sm md:text-base text-indigo-100/90">
+              Switch between modules like SchoolERP, CRM, and ERP to see how each one fits your workflow.
+            </p>
+          </div>
+          <button
+            type="button"
+            className="inline-flex items-center justify-center rounded-full bg-white/95 px-5 py-2 text-sm font-semibold text-indigo-700 shadow-lg shadow-indigo-900/30 hover:bg-white transition"
+          >
+            Talk to our team
+          </button>
+        </header>
+
+        {/* Tab strip */}
+        <div className="relative">
+          {/* fade edges like the Dribbble example */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-indigo-600/80 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-fuchsia-500/80 to-transparent" />
+
+          <div className="flex gap-4 overflow-x-auto pb-3 pr-4 pl-1">
+            {PRODUCTS.map(product => {
+              const isActive = product.id === activeId;
+              return (
+                <button
+                  key={product.id}
+                  type="button"
+                  onClick={() => setActiveId(product.id)}
+                  className={`group relative flex min-w-[220px] flex-1 cursor-pointer flex-col rounded-2xl border bg-white/95 px-4 py-3 text-left shadow-md transition-transform duration-150 ease-out hover:-translate-y-1 hover:shadow-xl ${
+                    isActive
+                      ? "border-indigo-500 ring-2 ring-indigo-300/60"
+                      : "border-slate-100"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-semibold ${
+                      isActive ? "bg-indigo-600 text-white" : "bg-indigo-50 text-indigo-600"
+                    }`}>
+                      {product.name.charAt(0)}
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-indigo-500">
+                        {product.category}
+                      </p>
+                      <h3 className="text-sm font-semibold text-slate-900">
+                        {product.name}
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="mt-2 line-clamp-2 text-xs text-slate-500 group-hover:text-slate-600">
+                    {product.shortDescription}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Details area */}
+        <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr),minmax(0,1.1fr)]">
+          {/* Main card - similar to bottom cards from fitness UI */}
+          <div className="flex flex-col overflow-hidden rounded-3xl bg-white shadow-xl shadow-slate-900/10">
+            <div className="h-40 bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-400 relative">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_white,_transparent_55%)] opacity-40" />
+              <div className="relative flex h-full items-end justify-between px-6 pb-5">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-indigo-100">
+                    {active.category}
+                  </p>
+                  <h3 className="mt-1 text-2xl font-semibold text-white">
+                    {active.name}
+                  </h3>
+                  <p className="mt-1 text-xs text-indigo-100/90">
+                    {active.tagline}
+                  </p>
+                </div>
+                <div className="rounded-2xl bg-white/10 px-4 py-2 text-right">
+                  <p className="text-[11px] text-indigo-100/90">Active accounts</p>
+                  <p className="text-sm font-semibold text-white">{active.users}</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="grid gap-6 p-6 md:grid-cols-[minmax(0,1.6fr),minmax(0,1fr)]">
+              <div>
+                <p className="text-sm text-slate-700">
+                  {active.description}
+                </p>
+                <div className="mt-4 flex flex-wrap gap-3">
+                  <button
+                    type="button"
+                    className="rounded-full bg-indigo-600 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-white shadow-md shadow-indigo-500/40 hover:bg-indigo-700"
+                  >
+                    View module details
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+                  >
+                    Request live demo
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-3 rounded-2xl bg-slate-50 p-4">
+                <h4 className="text-xs font-semibold uppercase tracking-wide text-slate-500">
+                  Highlights
+                </h4>
+                <p className="text-sm text-slate-700">
+                  {active.highlight}
+                </p>
+                <ul className="mt-2 space-y-2 text-xs text-slate-600">
+                  <li>• Cloud-hosted, secure & role-based access.</li>
+                  <li>• Works smoothly with your existing MaxTechBD setup.</li>
+                  <li>• Detailed reports and dashboards for smarter decisions.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* Side card - similar to right column in fitness UI */}
+          <aside className="flex flex-col justify-between rounded-3xl bg-white/95 p-6 shadow-xl shadow-slate-900/10">
+            <div>
+              <h4 className="text-sm font-semibold text-slate-900">
+                Why teams choose {active.name}
+              </h4>
+              <p className="mt-2 text-xs text-slate-600">
+                Faster onboarding, less manual work, and better visibility across your organization.
+              </p>
+            </div>
+            <div className="mt-5 space-y-3 text-xs text-slate-600">
+              <div className="flex items-center justify-between">
+                <span>Time to go live</span>
+                <span className="font-semibold text-slate-900">2–4 weeks</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Implementation support</span>
+                <span className="font-semibold text-slate-900">Included</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Training sessions</span>
+                <span className="font-semibold text-slate-900">On-site / Remote</span>
+              </div>
+            </div>
+            <button
+              type="button"
+              className="mt-6 inline-flex items-center justify-center rounded-full bg-slate-900 px-4 py-2 text-xs font-semibold text-white hover:bg-slate-800"
+            >
+              Get a tailored quote
+            </button>
+          </aside>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default TabbedSaaSProducts;
+TSX
+
+echo "✅ Created components/TabbedSaaSProducts.tsx (Tailwind, tabbed widgets with scroll + details). Import and use it on your SaaS Products page."

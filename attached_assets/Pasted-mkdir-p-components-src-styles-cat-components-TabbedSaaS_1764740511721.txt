@@ -1,0 +1,64 @@
+mkdir -p components src/styles
+
+cat > components/TabbedSaaSProducts.jsx <<'JSX'
+import React, { useState, useRef, useEffect } from "react";
+import "../styles/tabbed-bootstrap.css";
+
+/**
+ * Bootstrap version of the Tabbed SaaS Products widget.
+ * Requires Bootstrap 5 CSS included in the project (e.g. in index.html or _app).
+ */
+
+const PRODUCTS = [
+  {
+    id: "school-erp",
+    name: "SchoolERP",
+    category: "Education",
+    tagline: "Let us run your campus operations.",
+    shortDescription: "Admissions, academics, fees, timetable, parent portal and more.",
+    description:
+      "SchoolERP centralizes student data, attendance, fees, examinations and communication with parents. Timetables, digital report cards and role-based access keep everyone aligned while reducing paperwork.",
+    users: "5,000+ students managed",
+    highlight: "Ideal for schools, colleges & coaching centers."
+  },
+  {
+    id: "crm",
+    name: "CRM",
+    category: "Sales & Marketing",
+    tagline: "Never lose a high-value lead again.",
+    shortDescription: "Visual pipelines, automated follow-ups and customer view.",
+    description:
+      "Our CRM gives you pipelines, automation, contact activity timeline and sales analytics so your team closes more deals.",
+    users: "200+ sales teams",
+    highlight: "Great for B2B agencies & SaaS companies."
+  },
+  {
+    id: "erp",
+    name: "ERP",
+    category: "Business Ops",
+    tagline: "One system for the whole company.",
+    shortDescription: "Inventory, purchase, accounting, HR and projects.",
+    description:
+      "ERP connects finance, HR, inventory and operations into one real-time system — visibility across departments and clear profitability reports.",
+    users: "Multi-branch businesses",
+    highlight: "Perfect for SMEs, distributors & manufacturers."
+  },
+  {
+    id: "hrms",
+    name: "HRMS",
+    category: "People",
+    tagline: "Keep your team engaged & paid on time.",
+    shortDescription: "Profiles, attendance, payroll and performance.",
+    description:
+      "HRMS automates attendance, payroll runs, leave and reviews so HR works strategically instead of administratively.",
+    users: "1,000+ employees served",
+    highlight: "Suitable for growing teams."
+  },
+  {
+    id: "helpdesk",
+    name: "Helpdesk",
+    category: "Support",
+    tagline: "Delight customers with fast support.",
+    shortDescription: "Ticketing, SLA, canned replies and portal.",
+    description:
+      "Helpdesk turns emails a
