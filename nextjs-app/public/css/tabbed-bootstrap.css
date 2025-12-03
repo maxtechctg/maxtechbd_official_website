@@ -1,0 +1,58 @@
+/* Small tweaks for Bootstrap tab strip appearance */
+.tab-strip {
+  scroll-behavior: smooth;
+}
+
+/* cards inside the tab strip — control min width so they form horizontally scrolling items */
+.tab-card {
+  min-width: 260px;
+  border-radius: 14px;
+  transition: transform .12s ease, box-shadow .12s ease;
+  cursor: pointer;
+}
+.tab-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+}
+
+/* gradient header inside main card */
+.card-header.bg-gradient {
+  border-top-left-radius: 0.75rem;
+  border-top-right-radius: 0.75rem;
+}
+
+/* subtle fade edges on desktop to hint horizontal scroll */
+.fade-edge-left, .fade-edge-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 48px;
+  pointer-events: none;
+  z-index: 1;
+}
+.fade-edge-left { left: 0; background: linear-gradient(90deg, rgba(248,249,250,1), rgba(248,249,250,0)); }
+.fade-edge-right { right: 0; background: linear-gradient(270deg, rgba(248,249,250,1), rgba(248,249,250,0)); }
+
+/* small responsive adjustments */
+@media (max-width: 767.98px) {
+  .tab-card { min-width: 220px; }
+  .fade-edge-left, .fade-edge-right { display: none; }
+}
+
+/* Tabbed SaaS section styling */
+.tabbed-saas {
+  background-color: #f8f9fa;
+}
+
+.tabbed-saas h2 {
+  font-weight: 700;
+  color: #212529;
+}
+
+.tabbed-saas .card {
+  border-radius: 0.75rem;
+}
+
+.tabbed-saas .card-header.bg-gradient {
+  border-bottom: none;
+}
