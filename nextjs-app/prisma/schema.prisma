@@ -26,6 +26,7 @@ model SiteSettings {
   favicon          String?
   copyright        String?
   portfolioBannerImage String?
+  saasProductsBannerImage String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 }

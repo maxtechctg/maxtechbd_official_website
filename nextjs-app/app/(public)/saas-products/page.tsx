@@ -38,6 +38,7 @@ async function getData() {
     socialLinks,
     footerLinks,
     pageContent,
+    bannerImage: settings?.saasProductsBannerImage || null,
   };
 }
 
@@ -106,6 +107,8 @@ export default async function SaaSProductsPage() {
             { label: "Home", href: "/" },
             { label: "SaaS Products" },
           ]}
+          backgroundImage={data.bannerImage || undefined}
+          hasParallax={!!data.bannerImage}
         />
 
         <TabbedSaaSProducts products={formattedProducts} />

@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { DeleteButton } from '@/components/admin/AdminCrud';
+import SaaSProductsBannerUpload from '@/components/admin/SaaSProductsBannerUpload';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,6 +18,8 @@ export default async function SaaSProductsPage() {
           Add Product
         </Link>
       </div>
+
+      <SaaSProductsBannerUpload />
 
       <div className="admin-card">
         {products.length === 0 ? (

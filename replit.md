@@ -17,6 +17,8 @@ MaxTech is built on Next.js 14 with the App Router, using TypeScript for type sa
 - **Admin Dashboard**: A comprehensive admin panel provides CRUD (Create, Read, Update, Delete) operations for all content types, secured with JWT-based authentication.
 - **Dynamic Content Management**: Content changes via the admin dashboard or Prisma Studio reflect immediately on the live site due to dynamic rendering.
 - **Image Management**: Integrated with Cloudinary for image uploads, offering drag-and-drop, click-to-upload, and direct URL entry. Images are organized into specific folders (e.g., `maxtech/hero`, `maxtech/services`).
+- **Video Upload**: SaaS products support demo video uploads (max 20MB, MP4/WebM/MOV/AVI) via Cloudinary with preview functionality.
+- **Page Banner Management**: Admin can upload custom banner images for page headers (Portfolio, SaaS Products) that display with parallax effect matching the site's design.
 - **AI-Powered Blog Module**: The admin dashboard includes a blog manager with a markdown editor, category management, SEO support, and a one-click GPT-4o-mini powered blog post generation feature with history tracking.
 - **Smart Header**: The header dynamically adjusts its text color (white/black) based on the background section it scrolls over, ensuring readability, with smooth CSS transitions.
 - **Tabbed SaaS Products Component**: A modern, dark-themed tabbed interface for showcasing SaaS products, featuring horizontal scrolling tabs, detailed product pages with key features, pricing tables, parallax video sections, client reviews, and configurable CTAs. This component supports accessibility with ARIA attributes and keyboard navigation.
