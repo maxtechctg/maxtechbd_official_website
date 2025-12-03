@@ -202,15 +202,34 @@ The header automatically adapts its text color based on the background it's over
 
 ## TabbedSaaSProducts Component
 A modern tabbed interface for displaying SaaS products on the `/saas-products` page:
+- **Database-driven**: All products fetched from SaaSProduct database model
 - **Horizontal scrolling tabs**: Each product displayed as a card tab with hover effects
-- **Two-column detail layout**: Overview + features list on left, media (image/video/gif) on right
-- **Scroll-triggered animations**: Media slides in from side with smooth cubic-bezier transition using IntersectionObserver
+- **Accessible tabs**: Full ARIA support with role="tablist"/"tab", keyboard navigation (Arrow keys, Home, End)
+- **Content sections displayed in order**:
+  1. Hero Banner with title, tagline, and banner image
+  2. Rating & Stats (star rating, total users)
+  3. Key Features Grid (numbered cards with icons)
+  4. Pricing Plans (with popular badge support)
+  5. Parallax Video Section (with YouTube/video embed)
+  6. Feature Detail Cards (icon-based cards)
+  7. Core Features (from pipe-separated list)
+  8. Client Reviews Carousel (auto-rotating testimonials)
 - **Content fade transitions**: Smooth fade effect when switching between tabs
-- **Media support**: Supports images, videos, and GIFs with automatic fallback placeholders
-- **Features list**: Styled bullet points with gradient accent
-- **Media directory**: `public/images/modules/` for product screenshots/demos
+- **Safe JSON parsing**: Handles malformed JSON gracefully with fallback to empty arrays
 - **CSS file**: `public/css/tabbed-bootstrap.css` contains all component styles
-- **Products**: SchoolERP, CRM, ERP, HRMS, Helpdesk (data in component, media paths configurable)
+
+## SaaSProduct Database Schema
+Extended fields for comprehensive product pages:
+- **Basic**: title, slug, tagline, shortDescription, longDescription, mainImage
+- **Content Sections**: bannerImage, rating, totalUsers
+- **JSON Fields** (stored as strings):
+  - `keyFeatures`: `[{icon, title, description, buttonText?, buttonUrl?}]`
+  - `pricingPlans`: `[{name, price, period, features[], isPopular, buttonText}]`
+  - `featureCards`: `[{icon, title, description}]`
+  - `clientReviews`: `[{authorName, authorRole, authorImage, quote, rating, companyUrl?}]`
+- **Parallax**: parallaxTitle, parallaxDescription, parallaxImage, demoVideoUrl
+- **Links**: liveDemoUrl, documentationUrl, techStack
+- **Admin**: `/admin/saas-products` with full CRUD and Cloudinary uploads
 
 ## Current State (December 3, 2025)
 - All 10 public pages fully migrated and functional

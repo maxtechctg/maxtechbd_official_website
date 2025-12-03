@@ -61,6 +61,17 @@ interface TabbedSaaSProductsProps {
   products: SaaSProduct[];
 }
 
+function safeJsonParse<T>(json: string | null | undefined, fallback: T[] = []): T[] {
+  if (!json) return fallback;
+  try {
+    const parsed = JSON.parse(json);
+    return Array.isArray(parsed) ? parsed : fallback;
+  } catch {
+    console.error('Failed to parse JSON:', json);
+    return fallback;
+  }
+}
+
 export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps) {
   const [activeId, setActiveId] = useState<number>(products[0]?.id || 0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -69,10 +80,10 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
   const contentRef = useRef<HTMLDivElement>(null);
   const [reviewSlide, setReviewSlide] = useState(0);
 
-  const parsedKeyFeatures: KeyFeature[] = active?.keyFeatures ? JSON.parse(active.keyFeatures) : [];
-  const parsedPricingPlans: PricingPlan[] = active?.pricingPlans ? JSON.parse(active.pricingPlans) : [];
-  const parsedFeatureCards: FeatureCard[] = active?.featureCards ? JSON.parse(active.featureCards) : [];
-  const parsedClientReviews: ClientReview[] = active?.clientReviews ? JSON.parse(active.clientReviews) : [];
+  const parsedKeyFeatures = safeJsonParse<KeyFeature>(active?.keyFeatures);
+  const parsedPricingPlans = safeJsonParse<PricingPlan>(active?.pricingPlans);
+  const parsedFeatureCards = safeJsonParse<FeatureCard>(active?.featureCards);
+  const parsedClientReviews = safeJsonParse<ClientReview>(active?.clientReviews);
   const parsedFeatures = active?.features?.split('|').filter(Boolean) || [];
 
   useEffect(() => {
@@ -124,6 +135,37 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
     [activeId, isTransitioning]
   );
 
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent, currentIndex: number) => {
+      let newIndex = currentIndex;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        newIndex = (currentIndex + 1) % products.length;
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        newIndex = (currentIndex - 1 + products.length) % products.length;
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        newIndex = 0;
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        newIndex = products.length - 1;
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        handleTabClick(products[currentIndex].id);
+        return;
+      } else {
+        return;
+      }
+      const newTab = document.getElementById(`tab-${products[newIndex].id}`);
+      if (newTab) {
+        newTab.focus();
+      }
+      handleTabClick(products[newIndex].id);
+    },
+    [products, handleTabClick]
+  );
+
   const renderStars = (rating: number) => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -171,16 +213,26 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
           <div className="position-relative mb-4">
             <div className="fade-edge-left d-none d-md-block" />
             <div className="fade-edge-right d-none d-md-block" />
-            <div ref={stripRef} className="d-flex gap-3 overflow-auto px-1 py-2 tab-strip">
-              {products.map((p) => {
+            <div 
+              ref={stripRef} 
+              className="d-flex gap-3 overflow-auto px-1 py-2 tab-strip"
+              role="tablist"
+              aria-label="SaaS Products"
+            >
+              {products.map((p, index) => {
                 const isActive = p.id === activeId;
                 return (
                   <div
                     id={`tab-${p.id}`}
                     key={p.id}
-                    role="button"
+                    role="tab"
+                    tabIndex={isActive ? 0 : -1}
+                    aria-selected={isActive}
+                    aria-controls={`tabpanel-${p.id}`}
                     onClick={() => handleTabClick(p.id)}
+                    onKeyDown={(e) => handleKeyDown(e, index)}
                     className={`card flex-shrink-0 ${isActive ? "border-primary shadow-lg tab-active" : "border-light"} tab-card`}
+                    style={{ cursor: 'pointer' }}
                   >
                     <div className="card-body p-3">
                       <div className="d-flex align-items-center">
@@ -204,7 +256,13 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
         </div>
       </section>
 
-      <div ref={contentRef} className="saas-product-content">
+      <div 
+        ref={contentRef} 
+        className="saas-product-content"
+        role="tabpanel"
+        id={`tabpanel-${active?.id}`}
+        aria-labelledby={`tab-${active?.id}`}
+      >
         {/* 1. Hero Banner with Title & Description */}
         <section
           className="saas-hero py-5"
