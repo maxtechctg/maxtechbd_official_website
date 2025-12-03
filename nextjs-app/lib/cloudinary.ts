@@ -25,6 +25,20 @@ export async function uploadToCloudinary(
   return result.secure_url;
 }
 
+export async function uploadVideoToCloudinary(
+  file: string,
+  folder: string = 'maxtech/videos'
+): Promise<string> {
+  const uploadOptions: Record<string, unknown> = {
+    folder,
+    resource_type: 'video',
+    chunk_size: 6000000,
+  };
+
+  const result = await cloudinary.uploader.upload(file, uploadOptions);
+  return result.secure_url;
+}
+
 export async function deleteFromCloudinary(publicId: string): Promise<void> {
   await cloudinary.uploader.destroy(publicId);
 }

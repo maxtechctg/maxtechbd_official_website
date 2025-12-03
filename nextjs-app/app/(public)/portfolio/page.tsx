@@ -95,7 +95,7 @@ export default async function PortfolioPage() {
           hasParallax={!!portfolioBannerImage}
         />
 
-        <section className="no-top">
+        <section className="no-top" style={{ marginTop: "120px" }}>
           <div className="container">
             <div className="row g-4 sequence">
               {data.projects.map((project) => (

@@ -3,6 +3,7 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ImageUpload from '@/components/admin/ImageUpload';
+import VideoUpload from '@/components/admin/VideoUpload';
 
 interface KeyFeature {
   icon: string;
@@ -323,8 +324,13 @@ export default function NewSaaSProductPage() {
           </div>
 
           <div className="admin-form-group">
-            <label className="admin-form-label">Demo Video URL</label>
-            <input type="url" className="admin-form-input" value={formData.demoVideoUrl} onChange={(e) => handleChange('demoVideoUrl', e.target.value)} placeholder="https://youtube.com/watch?v=..." />
+            <label className="admin-form-label">Demo Video</label>
+            <VideoUpload 
+              value={formData.demoVideoUrl} 
+              onChange={(url) => handleChange('demoVideoUrl', url)} 
+              folder="maxtech/saas-products/videos"
+              maxSizeMB={20}
+            />
           </div>
         </div>
 
