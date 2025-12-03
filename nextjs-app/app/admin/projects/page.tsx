@@ -1,6 +1,7 @@
 import prisma from '@/lib/prisma';
 import Link from 'next/link';
 import { DeleteButton } from '@/components/admin/AdminCrud';
+import PortfolioBannerUpload from '@/components/admin/PortfolioBannerUpload';
 export const dynamic = 'force-dynamic';
 
 export default async function ProjectsPage() {
@@ -11,6 +12,9 @@ export default async function ProjectsPage() {
         <h1 className="admin-title">Projects / Case Studies</h1>
         <Link href="/admin/projects/new" className="admin-btn admin-btn-primary">Add Project</Link>
       </div>
+      
+      <PortfolioBannerUpload />
+      
       <div className="admin-card">
         {items.length === 0 ? (
           <p className="admin-empty">No projects found.</p>

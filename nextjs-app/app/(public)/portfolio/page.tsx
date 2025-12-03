@@ -74,6 +74,8 @@ export default async function PortfolioPage() {
     description: data.settings?.description || null,
   };
 
+  const portfolioBannerImage = data.settings?.portfolioBannerImage || null;
+
   return (
     <>
       <Header 
@@ -92,6 +94,8 @@ export default async function PortfolioPage() {
             { label: 'Home', href: '/' },
             { label: 'Study Case' },
           ]}
+          backgroundImage={portfolioBannerImage || undefined}
+          hasParallax={!!portfolioBannerImage}
         />
 
         <section className="no-top">
