@@ -1,3 +1,14 @@
+/* Reduce page header padding for SaaS products page */
+.saas-products-page #subheader {
+  padding: 120px 0 60px;
+}
+
+/* Reduced section padding for TabbedSaaSProducts */
+.tabbed-saas.compact {
+  padding-top: 2rem !important;
+  padding-bottom: 2.5rem !important;
+}
+
 /* Small tweaks for Bootstrap tab strip appearance */
 .tab-strip {
   scroll-behavior: smooth;

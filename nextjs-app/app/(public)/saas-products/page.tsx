@@ -74,7 +74,7 @@ export default async function SaaSProductsPage() {
         transparent={true}
       />
 
-      <div className="no-bottom no-top" id="content">
+      <div className="no-bottom no-top saas-products-page" id="content">
         <div id="top"></div>
 
         <PageHeader

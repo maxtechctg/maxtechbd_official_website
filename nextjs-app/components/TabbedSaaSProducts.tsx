@@ -89,20 +89,20 @@ export default function TabbedSaaSProducts() {
   }, [activeId]);
 
   return (
-    <section className="tabbed-saas bg-light py-5">
+    <section className="tabbed-saas compact bg-light py-5">
       <div className="container">
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
           <div>
             <small className="text-uppercase text-primary fw-bold">Products</small>
-            <h2 className="mt-2">Our SaaS Products</h2>
-            <p className="text-muted mb-0">Switch between modules like SchoolERP, CRM and ERP to see details at a glance.</p>
+            <h2 className="mt-1 mb-1">Our SaaS Products</h2>
+            <p className="text-muted mb-0 small">Switch between modules like SchoolERP, CRM and ERP to see details at a glance.</p>
           </div>
-          <div className="mt-3 mt-md-0">
-            <button className="btn btn-outline-primary">Talk to our team</button>
+          <div className="mt-2 mt-md-0">
+            <button className="btn btn-outline-primary btn-sm">Talk to our team</button>
           </div>
         </div>
 
-        <div className="position-relative mb-4">
+        <div className="position-relative mb-3">
           <div className="fade-edge-left d-none d-md-block" />
           <div className="fade-edge-right d-none d-md-block" />
 
@@ -138,7 +138,7 @@ export default function TabbedSaaSProducts() {
           </div>
         </div>
 
-        <div className="row g-4">
+        <div className="row g-3">
           <div className="col-lg-8">
             <div className="card shadow-sm h-100">
               <div className="card-header bg-gradient p-0" style={{background: "linear-gradient(90deg,#6f42c1,#4f46e5)"}}>
