@@ -1,0 +1,236 @@
+cat > setup-tabs.sh <<'BASH'
+#!/usr/bin/env bash
+set -e
+
+# create modules data
+cat > modules.json <<'JSON'
+{
+  "schoolerp": {
+    "title": "SchoolERP",
+    "subtitle": "EDUCATION",
+    "overview": "SchoolERP centralizes student data, attendance, fees, examinations and communication with parents. Timetables, digital report cards and role-based access keep everyone aligned while reducing paperwork.",
+    "features": [
+      "Admissions management",
+      "Timetables & attendance",
+      "Fee collection & invoices",
+      "Parent portal & messaging",
+      "Reports & analytics"
+    ],
+    "media": {
+      "type": "image",
+      "src": "images/modules/schoolerp.png",
+      "alt": "SchoolERP overview"
+    }
+  },
+  "crm": {
+    "title": "CRM",
+    "subtitle": "SALES & MARKETING",
+    "overview": "Visual pipelines, automated follow-ups and customer view for better sales conversions.",
+    "features": [
+      "Pipeline management",
+      "Automated follow-ups",
+      "Customer 360 view",
+      "Email sequences"
+    ],
+    "media": {
+      "type": "video",
+      "src": "images/modules/crm-demo.mp4",
+      "alt": "CRM demo video"
+    }
+  },
+  "erp": {
+    "title": "ERP",
+    "subtitle": "BUSINESS OPS",
+    "overview": "Inventory, purchase, and order management for smooth back-office operations.",
+    "features": [
+      "Inventory control",
+      "Purchase order management",
+      "Stock reports",
+      "Supplier management"
+    ],
+    "media": {
+      "type": "gif",
+      "src": "images/modules/erp-features.gif",
+      "alt": "ERP features"
+    }
+  }
+}
+JSON
+
+# create JS file
+cat > modules-tabs.js <<'JS'
+/* modules-tabs.js
+ - Loads modules.json and powers tab click -> content replacement
+ - Adds scroll-in slide animation for media
+*/
+
+async function initModuleTabs(options = {}) {
+  const modulesUrl = options.modulesUrl || '/modules.json';
+  const tabsSelector = options.tabsSelector || '.module-tab';
+  const contentContainerSelector = options.contentContainerSelector || '#module-content';
+  const activeKey = options.default || null;
+
+  const resp = await fetch(modulesUrl);
+  const modules = await resp.json();
+
+  const tabs = document.querySelectorAll(tabsSelector);
+  const contentContainer = document.querySelector(contentContainerSelector);
+
+  function buildContentHtml(data) {
+    const featuresHtml = (data.features || []).map(f => `<li>${f}</li>`).join('');
+    let mediaHtml = '';
+    if (data.media) {
+      if (data.media.type === 'image') {
+        mediaHtml = `<img class="module-media" data-animate src="\${data.media.src}" alt="\${data.media.alt}">`;
+      } else if (data.media.type === 'video') {
+        mediaHtml = '<video class="module-media" data-animate playsinline muted loop preload="metadata"><source src="' + data.media.src + '"></video>';
+      } else if (data.media.type === 'gif') {
+        mediaHtml = '<img class="module-media" data-animate src="' + data.media.src + '" alt="' + (data.media.alt||'gif') + '">';
+      }
+    }
+
+    const html = `
+      <div class="module-detail row align-items-center">
+        <div class="col-md-7">
+          <h2 class="module-title">\${data.title}</h2>
+          <p class="text-muted module-overview">\${data.overview}</p>
+          <ul class="module-features">\${featuresHtml}</ul>
+          <div class="mt-3 d-flex gap-2">
+            <button class="btn btn-primary btn-sm">Get demo</button>
+            <button class="btn btn-outline-secondary btn-sm">Request live demo</button>
+          </div>
+        </div>
+        <div class="col-md-5 module-media-wrap">
+          \${mediaHtml}
+        </div>
+      </div>
+    `;
+    return html;
+  }
+
+  function setActive(key) {
+    const data = modules[key];
+    if (!data) return;
+    // small fade out
+    contentContainer.classList.add('module-fade-out');
+    setTimeout(() => {
+      contentContainer.innerHTML = buildContentHtml(data).replace(/\$\{data\./g, ''); // no-op: template already filled
+      contentContainer.classList.remove('module-fade-out');
+      contentContainer.classList.add('module-fade-in');
+
+      // re-init media animation observer
+      initMediaObserver();
+
+      // update active tab class
+      tabs.forEach(t => {
+        t.classList.toggle('active', t.dataset.key === key);
+      });
+
+      setTimeout(()=> contentContainer.classList.remove('module-fade-in'), 400);
+    }, 180);
+  }
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      const key = tab.dataset.key;
+      setActive(key);
+    });
+  });
+
+  // IntersectionObserver for media slide-in
+  function initMediaObserver() {
+    const media = contentContainer.querySelectorAll('[data-animate]');
+    if (!('IntersectionObserver' in window)) {
+      // show immediately on old browsers
+      media.forEach(m => m.classList.add('in-view'));
+      return;
+    }
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    media.forEach(m => {
+      // reset
+      m.classList.remove('in-view');
+      observer.observe(m);
+    });
+  }
+
+  // default activation
+  if (activeKey && modules[activeKey]) {
+    setActive(activeKey);
+  } else {
+    // first available module
+    const firstKey = Object.keys(modules)[0];
+    setActive(firstKey);
+  }
+}
+
+// automatically init when DOM loaded if present
+document.addEventListener('DOMContentLoaded', () => {
+  if (document.querySelector('#module-content')) {
+    initModuleTabs({ modulesUrl: '/modules.json', tabsSelector: '.module-tab', contentContainerSelector: '#module-content' });
+  }
+});
+JS
+
+# create small CSS for transitions
+cat > modules-tabs.css <<'CSS'
+/* modules-tabs.css - minimal styles for transitions */
+#module-content { transition: opacity .25s linear; }
+#module-content.module-fade-out { opacity: 0; transform: translateY(4px); }
+#module-content.module-fade-in { opacity: 1; transform: translateY(0); }
+
+/* media slide animation */
+.module-media-wrap { overflow: hidden; }
+.module-media { max-width: 100%; border-radius: 12px; transform: translateX(36px) scale(.98); opacity: 0; transition: transform .6s cubic-bezier(.2,.9,.3,1), opacity .6s; will-change: transform, opacity; }
+.module-media.in-view { transform: translateX(0) scale(1); opacity: 1; }
+
+/* small features list */
+.module-features { list-style: none; padding-left: 0; margin-top: 1rem; }
+.module-features li { margin-bottom: .5rem; padding-left: 1.6rem; position: relative; color: #505050; }
+.module-features li::before { content: "●"; position: absolute; left: 0; top: 0; color: #007bff; font-size: 12px; line-height: 1; }
+.module-tab.active { border: 2px solid #0d6efd; box-shadow: 0 4px 12px rgba(13,110,253,0.08); }
+CSS
+
+# inject minimal example html snippet (to paste in your tab area)
+cat > module-snippet.html <<'HTML'
+<!-- Paste this inside your tabs area (e.g. where the selectable cards are). 
+ Example tab markup: each tab must have class "module-tab" and data-key matching modules.json -->
+<div class="d-flex gap-3 flex-wrap mb-3" id="module-tabs">
+  <div class="card p-3 module-tab active" data-key="schoolerp" style="cursor:pointer; min-width:220px;">
+    <div><strong>SchoolERP</strong></div>
+    <div class="text-muted small">Education</div>
+  </div>
+  <div class="card p-3 module-tab" data-key="crm" style="cursor:pointer; min-width:220px;">
+    <div><strong>CRM</strong></div>
+    <div class="text-muted small">Sales & Marketing</div>
+  </div>
+  <div class="card p-3 module-tab" data-key="erp" style="cursor:pointer; min-width:220px;">
+    <div><strong>ERP</strong></div>
+    <div class="text-muted small">Business Ops</div>
+  </div>
+</div>
+
+<!-- Content area (replace your current .card-body block) -->
+<div id="module-content" class="card p-4">
+  <!-- content will be injected here by modules-tabs.js -->
+</div>
+HTML
+
+echo "Created: modules.json, modules-tabs.js, modules-tabs.css, module-snippet.html"
+echo "Next steps:"
+echo "1) Link modules-tabs.css and modules-tabs.js in the page that has the tab UI (e.g. add <link rel=\"stylesheet\" href=\"/modules-tabs.css\"> and <script src=\"/modules-tabs.js\"></script>)."
+echo "2) Paste contents of module-snippet.html into the place where you want the tabs and content."
+echo "3) Place media files into images/modules/ (schoolerp.png, crm-demo.mp4, erp-features.gif) or update modules.json accordingly."
+echo "4) Open the page and click tabs. Enjoy!"
+BASH
+
+chmod +x setup-tabs.sh
+echo "setup-tabs.sh created. Run: bash setup-tabs.sh"
+BASH
