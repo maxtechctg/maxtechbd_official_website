@@ -736,23 +736,6 @@ header .header-col.mid .social-icons {
   margin-right: 30px;
 }
 
-#mainmenu>li {
-  counter-increment: my-awesome-counter;
-}
-
-#mainmenu>li::before {
-  content: counter(my-awesome-counter) ' —';
-  right: 8px;
-  top: 5px;
-  color:var(--secondary-color);
-  margin-right: 5px;
-  font-weight: 500;
-  font-family: var(--title-font);
-}
-
-header.smaller #mainmenu>li::before{
-  transform: scale(0);
-}
 
 #mainmenu>li.has-child:after {
   font-family: FontAwesome;
