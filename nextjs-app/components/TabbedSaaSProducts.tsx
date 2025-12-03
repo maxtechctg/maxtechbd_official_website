@@ -91,7 +91,7 @@ export default function TabbedSaaSProducts() {
   return (
     <section className="tabbed-saas compact bg-light py-5">
       <div className="container">
-        <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4">
           <div>
             <small className="text-uppercase text-primary fw-bold">Products</small>
             <h2 className="mt-1 mb-1">Our SaaS Products</h2>

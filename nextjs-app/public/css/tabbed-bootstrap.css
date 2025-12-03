@@ -9,6 +9,23 @@
   padding-bottom: 2.5rem !important;
 }
 
+/* Use wider container for SaaS products */
+.tabbed-saas .container {
+  max-width: 1400px;
+}
+
+@media (min-width: 1200px) {
+  .tabbed-saas .container {
+    max-width: 95%;
+  }
+}
+
+@media (min-width: 1600px) {
+  .tabbed-saas .container {
+    max-width: 1500px;
+  }
+}
+
 /* Small tweaks for Bootstrap tab strip appearance */
 .tab-strip {
   scroll-behavior: smooth;
