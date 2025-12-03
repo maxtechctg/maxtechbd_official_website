@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import prisma from '@/lib/prisma';
+import { getAuthUser } from '@/lib/auth';
 import { v2 as cloudinary } from 'cloudinary';
 
 cloudinary.config({
@@ -9,6 +10,9 @@ cloudinary.config({
 });
 
 export async function GET() {
+  const user = await getAuthUser();
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  
   try {
     const settings = await prisma.siteSettings.findFirst();
     return NextResponse.json({ 
@@ -21,6 +25,9 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  const user = await getAuthUser();
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  
   try {
     const formData = await request.formData();
     const file = formData.get('file') as File | null;
@@ -71,6 +78,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE() {
+  const user = await getAuthUser();
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  
   try {
     const existingSettings = await prisma.siteSettings.findFirst();
     
