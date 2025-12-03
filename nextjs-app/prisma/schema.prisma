@@ -259,11 +259,35 @@ model SaaSProduct {
   shortDescription String
   longDescription  String?
   mainImage        String?
+  bannerImage      String?
   features         String?
   techStack        String?
   liveDemoUrl      String?
   githubUrl        String?
   documentationUrl String?
+  
+  // Rating and stats
+  rating           Float?   @default(0)
+  totalUsers       String?
+  
+  // Key features with icons (JSON array: [{icon, title, description, buttonText, buttonUrl}])
+  keyFeatures      String?  @db.Text
+  
+  // Pricing plans (JSON array: [{name, price, period, features, isPopular, buttonText}])
+  pricingPlans     String?  @db.Text
+  
+  // Parallax section
+  parallaxTitle       String?
+  parallaxDescription String?
+  parallaxImage       String?
+  demoVideoUrl        String?
+  
+  // Feature detail cards (JSON array: [{icon, title, description}])
+  featureCards     String?  @db.Text
+  
+  // Client reviews (JSON array: [{authorName, authorRole, authorImage, quote, rating, companyUrl}])
+  clientReviews    String?  @db.Text
+  
   order            Int      @default(0)
   isActive         Boolean  @default(true)
   createdAt        DateTime @default(now())
