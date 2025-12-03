@@ -15,6 +15,7 @@ export default function PublicLayout({
       <link href="/css/coloring.css" rel="stylesheet" type="text/css" />
       <link id="colors" href="/css/colors/scheme-01.css" rel="stylesheet" type="text/css" />
       <link href="/css/header-theme.css" rel="stylesheet" type="text/css" />
+      <link href="/css/tabbed-bootstrap.css" rel="stylesheet" type="text/css" />
       <div id="wrapper">
         {children}
       </div>
