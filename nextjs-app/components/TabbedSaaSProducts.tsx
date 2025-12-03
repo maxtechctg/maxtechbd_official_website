@@ -25,42 +25,46 @@ const PRODUCTS: Product[] = [
     name: "SchoolERP",
     category: "Education",
     tagline: "Let us run your campus operations.",
-    shortDescription: "Admissions, academics, fees, timetable, parent portal and more.",
-    overview: "SchoolERP centralizes student data, attendance, fees, examinations and communication with parents. Timetables, digital report cards and role-based access keep everyone aligned while reducing paperwork.",
+    shortDescription:
+      "Admissions, academics, fees, timetable, parent portal and more.",
+    overview:
+      "SchoolERP centralizes student data, attendance, fees, examinations and communication with parents. Timetables, digital report cards and role-based access keep everyone align ed while reducing paperwork.",
     features: [
       "Admissions management with online applications",
       "Timetables & attendance tracking",
       "Fee collection & automated invoices",
       "Parent portal & real-time messaging",
       "Digital report cards & transcripts",
-      "Role-based access control"
+      "Role-based access control",
     ],
     media: {
       type: "image",
       src: "/images/modules/schoolerp-dashboard.png",
-      alt: "SchoolERP Dashboard"
-    }
+      alt: "SchoolERP Dashboard",
+    },
   },
   {
     id: "crm",
     name: "CRM",
     category: "Sales & Marketing",
     tagline: "Never lose a high-value lead again.",
-    shortDescription: "Visual pipelines, automated follow-ups and customer view.",
-    overview: "Our CRM gives you visual pipelines, automation, contact activity timeline and sales analytics so your team closes more deals faster.",
+    shortDescription:
+      "Visual pipelines, automated follow-ups and customer view.",
+    overview:
+      "Our CRM gives you visual pipelines, automation, contact activity timeline and sales analytics so your team closes more deals faster.",
     features: [
       "Visual sales pipeline management",
       "Automated follow-up sequences",
       "Customer 360° view & history",
       "Email tracking & templates",
       "Sales analytics & forecasting",
-      "Team collaboration tools"
+      "Team collaboration tools",
     ],
     media: {
       type: "image",
       src: "/images/modules/crm-pipeline.png",
-      alt: "CRM Pipeline View"
-    }
+      alt: "CRM Pipeline View",
+    },
   },
   {
     id: "erp",
@@ -68,20 +72,21 @@ const PRODUCTS: Product[] = [
     category: "Business Ops",
     tagline: "One system for the whole company.",
     shortDescription: "Inventory, purchase, accounting, HR and projects.",
-    overview: "ERP connects finance, HR, inventory and operations into one real-time system — giving you visibility across departments and clear profitability reports.",
+    overview:
+      "ERP connects finance, HR, inventory and operations into one real-time system — giving you visibility across departments and clear profitability reports.",
     features: [
       "Inventory & warehouse management",
       "Purchase order automation",
       "Financial accounting & reporting",
       "Multi-branch operations",
       "Project cost tracking",
-      "Supplier management portal"
+      "Supplier management portal",
     ],
     media: {
       type: "image",
       src: "/images/modules/erp-inventory.png",
-      alt: "ERP Inventory Management"
-    }
+      alt: "ERP Inventory Management",
+    },
   },
   {
     id: "hrms",
@@ -89,20 +94,21 @@ const PRODUCTS: Product[] = [
     category: "People",
     tagline: "Keep your team engaged & paid on time.",
     shortDescription: "Profiles, attendance, payroll and performance.",
-    overview: "HRMS automates attendance, payroll runs, leave management and performance reviews so HR can work strategically instead of administratively.",
+    overview:
+      "HRMS automates attendance, payroll runs, leave management and performance reviews so HR can work strategically instead of administratively.",
     features: [
       "Employee profiles & documents",
       "Biometric attendance integration",
       "Automated payroll processing",
       "Leave management system",
       "Performance reviews & goals",
-      "Training & development tracking"
+      "Training & development tracking",
     ],
     media: {
       type: "image",
       src: "/images/modules/hrms-payroll.png",
-      alt: "HRMS Payroll Dashboard"
-    }
+      alt: "HRMS Payroll Dashboard",
+    },
   },
   {
     id: "helpdesk",
@@ -110,21 +116,22 @@ const PRODUCTS: Product[] = [
     category: "Support",
     tagline: "Delight customers with fast support.",
     shortDescription: "Ticketing, SLA, canned replies and portal.",
-    overview: "Helpdesk turns emails and messages into organized tickets with SLAs, automations, and a self-service portal for your customers.",
+    overview:
+      "Helpdesk turns emails and messages into organized tickets with SLAs, automations, and a self-service portal for your customers.",
     features: [
       "Multi-channel ticket management",
       "SLA tracking & escalations",
       "Canned responses & templates",
       "Customer self-service portal",
       "Knowledge base integration",
-      "Agent performance analytics"
+      "Agent performance analytics",
     ],
     media: {
       type: "image",
       src: "/images/modules/helpdesk-tickets.png",
-      alt: "Helpdesk Ticket Management"
-    }
-  }
+      alt: "Helpdesk Ticket Management",
+    },
+  },
 ];
 
 export default function TabbedSaaSProducts() {
@@ -142,8 +149,12 @@ export default function TabbedSaaSProducts() {
     if (!el || !container) return;
     const containerRect = container.getBoundingClientRect();
     const elRect = el.getBoundingClientRect();
-    if (elRect.left < containerRect.left || elRect.right > containerRect.right) {
-      const scrollLeft = el.offsetLeft - container.clientWidth / 2 + el.clientWidth / 2;
+    if (
+      elRect.left < containerRect.left ||
+      elRect.right > containerRect.right
+    ) {
+      const scrollLeft =
+        el.offsetLeft - container.clientWidth / 2 + el.clientWidth / 2;
       container.scrollTo({ left: scrollLeft, behavior: "smooth" });
     }
   }, [activeId]);
@@ -165,7 +176,7 @@ export default function TabbedSaaSProducts() {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     observer.observe(mediaElement);
@@ -174,32 +185,35 @@ export default function TabbedSaaSProducts() {
   }, [activeId]);
 
   // Handle tab switch with transition
-  const handleTabClick = useCallback((id: string) => {
-    if (id === activeId || isTransitioning) return;
-    
-    setIsTransitioning(true);
-    
-    // Add fade-out class
-    if (contentRef.current) {
-      contentRef.current.classList.add("content-fade-out");
-    }
-    
-    // After fade out, switch content and fade in
-    setTimeout(() => {
-      setActiveId(id);
+  const handleTabClick = useCallback(
+    (id: string) => {
+      if (id === activeId || isTransitioning) return;
+
+      setIsTransitioning(true);
+
+      // Add fade-out class
       if (contentRef.current) {
-        contentRef.current.classList.remove("content-fade-out");
-        contentRef.current.classList.add("content-fade-in");
+        contentRef.current.classList.add("content-fade-out");
       }
-      
+
+      // After fade out, switch content and fade in
       setTimeout(() => {
+        setActiveId(id);
         if (contentRef.current) {
-          contentRef.current.classList.remove("content-fade-in");
+          contentRef.current.classList.remove("content-fade-out");
+          contentRef.current.classList.add("content-fade-in");
         }
-        setIsTransitioning(false);
-      }, 300);
-    }, 200);
-  }, [activeId, isTransitioning]);
+
+        setTimeout(() => {
+          if (contentRef.current) {
+            contentRef.current.classList.remove("content-fade-in");
+          }
+          setIsTransitioning(false);
+        }, 300);
+      }, 200);
+    },
+    [activeId, isTransitioning],
+  );
 
   // Generate placeholder URL for fallback
   const getPlaceholderUrl = (name: string) => {
@@ -209,7 +223,7 @@ export default function TabbedSaaSProducts() {
   // Render media based on type with fallback handling
   const renderMedia = () => {
     const { media } = active;
-    
+
     if (media.type === "video") {
       return (
         <video
@@ -223,10 +237,10 @@ export default function TabbedSaaSProducts() {
           onError={(e) => {
             // Replace video with fallback image on error
             const video = e.target as HTMLVideoElement;
-            const img = document.createElement('img');
+            const img = document.createElement("img");
             img.src = getPlaceholderUrl(active.name);
             img.alt = media.alt;
-            img.className = 'module-media rounded-20';
+            img.className = "module-media rounded-20";
             video.parentNode?.replaceChild(img, video);
           }}
         >
@@ -234,7 +248,7 @@ export default function TabbedSaaSProducts() {
         </video>
       );
     }
-    
+
     // For image and gif
     return (
       <img
@@ -255,14 +269,19 @@ export default function TabbedSaaSProducts() {
         {/* Header */}
         <div className="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-3">
           <div>
-            <small className="text-uppercase text-primary fw-bold">Products</small>
+            <small className="text-uppercase text-primary fw-bold">
+              Products
+            </small>
             <h2 className="mt-1 mb-1">Our SaaS Products</h2>
             <p className="text-muted mb-0 small">
-              Switch between modules like SchoolERP, CRM and ERP to see details at a glance.
+              Switch between modules like SchoolERP, CRM and ERP to see details
+              at a glance.
             </p>
           </div>
           <div className="mt-2 mt-md-0">
-            <button className="btn btn-outline-primary btn-sm">Talk to our team</button>
+            <button className="btn btn-outline-primary btn-sm">
+              Talk to our team
+            </button>
           </div>
         </div>
 
@@ -271,7 +290,10 @@ export default function TabbedSaaSProducts() {
           <div className="fade-edge-left d-none d-md-block" />
           <div className="fade-edge-right d-none d-md-block" />
 
-          <div ref={stripRef} className="d-flex gap-3 overflow-auto px-1 py-2 tab-strip">
+          <div
+            ref={stripRef}
+            className="d-flex gap-3 overflow-auto px-1 py-2 tab-strip"
+          >
             {PRODUCTS.map((p) => {
               const isActive = p.id === activeId;
               return (
@@ -291,9 +313,13 @@ export default function TabbedSaaSProducts() {
                         <strong>{p.name.charAt(0)}</strong>
                       </div>
                       <div className="flex-grow-1">
-                        <small className="text-uppercase text-muted fw-semibold">{p.category}</small>
+                        <small className="text-uppercase text-muted fw-semibold">
+                          {p.category}
+                        </small>
                         <h6 className="mb-0 mt-1">{p.name}</h6>
-                        <small className="text-muted d-block">{p.shortDescription}</small>
+                        <small className="text-muted d-block">
+                          {p.shortDescription}
+                        </small>
                       </div>
                     </div>
                   </div>
@@ -315,9 +341,13 @@ export default function TabbedSaaSProducts() {
                   </span>
                 </div>
                 <h3 className="module-title mb-3">{active.name}</h3>
-                <p className="module-tagline text-primary fw-semibold mb-3">{active.tagline}</p>
-                <p className="module-overview text-muted mb-4">{active.overview}</p>
-                
+                <p className="module-tagline text-primary fw-semibold mb-3">
+                  {active.tagline}
+                </p>
+                <p className="module-overview text-muted mb-4">
+                  {active.overview}
+                </p>
+
                 {/* Features List */}
                 <h6 className="fw-bold mb-3">Key Features</h6>
                 <ul className="module-features">
@@ -329,7 +359,9 @@ export default function TabbedSaaSProducts() {
                 {/* Action Buttons */}
                 <div className="d-flex gap-2 flex-wrap mt-4">
                   <button className="btn btn-primary">Get Demo</button>
-                  <button className="btn btn-outline-secondary">Request Live Demo</button>
+                  <button className="btn btn-outline-secondary">
+                    Request Live Demo
+                  </button>
                 </div>
               </div>
             </div>
