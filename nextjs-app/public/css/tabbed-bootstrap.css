@@ -407,3 +407,190 @@
     height: 60px;
   }
 }
+
+/* ===== NEW WIREFRAME LAYOUT STYLES ===== */
+
+/* Dark theme for tabs section */
+.saas-tabs-section {
+  background: #1a1a1a;
+}
+
+.tab-strip-dark {
+  scroll-behavior: smooth;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.tab-strip-dark::-webkit-scrollbar {
+  display: none;
+}
+
+.saas-tab-item {
+  background: transparent;
+  border: 1px solid #444;
+  color: #999;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.saas-tab-item:hover {
+  border-color: #666;
+  color: #fff;
+}
+
+.saas-tab-item.active {
+  background: #0d6efd;
+  border-color: #0d6efd;
+  color: #fff;
+}
+
+/* Title and Description sections */
+.saas-title-section,
+.saas-desc-section {
+  background: #1a1a1a;
+}
+
+.title-box,
+.total-user-box,
+.desc-box,
+.ratings-box {
+  background: #222;
+}
+
+/* Banner section */
+.saas-banner-section {
+  background: #1a1a1a;
+}
+
+.banner-wrapper {
+  border: 1px solid #444;
+  overflow: hidden;
+}
+
+/* Features and Pricing section */
+.saas-features-pricing {
+  background: #1a1a1a;
+}
+
+.key-feature-section,
+.pricing-section {
+  background: #222;
+}
+
+.key-features-list .feature-item {
+  transition: transform 0.2s ease;
+}
+
+.key-features-list .feature-item:hover {
+  transform: translateX(5px);
+}
+
+/* Pricing Table */
+.pricing-table .table-dark {
+  background: #2a2a2a;
+}
+
+.pricing-table .table-dark th,
+.pricing-table .table-dark td {
+  border-color: #444;
+}
+
+.pricing-table .table-primary td,
+.pricing-table .table-primary th {
+  background: rgba(13, 110, 253, 0.15);
+}
+
+/* Parallax Section */
+.saas-parallax-section {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+}
+
+/* Feature Cards section */
+.saas-feature-cards {
+  background: #1a1a1a;
+}
+
+.feature-card-item {
+  background: #222;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.feature-card-item:hover {
+  transform: translateY(-8px);
+  border-color: #0d6efd !important;
+}
+
+.feature-card-icon i {
+  transition: transform 0.3s ease;
+}
+
+.feature-card-item:hover .feature-card-icon i {
+  transform: scale(1.2);
+}
+
+/* Client Review section */
+.saas-client-review {
+  background: #1a1a1a;
+}
+
+.client-review-wrapper {
+  background: #222;
+}
+
+/* Request Demo section */
+.saas-request-demo {
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+}
+
+.saas-request-demo .btn-outline-light {
+  border-width: 2px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.saas-request-demo .btn-outline-light:hover {
+  background: #fff;
+  color: #1a1a1a;
+  transform: translateY(-3px);
+  box-shadow: 0 10px 30px rgba(255, 255, 255, 0.2);
+}
+
+/* Responsive adjustments for new layout */
+@media (max-width: 991.98px) {
+  .saas-parallax-section {
+    min-height: auto;
+    padding: 60px 0;
+    background-attachment: scroll;
+  }
+  
+  .saas-tab-item {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .title-box h1 {
+    font-size: 1.5rem;
+  }
+  
+  .total-user-box h4 {
+    font-size: 1.25rem;
+  }
+  
+  .pricing-table .table {
+    font-size: 0.85rem;
+  }
+  
+  .saas-tab-item {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+}

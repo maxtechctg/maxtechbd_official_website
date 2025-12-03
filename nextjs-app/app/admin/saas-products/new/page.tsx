@@ -14,11 +14,11 @@ interface KeyFeature {
 
 interface PricingPlan {
   name: string;
-  price: string;
-  period: string;
+  price1Month: string;
+  price6Month: string;
+  price12Month: string;
   features: string[];
   isPopular: boolean;
-  buttonText: string;
 }
 
 interface FeatureCard {
@@ -60,6 +60,8 @@ export default function NewSaaSProductPage() {
     parallaxDescription: '',
     parallaxImage: '',
     demoVideoUrl: '',
+    requestDemoText: 'Request For Demo',
+    requestDemoUrl: '/contact',
     order: 0,
     isActive: true,
   });
@@ -122,7 +124,7 @@ export default function NewSaaSProductPage() {
   };
 
   const addPricingPlan = () => {
-    setPricingPlans([...pricingPlans, { name: '', price: '', period: 'month', features: [], isPopular: false, buttonText: 'Get Started' }]);
+    setPricingPlans([...pricingPlans, { name: '', price1Month: '', price6Month: '', price12Month: '', features: [], isPopular: false }]);
   };
 
   const updatePricingPlan = (index: number, field: keyof PricingPlan, value: string | boolean | string[]) => {
@@ -259,33 +261,43 @@ export default function NewSaaSProductPage() {
           <button type="button" onClick={addKeyFeature} className="admin-btn admin-btn-secondary">+ Add Key Feature</button>
         </div>
 
-        {/* Pricing Plans */}
+        {/* Pricing Plans (Table with 1/6/12 Month Columns) */}
         <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
-          <h3 style={{ marginBottom: '1rem', color: '#f5a623' }}>Pricing Plans</h3>
+          <h3 style={{ marginBottom: '1rem', color: '#f5a623' }}>Pricing Plans (1/6/12 Month)</h3>
+          <p style={{ fontSize: '0.85rem', color: '#6c757d', marginBottom: '1rem' }}>Define pricing tiers with different durations shown in a comparison table</p>
           
           {pricingPlans.map((plan, index) => (
             <div key={index} style={{ background: '#f8f9fa', padding: '1rem', borderRadius: '8px', marginBottom: '1rem' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
                 <strong style={{ color: '#333' }}>Plan {index + 1}</strong>
                 <button type="button" onClick={() => removePricingPlan(index)} className="admin-btn admin-btn-danger admin-btn-sm">Remove</button>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                <input type="text" className="admin-form-input" placeholder="Plan Name" value={plan.name} onChange={(e) => updatePricingPlan(index, 'name', e.target.value)} />
-                <input type="text" className="admin-form-input" placeholder="Price ($99)" value={plan.price} onChange={(e) => updatePricingPlan(index, 'price', e.target.value)} />
-                <select className="admin-form-input" value={plan.period} onChange={(e) => updatePricingPlan(index, 'period', e.target.value)}>
-                  <option value="month">Per Month</option>
-                  <option value="year">Per Year</option>
-                  <option value="one-time">One Time</option>
-                </select>
+              <div className="admin-form-group" style={{ marginBottom: '0.75rem' }}>
+                <label className="admin-form-label" style={{ fontSize: '0.85rem' }}>Plan Name</label>
+                <input type="text" className="admin-form-input" placeholder="e.g. Basic, Pro, Enterprise" value={plan.name} onChange={(e) => updatePricingPlan(index, 'name', e.target.value)} />
               </div>
-              <textarea className="admin-form-textarea" placeholder="Features (one per line)" value={plan.features.join('\n')} onChange={(e) => updatePricingPlan(index, 'features', e.target.value.split('\n'))} rows={3} style={{ marginBottom: '0.5rem' }} />
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
-                <input type="text" className="admin-form-input" placeholder="Button Text" value={plan.buttonText} onChange={(e) => updatePricingPlan(index, 'buttonText', e.target.value)} />
-                <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <input type="checkbox" checked={plan.isPopular} onChange={(e) => updatePricingPlan(index, 'isPopular', e.target.checked)} />
-                  Mark as Popular
-                </label>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                <div>
+                  <label style={{ fontSize: '0.75rem', color: '#6c757d' }}>1 Month Price</label>
+                  <input type="text" className="admin-form-input" placeholder="$99" value={plan.price1Month} onChange={(e) => updatePricingPlan(index, 'price1Month', e.target.value)} />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.75rem', color: '#6c757d' }}>6 Month Price</label>
+                  <input type="text" className="admin-form-input" placeholder="$499" value={plan.price6Month} onChange={(e) => updatePricingPlan(index, 'price6Month', e.target.value)} />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.75rem', color: '#6c757d' }}>12 Month Price</label>
+                  <input type="text" className="admin-form-input" placeholder="$899" value={plan.price12Month} onChange={(e) => updatePricingPlan(index, 'price12Month', e.target.value)} />
+                </div>
               </div>
+              <div className="admin-form-group" style={{ marginBottom: '0.5rem' }}>
+                <label className="admin-form-label" style={{ fontSize: '0.85rem' }}>Features Included (one per line)</label>
+                <textarea className="admin-form-textarea" placeholder="Feature 1&#10;Feature 2&#10;Feature 3" value={plan.features.join('\n')} onChange={(e) => updatePricingPlan(index, 'features', e.target.value.split('\n'))} rows={3} />
+              </div>
+              <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#333' }}>
+                <input type="checkbox" checked={plan.isPopular} onChange={(e) => updatePricingPlan(index, 'isPopular', e.target.checked)} />
+                Mark as Popular (highlighted in table)
+              </label>
             </div>
           ))}
           <button type="button" onClick={addPricingPlan} className="admin-btn admin-btn-secondary">+ Add Pricing Plan</button>
@@ -335,6 +347,24 @@ export default function NewSaaSProductPage() {
             </div>
           ))}
           <button type="button" onClick={addFeatureCard} className="admin-btn admin-btn-secondary">+ Add Feature Card</button>
+        </div>
+
+        {/* Request Demo Section */}
+        <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
+          <h3 style={{ marginBottom: '1rem', color: '#f5a623' }}>Request Demo Section</h3>
+          <p style={{ fontSize: '0.85rem', color: '#6c757d', marginBottom: '1rem' }}>Configure the call-to-action button at the bottom of the product page</p>
+          
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+            <div className="admin-form-group">
+              <label className="admin-form-label">Button Text</label>
+              <input type="text" className="admin-form-input" value={formData.requestDemoText} onChange={(e) => handleChange('requestDemoText', e.target.value)} placeholder="Request For Demo" />
+            </div>
+
+            <div className="admin-form-group">
+              <label className="admin-form-label">Button URL</label>
+              <input type="text" className="admin-form-input" value={formData.requestDemoUrl} onChange={(e) => handleChange('requestDemoUrl', e.target.value)} placeholder="/contact" />
+            </div>
+          </div>
         </div>
 
         {/* Client Reviews */}

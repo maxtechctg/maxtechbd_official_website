@@ -288,6 +288,10 @@ model SaaSProduct {
   // Client reviews (JSON array: [{authorName, authorRole, authorImage, quote, rating, companyUrl}])
   clientReviews    String?  @db.Text
   
+  // Request Demo section
+  requestDemoText  String?  @default("Request For Demo")
+  requestDemoUrl   String?
+  
   order            Int      @default(0)
   isActive         Boolean  @default(true)
   createdAt        DateTime @default(now())

@@ -65,6 +65,8 @@ export async function POST(request: NextRequest) {
         demoVideoUrl: data.demoVideoUrl?.trim() || null,
         featureCards: data.featureCards || null,
         clientReviews: data.clientReviews || null,
+        requestDemoText: data.requestDemoText?.trim() || 'Request For Demo',
+        requestDemoUrl: data.requestDemoUrl?.trim() || '/contact',
         order: parseInt(String(data.order)) || 0,
         isActive: data.isActive ?? true,
       },
