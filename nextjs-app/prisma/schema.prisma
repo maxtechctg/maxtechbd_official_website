@@ -25,6 +25,7 @@ model SiteSettings {
   footerLogoHeight Int?     @default(50)
   favicon          String?
   copyright        String?
+  portfolioBannerImage String?
   createdAt        DateTime @default(now())
   updatedAt        DateTime @updatedAt
 }
