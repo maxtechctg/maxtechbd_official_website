@@ -3,7 +3,6 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import PageHeader from "@/components/PageHeader";
 import TabbedSaaSProducts from "@/components/TabbedSaaSProducts";
-import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
@@ -66,6 +65,29 @@ export default async function SaaSProductsPage() {
     description: data.settings?.description || null,
   };
 
+  const formattedProducts = data.products.map((p) => ({
+    id: p.id,
+    title: p.title,
+    slug: p.slug,
+    tagline: p.tagline,
+    shortDescription: p.shortDescription,
+    longDescription: p.longDescription,
+    mainImage: p.mainImage,
+    bannerImage: p.bannerImage,
+    features: p.features,
+    rating: p.rating,
+    totalUsers: p.totalUsers,
+    keyFeatures: p.keyFeatures,
+    pricingPlans: p.pricingPlans,
+    parallaxTitle: p.parallaxTitle,
+    parallaxDescription: p.parallaxDescription,
+    parallaxImage: p.parallaxImage,
+    demoVideoUrl: p.demoVideoUrl,
+    featureCards: p.featureCards,
+    clientReviews: p.clientReviews,
+    liveDemoUrl: p.liveDemoUrl,
+  }));
+
   return (
     <>
       <Header
@@ -86,7 +108,7 @@ export default async function SaaSProductsPage() {
           ]}
         />
 
-        <TabbedSaaSProducts />
+        <TabbedSaaSProducts products={formattedProducts} />
       </div>
 
       <Footer
