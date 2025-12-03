@@ -1,22 +1,15 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-
-interface KeyFeature {
-  icon: string;
-  title: string;
-  description: string;
-  buttonText?: string;
-  buttonUrl?: string;
-}
+import Link from "next/link";
 
 interface PricingPlan {
   name: string;
   price1Month: string;
   price6Month: string;
   price12Month: string;
-  features: string[];
-  isPopular: boolean;
+  features?: string[];
+  isPopular?: boolean;
 }
 
 interface FeatureCard {
@@ -32,6 +25,14 @@ interface ClientReview {
   quote: string;
   rating: number;
   companyUrl?: string;
+}
+
+interface KeyFeature {
+  icon: string;
+  title: string;
+  description: string;
+  buttonText?: string;
+  buttonUrl?: string;
 }
 
 interface SaaSProduct {
@@ -69,23 +70,43 @@ function safeJsonParse<T>(json: string | null | undefined, fallback: T[] = []): 
     const parsed = JSON.parse(json);
     return Array.isArray(parsed) ? parsed : fallback;
   } catch {
-    console.error('Failed to parse JSON:', json);
     return fallback;
   }
 }
 
+const PaymentIcons = () => (
+  <div className="d-flex justify-content-center gap-3 mt-3">
+    <div className="payment-icon" title="bKash" style={{ width: '40px', height: '40px', background: '#e2146c', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ color: '#fff', fontWeight: 'bold', fontSize: '12px' }}>bK</span>
+    </div>
+    <div className="payment-icon" title="PayPal" style={{ width: '40px', height: '40px', background: '#003087', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <i className="fab fa-paypal text-white"></i>
+    </div>
+    <div className="payment-icon" title="Payoneer" style={{ width: '40px', height: '40px', background: '#FF4800', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <span style={{ color: '#fff', fontWeight: 'bold', fontSize: '14px' }}>P</span>
+    </div>
+    <div className="payment-icon" title="Bitcoin" style={{ width: '40px', height: '40px', background: '#F7931A', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <i className="fab fa-bitcoin text-white"></i>
+    </div>
+  </div>
+);
+
 export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps) {
   const [activeId, setActiveId] = useState<number>(products[0]?.id || 0);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [selectedPlanIndex, setSelectedPlanIndex] = useState(0);
   const active = products.find((p) => p.id === activeId) || products[0];
   const stripRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const [reviewSlide, setReviewSlide] = useState(0);
+  const [reviewPage, setReviewPage] = useState(0);
 
   const parsedKeyFeatures = safeJsonParse<KeyFeature>(active?.keyFeatures);
   const parsedPricingPlans = safeJsonParse<PricingPlan>(active?.pricingPlans);
   const parsedFeatureCards = safeJsonParse<FeatureCard>(active?.featureCards);
   const parsedClientReviews = safeJsonParse<ClientReview>(active?.clientReviews);
+
+  const reviewsPerPage = 3;
+  const totalReviewPages = Math.ceil(parsedClientReviews.length / reviewsPerPage);
 
   useEffect(() => {
     const el = document.getElementById(`tab-${activeId}`);
@@ -100,38 +121,35 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
   }, [activeId]);
 
   useEffect(() => {
-    setReviewSlide(0);
+    setReviewPage(0);
+    setSelectedPlanIndex(0);
   }, [activeId]);
 
   useEffect(() => {
-    if (parsedClientReviews.length > 1) {
+    if (totalReviewPages > 1) {
       const interval = setInterval(() => {
-        setReviewSlide((prev) => (prev + 1) % parsedClientReviews.length);
+        setReviewPage((prev) => (prev + 1) % totalReviewPages);
       }, 5000);
       return () => clearInterval(interval);
     }
-  }, [parsedClientReviews.length]);
+  }, [totalReviewPages]);
 
   const handleTabClick = useCallback(
     (id: number) => {
       if (id === activeId || isTransitioning) return;
       setIsTransitioning(true);
       if (contentRef.current) {
-        contentRef.current.classList.add("content-fade-out");
+        contentRef.current.style.opacity = '0';
+        contentRef.current.style.transform = 'translateY(20px)';
       }
       setTimeout(() => {
         setActiveId(id);
         if (contentRef.current) {
-          contentRef.current.classList.remove("content-fade-out");
-          contentRef.current.classList.add("content-fade-in");
+          contentRef.current.style.opacity = '1';
+          contentRef.current.style.transform = 'translateY(0)';
         }
-        setTimeout(() => {
-          if (contentRef.current) {
-            contentRef.current.classList.remove("content-fade-in");
-          }
-          setIsTransitioning(false);
-        }, 300);
-      }, 200);
+        setIsTransitioning(false);
+      }, 300);
     },
     [activeId, isTransitioning]
   );
@@ -145,12 +163,6 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         e.preventDefault();
         newIndex = (currentIndex - 1 + products.length) % products.length;
-      } else if (e.key === 'Home') {
-        e.preventDefault();
-        newIndex = 0;
-      } else if (e.key === 'End') {
-        e.preventDefault();
-        newIndex = products.length - 1;
       } else if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         handleTabClick(products[currentIndex].id);
@@ -159,9 +171,7 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
         return;
       }
       const newTab = document.getElementById(`tab-${products[newIndex].id}`);
-      if (newTab) {
-        newTab.focus();
-      }
+      if (newTab) newTab.focus();
       handleTabClick(products[newIndex].id);
     },
     [products, handleTabClick]
@@ -173,11 +183,11 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
     const hasHalf = rating % 1 >= 0.5;
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
-        stars.push(<i key={i} className="fa fa-star text-warning"></i>);
+        stars.push(<i key={i} className="fa fa-star" style={{ color: '#ffc107' }}></i>);
       } else if (i === fullStars && hasHalf) {
-        stars.push(<i key={i} className="fa fa-star-half-o text-warning"></i>);
+        stars.push(<i key={i} className="fa fa-star-half-o" style={{ color: '#ffc107' }}></i>);
       } else {
-        stars.push(<i key={i} className="fa fa-star-o text-muted"></i>);
+        stars.push(<i key={i} className="fa fa-star-o" style={{ color: '#6c757d' }}></i>);
       }
     }
     return stars;
@@ -185,8 +195,8 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
 
   if (!products.length) {
     return (
-      <section className="py-5 bg-light">
-        <div className="container text-center">
+      <section className="py-5" style={{ background: '#1a1a2e' }}>
+        <div className="container text-center text-white">
           <h3>No products available</h3>
           <p className="text-muted">Check back later for our SaaS solutions.</p>
         </div>
@@ -194,256 +204,333 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
     );
   }
 
+  const currentPlan = parsedPricingPlans[selectedPlanIndex];
+  const currentReviews = parsedClientReviews.slice(reviewPage * reviewsPerPage, (reviewPage + 1) * reviewsPerPage);
+
   return (
     <>
-      {/* Section 1: Product Tabs */}
-      <section className="saas-tabs-section bg-dark py-4">
+      <style jsx>{`
+        .saas-tab-btn {
+          padding: 12px 24px;
+          border: 1px solid rgba(255,255,255,0.2);
+          border-radius: 8px;
+          background: rgba(255,255,255,0.05);
+          color: #fff;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          white-space: nowrap;
+          font-weight: 500;
+        }
+        .saas-tab-btn:hover {
+          transform: scale(1.05);
+          background: rgba(255,255,255,0.1);
+        }
+        .saas-tab-btn.active {
+          background: #f5a623;
+          color: #000;
+          border-color: #f5a623;
+        }
+        .stats-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 16px;
+          border-radius: 20px;
+          font-size: 14px;
+          font-weight: 500;
+        }
+        .users-badge {
+          background: rgba(255,255,255,0.1);
+          color: #fff;
+        }
+        .rating-badge {
+          background: rgba(255,193,7,0.15);
+          color: #ffc107;
+        }
+        .feature-card {
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 12px;
+          padding: 24px;
+          height: 100%;
+          transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+          border-color: rgba(245,166,35,0.5);
+        }
+        .pricing-tab {
+          flex: 1;
+          padding: 12px 16px;
+          border: none;
+          border-bottom: 2px solid transparent;
+          background: transparent;
+          color: #6c757d;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .pricing-tab.active {
+          color: #fff;
+          border-bottom-color: #f5a623;
+        }
+        .pricing-tab:hover {
+          color: #fff;
+        }
+        .review-card {
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 12px;
+          padding: 24px;
+          text-align: center;
+          transition: all 0.3s ease;
+        }
+        .review-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .review-avatar {
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          object-fit: cover;
+          margin-bottom: 16px;
+        }
+        .review-avatar-placeholder {
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          background: #f5a623;
+          color: #000;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 24px;
+          font-weight: bold;
+          margin: 0 auto 16px;
+        }
+        .dot-indicator {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgba(255,255,255,0.3);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        .dot-indicator.active {
+          width: 24px;
+          border-radius: 4px;
+          background: #f5a623;
+        }
+        .demo-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 16px 48px;
+          font-size: 18px;
+          font-weight: 600;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f5a623 100%);
+          border: none;
+          border-radius: 50px;
+          color: #fff;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-decoration: none;
+        }
+        .demo-btn:hover {
+          transform: scale(1.05);
+          box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+          color: #fff;
+        }
+        .payment-icon {
+          transition: transform 0.3s ease;
+        }
+        .payment-icon:hover {
+          transform: scale(1.1);
+        }
+      `}</style>
+
+      <section style={{ background: '#0d0d1a', padding: '16px 0' }}>
         <div className="container">
-          <div className="position-relative">
-            <div 
-              ref={stripRef} 
-              className="d-flex gap-3 overflow-auto py-2 tab-strip-dark"
-              role="tablist"
-              aria-label="SaaS Products"
-            >
-              {products.map((p, index) => {
-                const isActive = p.id === activeId;
-                return (
-                  <div
-                    id={`tab-${p.id}`}
-                    key={p.id}
-                    role="tab"
-                    tabIndex={isActive ? 0 : -1}
-                    aria-selected={isActive}
-                    aria-controls={`tabpanel-${p.id}`}
-                    onClick={() => handleTabClick(p.id)}
-                    onKeyDown={(e) => handleKeyDown(e, index)}
-                    className={`saas-tab-item flex-shrink-0 ${isActive ? "active" : ""}`}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {p.title}
-                  </div>
-                );
-              })}
-            </div>
+          <div 
+            ref={stripRef}
+            className="d-flex gap-3 overflow-auto py-2"
+            role="tablist"
+            aria-label="SaaS Products"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+          >
+            {products.map((p, index) => {
+              const isActive = p.id === activeId;
+              return (
+                <button
+                  id={`tab-${p.id}`}
+                  key={p.id}
+                  role="tab"
+                  tabIndex={isActive ? 0 : -1}
+                  aria-selected={isActive}
+                  aria-controls={`tabpanel-${p.id}`}
+                  onClick={() => handleTabClick(p.id)}
+                  onKeyDown={(e) => handleKeyDown(e, index)}
+                  className={`saas-tab-btn ${isActive ? 'active' : ''}`}
+                >
+                  {p.title}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
 
       <div 
-        ref={contentRef} 
-        className="saas-product-content"
+        ref={contentRef}
         role="tabpanel"
         id={`tabpanel-${active?.id}`}
         aria-labelledby={`tab-${active?.id}`}
+        style={{ transition: 'opacity 0.3s ease, transform 0.3s ease', background: '#0d0d1a' }}
       >
-        {/* Section 2: Title + Total User (side by side) */}
-        <section className="saas-title-section bg-dark text-white py-4">
+        <section style={{ padding: '32px 0' }}>
           <div className="container">
-            <div className="row align-items-center">
-              <div className="col-md-6">
-                <div className="title-box p-3 border border-secondary rounded">
-                  <h1 className="mb-0 h3">{active.title}</h1>
-                  {active.tagline && <p className="text-warning mb-0 mt-2">{active.tagline}</p>}
-                </div>
+            <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
+              <div>
+                <h2 className="text-white mb-1" style={{ fontSize: '2rem', fontWeight: 'bold' }}>{active.title}</h2>
+                {active.tagline && <p style={{ color: '#f5a623', fontSize: '1.1rem', margin: 0 }}>{active.tagline}</p>}
+                <p className="text-muted mt-3" style={{ maxWidth: '800px' }}>{active.shortDescription}</p>
               </div>
-              <div className="col-md-6">
-                <div className="total-user-box p-3 border border-secondary rounded text-center">
-                  <div className="d-flex align-items-center justify-content-center gap-2">
-                    <i className="fa fa-users fs-3 text-primary"></i>
-                    <div>
-                      <h4 className="mb-0">{active.totalUsers || '0'}</h4>
-                      <small className="text-muted">Total Users</small>
-                    </div>
-                  </div>
-                </div>
+              <div className="d-flex gap-3">
+                <span className="stats-badge users-badge">
+                  <i className="fa fa-users"></i>
+                  {active.totalUsers || '0'}
+                </span>
+                <span className="stats-badge rating-badge">
+                  <i className="fa fa-star"></i>
+                  {(active.rating || 0).toFixed(1)}
+                </span>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* Section 3: Short Description + Ratings (side by side) */}
-        <section className="saas-desc-section bg-dark text-white py-4">
-          <div className="container">
-            <div className="row align-items-stretch">
-              <div className="col-md-6 mb-3 mb-md-0">
-                <div className="desc-box p-3 border border-secondary rounded h-100">
-                  <h6 className="text-uppercase text-muted mb-2">Short Description</h6>
-                  <p className="mb-0">{active.shortDescription}</p>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="ratings-box p-3 border border-secondary rounded h-100 text-center">
-                  <h6 className="text-uppercase text-muted mb-2">Ratings</h6>
-                  <div className="d-flex align-items-center justify-content-center gap-2">
-                    <div className="fs-4">{renderStars(active.rating || 0)}</div>
-                    <span className="fs-4 fw-bold">{(active.rating || 0).toFixed(1)}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 4: Banner (full width) */}
-        {active.bannerImage && (
-          <section className="saas-banner-section">
-            <div className="container-fluid p-0">
-              <div className="banner-wrapper position-relative" style={{ minHeight: '300px' }}>
+            {active.bannerImage && (
+              <div className="mb-4" style={{ borderRadius: '16px', overflow: 'hidden' }}>
                 <img 
                   src={active.bannerImage} 
                   alt={active.title}
-                  className="w-100"
-                  style={{ maxHeight: '400px', objectFit: 'cover' }}
+                  style={{ width: '100%', maxHeight: '400px', objectFit: 'cover' }}
                 />
               </div>
-            </div>
-          </section>
-        )}
+            )}
 
-        {/* Section 5: Key Features + Project Price (side by side) */}
-        {(parsedKeyFeatures.length > 0 || parsedPricingPlans.length > 0) && (
-          <section className="saas-features-pricing bg-dark text-white py-5">
-            <div className="container">
-              <div className="row">
-                {/* Key Features - Left Side */}
-                <div className="col-lg-6 mb-4 mb-lg-0">
-                  <div className="key-feature-section p-4 border border-secondary rounded h-100">
-                    <h3 className="mb-4 text-center">Key Features</h3>
-                    {parsedKeyFeatures.length > 0 ? (
-                      <div className="key-features-list">
-                        {parsedKeyFeatures.map((feature, index) => (
-                          <div key={index} className="feature-item d-flex align-items-start mb-3 p-3 bg-dark border border-secondary rounded">
-                            <div className="feature-icon me-3">
-                              <i className={`fa ${feature.icon} fs-4 text-primary`}></i>
-                            </div>
-                            <div>
-                              <h6 className="mb-1">{feature.title}</h6>
-                              <p className="mb-0 small text-muted">{feature.description}</p>
-                              {feature.buttonText && feature.buttonUrl && (
-                                <a href={feature.buttonUrl} className="btn btn-sm btn-outline-primary mt-2" target="_blank" rel="noopener noreferrer">
-                                  {feature.buttonText}
-                                </a>
-                              )}
-                            </div>
+            <div className="row g-4">
+              <div className="col-lg-6">
+                <div className="feature-card">
+                  <h4 className="text-white mb-4">Key Features</h4>
+                  {parsedKeyFeatures.length > 0 ? (
+                    <ul className="list-unstyled mb-0">
+                      {parsedKeyFeatures.map((feature, index) => (
+                        <li key={index} className="d-flex align-items-start gap-3 mb-3" style={{ transition: 'transform 0.3s ease' }}>
+                          <i className="fa fa-check-circle text-success mt-1"></i>
+                          <div>
+                            <strong className="text-white">{feature.title}</strong>
+                            <p className="text-muted mb-0 small">{feature.description}</p>
                           </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-muted text-center">No features available</p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Project Price - Right Side */}
-                <div className="col-lg-6">
-                  <div className="pricing-section p-4 border border-secondary rounded h-100">
-                    <h3 className="mb-4 text-center">Project Price</h3>
-                    {parsedPricingPlans.length > 0 ? (
-                      <div className="pricing-table">
-                        <table className="table table-dark table-bordered">
-                          <thead>
-                            <tr>
-                              <th>Plan</th>
-                              <th className="text-center">1 Month</th>
-                              <th className="text-center">6 Month</th>
-                              <th className="text-center">12 Month</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {parsedPricingPlans.map((plan, index) => (
-                              <tr key={index} className={plan.isPopular ? 'table-primary' : ''}>
-                                <td>
-                                  <strong>{plan.name}</strong>
-                                  {plan.isPopular && <span className="badge bg-warning text-dark ms-2">Popular</span>}
-                                </td>
-                                <td className="text-center">{plan.price1Month || '-'}</td>
-                                <td className="text-center">{plan.price6Month || '-'}</td>
-                                <td className="text-center">{plan.price12Month || '-'}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                        {parsedPricingPlans[0]?.features && parsedPricingPlans[0].features.length > 0 && (
-                          <div className="mt-3">
-                            <h6 className="text-muted">All plans include:</h6>
-                            <ul className="list-unstyled">
-                              {parsedPricingPlans[0].features.map((feature, i) => (
-                                <li key={i} className="mb-1">
-                                  <i className="fa fa-check text-success me-2"></i>
-                                  {feature}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <p className="text-muted text-center">Contact for pricing</p>
-                    )}
-                  </div>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-muted mb-0">No features listed.</p>
+                  )}
                 </div>
               </div>
-            </div>
-          </section>
-        )}
 
-        {/* Section 6: Parallax */}
-        {(active.parallaxTitle || active.demoVideoUrl || active.parallaxImage) && (
-          <section
-            className="saas-parallax-section py-5"
-            style={{
-              backgroundImage: active.parallaxImage ? `url(${active.parallaxImage})` : 'linear-gradient(135deg, #1a1a2e 0%, #16213e 100%)',
-              backgroundAttachment: 'fixed',
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              position: 'relative',
-            }}
-          >
-            <div className="parallax-overlay" style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(0,0,0,0.7)' }}></div>
-            <div className="container position-relative" style={{ zIndex: 2 }}>
-              <div className="row align-items-center justify-content-center">
-                <div className="col-lg-10 text-center text-white">
-                  {active.parallaxTitle && <h2 className="mb-3 display-5">{active.parallaxTitle}</h2>}
-                  {active.parallaxDescription && <p className="lead mb-4">{active.parallaxDescription}</p>}
-                  {active.demoVideoUrl && (
-                    <div className="video-wrapper rounded shadow-lg overflow-hidden mx-auto" style={{ maxWidth: '700px' }}>
-                      {active.demoVideoUrl.includes('youtube') || active.demoVideoUrl.includes('youtu.be') ? (
-                        <iframe
-                          width="100%"
-                          height="400"
-                          src={active.demoVideoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/')}
-                          title="Demo Video"
-                          frameBorder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowFullScreen
-                        ></iframe>
-                      ) : (
-                        <video controls className="w-100" style={{ maxHeight: 400 }}>
-                          <source src={active.demoVideoUrl} type="video/mp4" />
-                        </video>
-                      )}
-                    </div>
+              <div className="col-lg-6">
+                <div className="feature-card">
+                  <h4 className="text-white mb-4">Project Price</h4>
+                  {parsedPricingPlans.length > 0 ? (
+                    <>
+                      <div className="d-flex" style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                        {parsedPricingPlans.map((plan, index) => (
+                          <button
+                            key={plan.name}
+                            onClick={() => setSelectedPlanIndex(index)}
+                            className={`pricing-tab ${selectedPlanIndex === index ? 'active' : ''}`}
+                          >
+                            {plan.name}
+                          </button>
+                        ))}
+                      </div>
+                      <div className="text-center py-4">
+                        <span className="text-white" style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>
+                          {currentPlan?.price1Month || '$0'}
+                        </span>
+                        <span className="text-muted">/month</span>
+                      </div>
+                      <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '16px' }}>
+                        <p className="text-center text-muted small mb-2">You can pay by</p>
+                        <PaymentIcons />
+                      </div>
+                    </>
+                  ) : (
+                    <p className="text-muted mb-0">Contact for pricing</p>
                   )}
                 </div>
               </div>
             </div>
+          </div>
+        </section>
+
+        {(active.parallaxImage || active.parallaxTitle) && (
+          <section
+            style={{
+              backgroundImage: active.parallaxImage ? `url(${active.parallaxImage})` : 'linear-gradient(135deg, #1e3a5f 0%, #2d5a87 50%, #1e3a5f 100%)',
+              backgroundAttachment: 'fixed',
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              position: 'relative',
+              minHeight: '350px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <div style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.5)' }}></div>
+            <div className="container position-relative text-center text-white py-5" style={{ zIndex: 2 }}>
+              <h3 style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>{active.parallaxTitle || 'Discover More'}</h3>
+              {active.parallaxDescription && (
+                <p className="mx-auto mt-3" style={{ maxWidth: '700px', fontSize: '1.1rem', opacity: 0.9 }}>{active.parallaxDescription}</p>
+              )}
+              {active.demoVideoUrl && (
+                <div className="mt-4 mx-auto" style={{ maxWidth: '700px', borderRadius: '12px', overflow: 'hidden' }}>
+                  {active.demoVideoUrl.includes('youtube') || active.demoVideoUrl.includes('youtu.be') ? (
+                    <iframe
+                      width="100%"
+                      height="400"
+                      src={active.demoVideoUrl.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/')}
+                      title="Demo Video"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  ) : (
+                    <video controls className="w-100" style={{ maxHeight: 400 }}>
+                      <source src={active.demoVideoUrl} type="video/mp4" />
+                    </video>
+                  )}
+                </div>
+              )}
+            </div>
           </section>
         )}
 
-        {/* Section 7: Feature Cards (3 columns) */}
         {parsedFeatureCards.length > 0 && (
-          <section className="saas-feature-cards bg-dark text-white py-5">
+          <section style={{ background: '#0d0d1a', padding: '48px 0' }}>
             <div className="container">
               <div className="row g-4">
                 {parsedFeatureCards.map((card, index) => (
                   <div key={index} className="col-md-4">
-                    <div className="feature-card-item p-4 border border-secondary rounded h-100 text-center">
-                      <div className="feature-card-icon mb-3">
-                        <i className={`fa ${card.icon} fs-1 text-primary`}></i>
+                    <div className="feature-card text-center">
+                      <div className="mb-3" style={{ display: 'inline-flex', padding: '12px', background: 'rgba(245,166,35,0.1)', borderRadius: '12px' }}>
+                        <i className={`fa ${card.icon}`} style={{ fontSize: '2rem', color: '#f5a623' }}></i>
                       </div>
-                      <h5 className="mb-2">{card.title}</h5>
-                      <p className="text-muted mb-0 small">{card.description}</p>
+                      <h5 className="text-white mb-2">{card.title}</h5>
+                      <p className="text-muted mb-0">{card.description}</p>
                     </div>
                   </div>
                 ))}
@@ -452,86 +539,75 @@ export default function TabbedSaaSProducts({ products }: TabbedSaaSProductsProps
           </section>
         )}
 
-        {/* Section 8: Client Review */}
         {parsedClientReviews.length > 0 && (
-          <section className="saas-client-review bg-dark text-white py-5">
+          <section style={{ background: '#0d0d1a', padding: '48px 0' }}>
             <div className="container">
-              <div className="client-review-wrapper p-4 border border-secondary rounded">
-                <h3 className="text-center mb-4">Client Reviews</h3>
-                <div className="row justify-content-center">
-                  <div className="col-lg-8">
-                    <div className="client-review-carousel position-relative">
-                      {parsedClientReviews.map((review, index) => (
-                        <div
-                          key={index}
-                          className={`review-slide ${index === reviewSlide ? 'active' : ''}`}
-                          style={{
-                            opacity: index === reviewSlide ? 1 : 0,
-                            position: index === reviewSlide ? 'relative' : 'absolute',
-                            top: 0,
-                            left: 0,
-                            width: '100%',
-                            transition: 'opacity 0.5s ease-in-out',
-                          }}
-                        >
-                          <div className="text-center">
-                            {review.authorImage && (
-                              <img
-                                src={review.authorImage}
-                                alt={review.authorName}
-                                className="rounded-circle mb-3"
-                                style={{ width: 80, height: 80, objectFit: 'cover' }}
-                              />
-                            )}
-                            <div className="mb-3">{renderStars(review.rating)}</div>
-                            <blockquote className="blockquote">
-                              <p className="mb-3 fst-italic">&ldquo;{review.quote}&rdquo;</p>
-                            </blockquote>
-                            <div className="mt-3">
-                              <strong>{review.authorName}</strong>
-                              <br />
-                              <small className="text-muted">{review.authorRole}</small>
-                              {review.companyUrl && (
-                                <div className="mt-2">
-                                  <a href={review.companyUrl} target="_blank" rel="noopener noreferrer" className="btn btn-sm btn-outline-light">
-                                    Visit Company
-                                  </a>
-                                </div>
-                              )}
-                            </div>
+              <h3 className="text-white text-center mb-5" style={{ fontSize: '1.75rem', fontWeight: 'bold' }}>Client Reviews</h3>
+              <div className="position-relative">
+                {totalReviewPages > 1 && (
+                  <>
+                    <button
+                      onClick={() => setReviewPage((prev) => (prev - 1 + totalReviewPages) % totalReviewPages)}
+                      className="btn btn-dark rounded-circle position-absolute"
+                      style={{ left: '-20px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, width: '40px', height: '40px' }}
+                    >
+                      <i className="fa fa-chevron-left"></i>
+                    </button>
+                    <button
+                      onClick={() => setReviewPage((prev) => (prev + 1) % totalReviewPages)}
+                      className="btn btn-dark rounded-circle position-absolute"
+                      style={{ right: '-20px', top: '50%', transform: 'translateY(-50%)', zIndex: 10, width: '40px', height: '40px' }}
+                    >
+                      <i className="fa fa-chevron-right"></i>
+                    </button>
+                  </>
+                )}
+                <div className="row g-4">
+                  {currentReviews.map((review, index) => (
+                    <div key={index} className="col-md-4">
+                      <div className="review-card">
+                        {review.authorImage ? (
+                          <img src={review.authorImage} alt={review.authorName} className="review-avatar" />
+                        ) : (
+                          <div className="review-avatar-placeholder">
+                            {review.authorName.charAt(0)}
                           </div>
-                        </div>
-                      ))}
-                      {parsedClientReviews.length > 1 && (
-                        <div className="d-flex justify-content-center gap-2 mt-4">
-                          {parsedClientReviews.map((_, index) => (
-                            <button
-                              key={index}
-                              onClick={() => setReviewSlide(index)}
-                              className={`btn btn-sm rounded-circle ${index === reviewSlide ? 'btn-primary' : 'btn-outline-light'}`}
-                              style={{ width: 12, height: 12, padding: 0 }}
-                              aria-label={`Go to review ${index + 1}`}
-                            />
-                          ))}
-                        </div>
-                      )}
+                        )}
+                        <h6 className="text-white mb-1">{review.authorName}</h6>
+                        {review.authorRole && <p className="text-muted small mb-2">{review.authorRole}</p>}
+                        <div className="mb-3">{renderStars(review.rating)}</div>
+                        <p className="text-muted fst-italic">&ldquo;{review.quote}&rdquo;</p>
+                      </div>
                     </div>
-                  </div>
+                  ))}
                 </div>
+                {totalReviewPages > 1 && (
+                  <div className="d-flex justify-content-center gap-2 mt-4">
+                    {Array.from({ length: totalReviewPages }).map((_, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setReviewPage(index)}
+                        className={`dot-indicator ${index === reviewPage ? 'active' : ''}`}
+                        style={{ border: 'none' }}
+                        aria-label={`Go to page ${index + 1}`}
+                      />
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </section>
         )}
 
-        {/* Section 9: Request For Demo */}
-        <section className="saas-request-demo bg-dark text-white py-5">
+        <section style={{ background: '#0d0d1a', padding: '48px 0' }}>
           <div className="container text-center">
-            <a 
-              href={active.requestDemoUrl || '/contact'} 
-              className="btn btn-lg btn-outline-light px-5 py-3"
+            <Link 
+              href={active.requestDemoUrl || active.liveDemoUrl || `/saas-products/${active.slug}`}
+              className="demo-btn"
             >
               {active.requestDemoText || 'Request For Demo'}
-            </a>
+              <i className="fa fa-rocket"></i>
+            </Link>
           </div>
         </section>
       </div>
