@@ -180,7 +180,7 @@ export default function SaaSProductsBannerUpload() {
             padding: '2rem',
             textAlign: 'center',
             cursor: 'pointer',
-            backgroundColor: isDragging ? 'rgba(245, 166, 35, 0.1)' : '#f8f9fa',
+            backgroundColor: isDragging ? 'rgba(245, 166, 35, 0.1)' : '#ffffff',
             transition: 'all 0.2s ease'
           }}
         >

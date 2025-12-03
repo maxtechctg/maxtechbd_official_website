@@ -20,12 +20,12 @@ export default function PageHeader({
         <div className="container">
           <div className="row text-center">
             <div className="col-lg-8 offset-lg-2">
-              <div className="subtitle s2 wow fadeInUp mb-3">{subtitle}</div>
-              <h2 className="wow fadeInUp mb20" data-wow-delay=".2s">{title}</h2>
-              <ul className="crumb">
+              <div className="subtitle s2 wow fadeInUp mb-3" style={{ color: '#ffffff' }}>{subtitle}</div>
+              <h2 className="wow fadeInUp mb20" data-wow-delay=".2s" style={{ color: '#ffffff' }}>{title}</h2>
+              <ul className="crumb" style={{ color: '#ffffff' }}>
                 {breadcrumb.map((item, index) => (
-                  <li key={index} className={index === breadcrumb.length - 1 ? 'active' : ''}>
-                    {item.href ? <a href={item.href}>{item.label}</a> : item.label}
+                  <li key={index} className={index === breadcrumb.length - 1 ? 'active' : ''} style={{ color: '#ffffff' }}>
+                    {item.href ? <a href={item.href} style={{ color: '#ffffff' }}>{item.label}</a> : item.label}
                   </li>
                 ))}
               </ul>
