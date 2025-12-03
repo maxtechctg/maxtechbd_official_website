@@ -165,7 +165,7 @@ export default function NewNewsPage() {
         </div>
 
         <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
-          <h3 style={{ marginBottom: '1rem', color: '#f5a623' }}>Content</h3>
+          <h3 style={{ marginBottom: '1rem', color: '#f5a623' }}>Rich Content Editor</h3>
           <HtmlEditor value={htmlContent} onChange={setHtmlContent} placeholder="Type or paste your content here!" />
         </div>
 

@@ -115,7 +115,6 @@ export default async function NewsPage() {
                       <div className="post-image">
                         <div className="d-tagline">
                           {post.category && <span>{post.category}</span>}
-                          {post.source === 'auto' && <span style={{ background: '#17a2b8' }}>AI</span>}
                         </div>
                         {post.featuredImage ? (
                           <img alt={post.title} src={post.featuredImage} className="lazy" />

@@ -142,8 +142,8 @@ export default async function NewsPostPage({ params }: PageProps) {
             <div className="row gx-5">
               <div className="col-lg-8">
                 <div className="blog-read">
-                  <div className="d-flex gap-3 mb-4">
-                    {data.post.publishedAt && (
+                  {data.post.publishedAt && (
+                    <div className="mb-4">
                       <span style={{ color: '#6c757d', fontSize: '0.9rem' }}>
                         {data.post.publishedAt.toLocaleDateString('en-US', { 
                           year: 'numeric', 
@@ -151,19 +151,8 @@ export default async function NewsPostPage({ params }: PageProps) {
                           day: 'numeric' 
                         })}
                       </span>
-                    )}
-                    {data.post.source === 'auto' && (
-                      <span style={{ 
-                        background: '#17a2b8', 
-                        color: '#fff', 
-                        padding: '0.2rem 0.6rem', 
-                        borderRadius: '4px',
-                        fontSize: '0.75rem'
-                      }}>
-                        AI Generated
-                      </span>
-                    )}
-                  </div>
+                    </div>
+                  )}
                   <div 
                     className="post-text blog-content" 
                     dangerouslySetInnerHTML={{ __html: data.post.htmlContent || '' }} 
