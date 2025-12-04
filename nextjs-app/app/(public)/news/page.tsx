@@ -108,7 +108,7 @@ export default async function NewsPage() {
           hasParallax={!!data.newsBannerImage}
         />
 
-        <section className="no-top">
+        <section style={{ paddingTop: '60px' }}>
           <div className="container">
             <div className="row g-4">
               {data.blogPosts.map((post) => (
