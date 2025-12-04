@@ -159,7 +159,7 @@ export default function TabbedSaaSProducts({
   const active = products.find((p) => p.id === activeId) || products[0];
   const stripRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const [reviewPage, setReviewPage] = useState(0);
+  const reviewsCarouselRef = useRef<HTMLDivElement>(null);
 
   const parsedKeyFeatures = safeJsonParse<KeyFeature>(active?.keyFeatures);
   const parsedPricingPlans = safeJsonParse<PricingPlan>(active?.pricingPlans);
@@ -168,10 +168,6 @@ export default function TabbedSaaSProducts({
     active?.clientReviews,
   );
 
-  const reviewsPerPage = 3;
-  const totalReviewPages = Math.ceil(
-    parsedClientReviews.length / reviewsPerPage,
-  );
 
   useEffect(() => {
     const el = document.getElementById(`tab-${activeId}`);
@@ -190,18 +186,8 @@ export default function TabbedSaaSProducts({
   }, [activeId]);
 
   useEffect(() => {
-    setReviewPage(0);
     setSelectedPlanIndex(0);
   }, [activeId]);
-
-  useEffect(() => {
-    if (totalReviewPages > 1) {
-      const interval = setInterval(() => {
-        setReviewPage((prev) => (prev + 1) % totalReviewPages);
-      }, 5000);
-      return () => clearInterval(interval);
-    }
-  }, [totalReviewPages]);
 
   const handleTabClick = useCallback(
     (id: number) => {
@@ -253,23 +239,40 @@ export default function TabbedSaaSProducts({
     for (let i = 0; i < 5; i++) {
       if (i < fullStars) {
         stars.push(
-          <i key={i} className="fa fa-star" style={{ color: "#ffc107" }}></i>,
+          <i key={i} className="fa fa-star" style={{ color: "#f5a623" }}></i>,
         );
       } else if (i === fullStars && hasHalf) {
         stars.push(
           <i
             key={i}
             className="fa fa-star-half-o"
-            style={{ color: "#ffc107" }}
+            style={{ color: "#f5a623" }}
           ></i>,
         );
       } else {
         stars.push(
-          <i key={i} className="fa fa-star-o" style={{ color: "#6c757d" }}></i>,
+          <i key={i} className="fa fa-star-o" style={{ color: "#ccc" }}></i>,
         );
       }
     }
     return stars;
+  };
+
+  const calculateAverageRating = (reviews: ClientReview[]) => {
+    if (reviews.length === 0) return 0;
+    const total = reviews.reduce((sum, review) => sum + review.rating, 0);
+    return total / reviews.length;
+  };
+
+  const scrollReviews = (direction: 'left' | 'right') => {
+    if (!reviewsCarouselRef.current) return;
+    const container = reviewsCarouselRef.current;
+    const scrollAmount = 360;
+    if (direction === 'left') {
+      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+    } else {
+      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
   };
 
   if (!products.length) {
@@ -286,10 +289,6 @@ export default function TabbedSaaSProducts({
   }
 
   const currentPlan = parsedPricingPlans[selectedPlanIndex];
-  const currentReviews = parsedClientReviews.slice(
-    reviewPage * reviewsPerPage,
-    (reviewPage + 1) * reviewsPerPage,
-  );
 
   return (
     <>
@@ -375,65 +374,160 @@ export default function TabbedSaaSProducts({
         .pricing-tab-light:hover {
           color: #333;
         }
+        .reviews-section-header {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 40px;
+        }
+        .reviews-badge {
+          display: inline-block;
+          background: #333;
+          color: #fff;
+          padding: 6px 16px;
+          border-radius: 4px;
+          font-size: 13px;
+          font-weight: 500;
+          margin-bottom: 16px;
+          text-transform: capitalize;
+        }
+        .reviews-rating-display {
+          font-size: 3rem;
+          font-weight: 300;
+          color: #fff;
+          line-height: 1;
+        }
+        .reviews-rating-display span {
+          font-weight: 300;
+        }
+        .reviews-carousel-container {
+          position: relative;
+          overflow: hidden;
+        }
+        .reviews-carousel {
+          display: flex;
+          gap: 24px;
+          overflow-x: auto;
+          scroll-behavior: smooth;
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+          padding: 10px 5px;
+        }
+        .reviews-carousel::-webkit-scrollbar {
+          display: none;
+        }
         .review-card {
-          background: #ffffff !important;
-          border: 1px solid #e5e7eb !important;
-          border-radius: 12px;
-          padding: 24px;
+          flex: 0 0 calc(33.333% - 16px);
+          min-width: 320px;
+          background: #ffffff;
+          border-radius: 16px;
+          padding: 32px 24px;
           text-align: center;
           transition: all 0.3s ease;
-          color: #111 !important;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
         }
-        .review-card h6,
-        .review-card .author-role,
-        .review-card p,
-        .review-card .fst-italic,
-        .review-card .text-muted {
-          color: #222 !important;
+        @media (max-width: 992px) {
+          .review-card {
+            flex: 0 0 calc(50% - 12px);
+            min-width: 280px;
+          }
+        }
+        @media (max-width: 576px) {
+          .review-card {
+            flex: 0 0 100%;
+            min-width: 280px;
+          }
         }
         .review-card:hover {
           transform: translateY(-6px);
-          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-        }
-        .review-card p {
-          color: #444;
-        }
-        .review-card i {
-          color: #f5a623 !important;
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
         .review-avatar {
-          width: 64px;
-          height: 64px;
+          width: 80px;
+          height: 80px;
           border-radius: 50%;
           object-fit: cover;
           margin-bottom: 16px;
+          border: 3px solid #f5a623;
         }
         .review-avatar-placeholder {
-          width: 64px;
-          height: 64px;
+          width: 80px;
+          height: 80px;
           border-radius: 50%;
-          background: #f5a623;
+          background: linear-gradient(135deg, #f5a623 0%, #e8940f 100%);
           color: #000;
           display: flex;
           align-items: center;
           justify-content: center;
-          font-size: 24px;
+          font-size: 28px;
           font-weight: bold;
-          margin: 0 auto 16px;
+          margin-bottom: 16px;
+          border: 3px solid #f5a623;
         }
-
-        .dot-indicator {
-          width: 8px;
-          height: 8px;
+        .review-author-name {
+          font-size: 16px;
+          font-weight: 600;
+          color: #1a1a2e;
+          margin-bottom: 4px;
+        }
+        .review-author-role {
+          font-size: 13px;
+          color: #666;
+          margin-bottom: 16px;
+        }
+        .review-quote {
+          font-size: 14px;
+          line-height: 1.7;
+          color: #444;
+          flex: 1;
+          margin-bottom: 20px;
+        }
+        .review-stars {
+          display: flex;
+          gap: 4px;
+          justify-content: center;
+        }
+        .review-stars i {
+          color: #f5a623;
+          font-size: 16px;
+        }
+        .carousel-nav-btn {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.3);
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: #fff;
           cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           transition: all 0.3s ease;
+          z-index: 10;
         }
-        .dot-indicator.active {
-          width: 24px;
-          border-radius: 4px;
+        .carousel-nav-btn:hover {
           background: #f5a623;
+          border-color: #f5a623;
+          color: #000;
+        }
+        .carousel-nav-btn.prev {
+          left: -24px;
+        }
+        .carousel-nav-btn.next {
+          right: -24px;
+        }
+        @media (max-width: 768px) {
+          .carousel-nav-btn.prev {
+            left: 8px;
+          }
+          .carousel-nav-btn.next {
+            right: 8px;
+          }
         }
         .demo-btn {
           display: inline-flex;
@@ -574,7 +668,7 @@ export default function TabbedSaaSProducts({
             )}
 
             <div className="row g-4">
-              <div className="col-lg-6">
+              <div className="col-lg-8">
                 <div className="feature-card-light">
                   <h4 className="mb-4" style={{ color: "#1a1a2e" }}>
                     Key Features
@@ -607,7 +701,7 @@ export default function TabbedSaaSProducts({
                 </div>
               </div>
 
-              <div className="col-lg-6">
+              <div className="col-lg-4">
                 <div className="feature-card-light">
                   <h4 className="mb-4" style={{ color: "#1a1a2e" }}>
                     Project Price
@@ -695,13 +789,7 @@ export default function TabbedSaaSProducts({
               className="container position-relative text-center text-white py-5"
               style={{ zIndex: 2 }}
             >
-              <h3
-                style={{
-                  color: "#ffffff",
-                  fontSize: "2.5rem",
-                  fontWeight: "bold",
-                }}
-              >
+              <h3 style={{ fontSize: "2.5rem", fontWeight: "bold" }}>
                 {active.parallaxTitle || "Discover More"}
               </h3>
               {active.parallaxDescription && (
@@ -791,94 +879,58 @@ export default function TabbedSaaSProducts({
         {parsedClientReviews.length > 0 && (
           <section style={{ background: "#000000", padding: "64px 0" }}>
             <div className="container">
-              <h3
-                className="text-white text-center mb-5"
-                style={{ fontSize: "1.75rem", fontWeight: "bold" }}
-              >
-                Client Reviews
-              </h3>
-              <div className="position-relative">
-                {totalReviewPages > 1 && (
+              <div className="reviews-section-header">
+                <span className="reviews-badge">Customer reviews</span>
+                <div className="reviews-rating-display">
+                  {calculateAverageRating(parsedClientReviews).toFixed(2)} <span>out of 5</span>
+                </div>
+              </div>
+              
+              <div className="reviews-carousel-container">
+                {parsedClientReviews.length > 3 && (
                   <>
                     <button
-                      onClick={() =>
-                        setReviewPage(
-                          (prev) =>
-                            (prev - 1 + totalReviewPages) % totalReviewPages,
-                        )
-                      }
-                      className="btn btn-dark rounded-circle position-absolute"
-                      style={{
-                        left: "-20px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        zIndex: 10,
-                        width: "40px",
-                        height: "40px",
-                      }}
+                      onClick={() => scrollReviews('left')}
+                      className="carousel-nav-btn prev"
+                      aria-label="Previous reviews"
                     >
                       <i className="fa fa-chevron-left"></i>
                     </button>
                     <button
-                      onClick={() =>
-                        setReviewPage((prev) => (prev + 1) % totalReviewPages)
-                      }
-                      className="btn btn-dark rounded-circle position-absolute"
-                      style={{
-                        right: "-20px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        zIndex: 10,
-                        width: "40px",
-                        height: "40px",
-                      }}
+                      onClick={() => scrollReviews('right')}
+                      className="carousel-nav-btn next"
+                      aria-label="Next reviews"
                     >
                       <i className="fa fa-chevron-right"></i>
                     </button>
                   </>
                 )}
-                <div className="row g-4">
-                  {currentReviews.map((review, index) => (
-                    <div key={index} className="col-md-4">
-                      <div className="review-card">
-                        {review.authorImage ? (
-                          <img
-                            src={review.authorImage}
-                            alt={review.authorName}
-                            className="review-avatar"
-                          />
-                        ) : (
-                          <div className="review-avatar-placeholder">
-                            {review.authorName.charAt(0)}
-                          </div>
-                        )}
-                        <h6 className="mb-1">{review.authorName}</h6>
-                        {review.authorRole && (
-                          <p className="small mb-2">{review.authorRole}</p>
-                        )}
-                        <div className="mb-3">{renderStars(review.rating)}</div>
-                        <p className="text-muted fst-italic">
-                          &ldquo;{review.quote}&rdquo;
-                        </p>
-                      </div>
+                
+                <div ref={reviewsCarouselRef} className="reviews-carousel">
+                  {parsedClientReviews.map((review, index) => (
+                    <div key={index} className="review-card">
+                      {review.authorImage ? (
+                        <img
+                          src={review.authorImage}
+                          alt={review.authorName}
+                          className="review-avatar"
+                        />
+                      ) : (
+                        <div className="review-avatar-placeholder">
+                          {review.authorName.charAt(0)}
+                        </div>
+                      )}
+                      <div className="review-author-name">{review.authorName}</div>
+                      {review.authorRole && (
+                        <div className="review-author-role">{review.authorRole}</div>
+                      )}
+                      <p className="review-quote">
+                        &ldquo;{review.quote}&rdquo;
+                      </p>
+                      <div className="review-stars">{renderStars(review.rating)}</div>
                     </div>
                   ))}
                 </div>
-                {totalReviewPages > 1 && (
-                  <div className="d-flex justify-content-center gap-2 mt-4">
-                    {Array.from({ length: totalReviewPages }).map(
-                      (_, index) => (
-                        <button
-                          key={index}
-                          onClick={() => setReviewPage(index)}
-                          className={`dot-indicator ${index === reviewPage ? "active" : ""}`}
-                          style={{ border: "none" }}
-                          aria-label={`Go to page ${index + 1}`}
-                        />
-                      ),
-                    )}
-                  </div>
-                )}
               </div>
             </div>
           </section>
