@@ -109,22 +109,47 @@ export default async function NewsPage() {
         />
 
         <style>{`
+          .news-cards-row {
+            display: flex;
+            flex-wrap: wrap;
+          }
+          .news-cards-row > [class*="col-"] {
+            display: flex;
+          }
           .news-card {
             border: 1px solid #e5e7eb;
             border-radius: 12px;
             overflow: hidden;
             background: #ffffff;
             transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
           }
           .news-card:hover {
             border-color: #f5a623;
             box-shadow: 8px 8px 0 #f5a623;
             transform: translate(-4px, -4px);
           }
+          .news-card .post-content {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+          }
+          .news-card .post-text {
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+          }
+          .news-card .post-text p {
+            flex: 1;
+          }
         `}</style>
         <section style={{ paddingTop: '60px' }}>
           <div className="container">
-            <div className="row g-4">
+            <div className="row g-4 news-cards-row">
               {data.blogPosts.map((post) => (
                 <div key={post.id} className="col-lg-4 col-md-6 mb10">
                   <div className="bloglist item news-card">
