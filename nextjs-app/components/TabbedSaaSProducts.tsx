@@ -270,10 +270,10 @@ export default function TabbedSaaSProducts({
 
   if (!products.length) {
     return (
-      <section className="py-5" style={{ background: "#1a1a2e" }}>
-        <div className="container text-center text-white">
-          <h3>No products available</h3>
-          <p className="text-muted">Check back later for our SaaS solutions.</p>
+      <section className="py-5" style={{ background: "#ffffff" }}>
+        <div className="container text-center">
+          <h3 style={{ color: "#1a1a2e" }}>No products available</h3>
+          <p style={{ color: "#666" }}>Check back later for our SaaS solutions.</p>
         </div>
       </section>
     );
@@ -290,10 +290,10 @@ export default function TabbedSaaSProducts({
       <style jsx>{`
         .saas-tab-btn {
           padding: 12px 24px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid #dee2e6;
           border-radius: 8px;
-          background: rgba(255, 255, 255, 0.05);
-          color: #fff;
+          background: #f8f9fa;
+          color: #333;
           cursor: pointer;
           transition: all 0.3s ease;
           white-space: nowrap;
@@ -301,7 +301,7 @@ export default function TabbedSaaSProducts({
         }
         .saas-tab-btn:hover {
           transform: scale(1.05);
-          background: rgba(255, 255, 255, 0.1);
+          background: #e9ecef;
         }
         .saas-tab-btn.active {
           background: #f5a623;
@@ -318,14 +318,28 @@ export default function TabbedSaaSProducts({
           font-weight: 500;
         }
         .users-badge {
-          background: rgba(255, 255, 255, 0.1);
+          background: #1a1a2e;
           color: #fff;
         }
         .rating-badge {
-          background: rgba(255, 193, 7, 0.15);
-          color: #ffc107;
+          background: rgba(245, 166, 35, 0.15);
+          color: #f5a623;
         }
-        .feature-card {
+        .feature-card-light {
+          background: #ffffff;
+          border: 1px solid #e5e7eb;
+          border-radius: 12px;
+          padding: 24px;
+          height: 100%;
+          transition: all 0.3s ease;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        .feature-card-light:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+          border-color: rgba(245, 166, 35, 0.5);
+        }
+        .feature-card-dark {
           background: rgba(255, 255, 255, 0.03);
           border: 1px solid rgba(255, 255, 255, 0.1);
           border-radius: 12px;
@@ -333,12 +347,12 @@ export default function TabbedSaaSProducts({
           height: 100%;
           transition: all 0.3s ease;
         }
-        .feature-card:hover {
+        .feature-card-dark:hover {
           transform: translateY(-8px);
           box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
           border-color: rgba(245, 166, 35, 0.5);
         }
-        .pricing-tab {
+        .pricing-tab-light {
           flex: 1;
           padding: 12px 16px;
           border: none;
@@ -348,12 +362,12 @@ export default function TabbedSaaSProducts({
           cursor: pointer;
           transition: all 0.3s ease;
         }
-        .pricing-tab.active {
-          color: #fff;
+        .pricing-tab-light.active {
+          color: #333;
           border-bottom-color: #f5a623;
         }
-        .pricing-tab:hover {
-          color: #fff;
+        .pricing-tab-light:hover {
+          color: #333;
         }
         .review-card {
           background: #ffffff !important;
@@ -364,7 +378,6 @@ export default function TabbedSaaSProducts({
           transition: all 0.3s ease;
           color: #111 !important;
         }
-        /* ensure headings and text inside the white card are dark */
         .review-card h6,
         .review-card .author-role,
         .review-card p,
@@ -377,9 +390,8 @@ export default function TabbedSaaSProducts({
           box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
         .review-card p {
-          color: #444; /* readable quote text */
+          color: #444;
         }
-        /* gold stars inside white card */
         .review-card i {
           color: #f5a623 !important;
         }
@@ -450,7 +462,7 @@ export default function TabbedSaaSProducts({
         }
       `}</style>
 
-      <section style={{ background: "#0d0d1a", padding: "16px 0" }}>
+      <section style={{ background: "#ffffff", padding: "16px 0", borderBottom: "1px solid #e5e7eb" }}>
         <div className="container">
           <div
             ref={stripRef}
@@ -488,16 +500,16 @@ export default function TabbedSaaSProducts({
         aria-labelledby={`tab-${active?.id}`}
         style={{
           transition: "opacity 0.3s ease, transform 0.3s ease",
-          background: "#0d0d1a",
+          background: "#ffffff",
         }}
       >
-        <section style={{ padding: "32px 0" }}>
+        <section style={{ padding: "32px 0", background: "#ffffff" }}>
           <div className="container">
             <div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3 mb-4">
               <div>
                 <h2
-                  className="text-white mb-1"
-                  style={{ fontSize: "2rem", fontWeight: "bold" }}
+                  className="mb-1"
+                  style={{ fontSize: "2rem", fontWeight: "bold", color: "#1a1a2e" }}
                 >
                   {active.title}
                 </h2>
@@ -508,7 +520,7 @@ export default function TabbedSaaSProducts({
                     {active.tagline}
                   </p>
                 )}
-                <p className="text-muted mt-3" style={{ maxWidth: "800px" }}>
+                <p className="mt-3" style={{ maxWidth: "800px", color: "#666" }}>
                   {active.shortDescription}
                 </p>
               </div>
@@ -543,8 +555,8 @@ export default function TabbedSaaSProducts({
 
             <div className="row g-4">
               <div className="col-lg-6">
-                <div className="feature-card">
-                  <h4 className="text-white mb-4">Key Features</h4>
+                <div className="feature-card-light">
+                  <h4 className="mb-4" style={{ color: "#1a1a2e" }}>Key Features</h4>
                   {parsedKeyFeatures.length > 0 ? (
                     <ul className="list-unstyled mb-0">
                       {parsedKeyFeatures.map((feature, index) => (
@@ -555,10 +567,10 @@ export default function TabbedSaaSProducts({
                         >
                           <i className="fa fa-check-circle text-success mt-1"></i>
                           <div>
-                            <strong className="text-white">
+                            <strong style={{ color: "#1a1a2e" }}>
                               {feature.title}
                             </strong>
-                            <p className="text-muted mb-0 small">
+                            <p className="mb-0 small" style={{ color: "#666" }}>
                               {feature.description}
                             </p>
                           </div>
@@ -566,27 +578,27 @@ export default function TabbedSaaSProducts({
                       ))}
                     </ul>
                   ) : (
-                    <p className="text-muted mb-0">No features listed.</p>
+                    <p style={{ color: "#666" }} className="mb-0">No features listed.</p>
                   )}
                 </div>
               </div>
 
               <div className="col-lg-6">
-                <div className="feature-card">
-                  <h4 className="text-white mb-4">Project Price</h4>
+                <div className="feature-card-light">
+                  <h4 className="mb-4" style={{ color: "#1a1a2e" }}>Project Price</h4>
                   {parsedPricingPlans.length > 0 ? (
                     <>
                       <div
                         className="d-flex"
                         style={{
-                          borderBottom: "1px solid rgba(255,255,255,0.1)",
+                          borderBottom: "1px solid #e5e7eb",
                         }}
                       >
                         {parsedPricingPlans.map((plan, index) => (
                           <button
                             key={plan.name}
                             onClick={() => setSelectedPlanIndex(index)}
-                            className={`pricing-tab ${selectedPlanIndex === index ? "active" : ""}`}
+                            className={`pricing-tab-light ${selectedPlanIndex === index ? "active" : ""}`}
                           >
                             {plan.name}
                           </button>
@@ -594,27 +606,26 @@ export default function TabbedSaaSProducts({
                       </div>
                       <div className="text-center py-4">
                         <span
-                          className="text-white"
-                          style={{ fontSize: "2.5rem", fontWeight: "bold" }}
+                          style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#1a1a2e" }}
                         >
                           {currentPlan?.price1Month || "$0"}
                         </span>
-                        <span className="text-muted">/month</span>
+                        <span style={{ color: "#666" }}>/month</span>
                       </div>
                       <div
                         style={{
-                          borderTop: "1px solid rgba(255,255,255,0.1)",
+                          borderTop: "1px solid #e5e7eb",
                           paddingTop: "16px",
                         }}
                       >
-                        <p className="text-center text-muted small mb-2">
+                        <p className="text-center small mb-2" style={{ color: "#666" }}>
                           You can pay by
                         </p>
                         <PaymentIcons />
                       </div>
                     </>
                   ) : (
-                    <p className="text-muted mb-0">Contact for pricing</p>
+                    <p style={{ color: "#666" }} className="mb-0">Contact for pricing</p>
                   )}
                 </div>
               </div>
@@ -702,18 +713,18 @@ export default function TabbedSaaSProducts({
         )}
 
         {parsedFeatureCards.length > 0 && (
-          <section style={{ background: "#000000", padding: "64px 0" }}>
+          <section style={{ background: "#f8f9fa", padding: "64px 0" }}>
             <div className="container">
               <div className="row g-4">
                 {parsedFeatureCards.map((card, index) => (
                   <div key={index} className="col-md-4">
-                    <div className="feature-card text-center">
+                    <div className="feature-card-light text-center">
                       <div
                         className="mb-3"
                         style={{
                           display: "inline-flex",
                           padding: "12px",
-                          background: "rgba(245,166,35,0.1)",
+                          background: "rgba(245,166,35,0.15)",
                           borderRadius: "12px",
                         }}
                       >
@@ -722,8 +733,8 @@ export default function TabbedSaaSProducts({
                           style={{ fontSize: "2rem", color: "#f5a623" }}
                         ></i>
                       </div>
-                      <h5 className="text-white mb-2">{card.title}</h5>
-                      <p className="text-muted mb-0">{card.description}</p>
+                      <h5 className="mb-2" style={{ color: "#1a1a2e" }}>{card.title}</h5>
+                      <p className="mb-0" style={{ color: "#666" }}>{card.description}</p>
                     </div>
                   </div>
                 ))}
