@@ -27,16 +27,20 @@ export default function TestimonialsCarousel({
   };
 
   return (
-    <section className="bg-color" data-header-theme="dark">
+    <section
+      data-header-theme="dark"
+      style={{ backgroundColor: "#FFFFFF" }} // 🔥 BG COLOR UPDATED HERE
+    >
       <div className="container">
         <div className="row">
-          <div className="col-md-12 text-light">
+          <div className="col-md-12 text-dark">
             <div className="subtitle s2 mb20">{subtitle}</div>
             <h2 className="wow fadeInUp">{rating}</h2>
             <div className="spacer-20"></div>
           </div>
         </div>
       </div>
+
       <div className="container-fluid">
         <div className="row">
           <div
@@ -59,7 +63,9 @@ export default function TestimonialsCarousel({
                         <span>{testimonial.authorRole}</span>
                       </div>
                     </div>
-                    <p>&quot;{testimonial.quote}&quot;</p>
+
+                    <p>"{testimonial.quote}"</p>
+
                     <div className="de-rating-ext">
                       <span className="d-stars">
                         {renderStars(testimonial.rating)}
