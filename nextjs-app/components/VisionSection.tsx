@@ -27,7 +27,14 @@ export default function VisionSection({
           <div className="col-lg-12">
             <div className="subtitle s2 wow fadeInUp mb-3">{subtitle}</div>
 
-            <h2 className="mb20 wow fadeInUp" data-wow-delay=".2s">
+            <h2 
+              className="mb20 wow fadeInUp" 
+              data-wow-delay=".2s"
+              style={{
+                letterSpacing: "0.02em",
+                lineHeight: "1.4em",
+              }}
+            >
               {heading}
             </h2>
 
