@@ -17,5 +17,12 @@ export default async function EditNewsPage({ params }: Props) {
     notFound();
   }
 
-  return <EditNewsForm post={post} />;
+  const serializedPost = {
+    ...post,
+    publishedAt: post.publishedAt ? post.publishedAt.toISOString() : null,
+    createdAt: post.createdAt.toISOString(),
+    updatedAt: post.updatedAt.toISOString(),
+  };
+
+  return <EditNewsForm post={serializedPost} />;
 }

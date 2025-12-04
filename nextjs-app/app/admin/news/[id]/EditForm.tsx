@@ -17,7 +17,7 @@ interface NewsPost {
   htmlContent: string | null;
   featuredImage: string | null;
   active: boolean;
-  publishedAt: Date | null;
+  publishedAt: string | null;
   source: string;
   metaDescription: string | null;
   tags: string | null;
@@ -38,7 +38,7 @@ export default function EditNewsForm({ post }: { post: NewsPost }) {
     metaDescription: post.metaDescription || '',
     tags: post.tags || '',
     active: post.active,
-    publishedAt: post.publishedAt ? new Date(post.publishedAt).toISOString().slice(0, 16) : '',
+    publishedAt: post.publishedAt ? post.publishedAt.slice(0, 16) : '',
   });
   
   const [htmlContent, setHtmlContent] = useState(post.htmlContent || '');
