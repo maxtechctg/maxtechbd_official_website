@@ -695,7 +695,13 @@ export default function TabbedSaaSProducts({
               className="container position-relative text-center text-white py-5"
               style={{ zIndex: 2 }}
             >
-              <h3 style={{ fontSize: "2.5rem", fontWeight: "bold" }}>
+              <h3
+                style={{
+                  color: "#ffffff",
+                  fontSize: "2.5rem",
+                  fontWeight: "bold",
+                }}
+              >
                 {active.parallaxTitle || "Discover More"}
               </h3>
               {active.parallaxDescription && (
