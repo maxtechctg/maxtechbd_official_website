@@ -273,7 +273,9 @@ export default function TabbedSaaSProducts({
       <section className="py-5" style={{ background: "#ffffff" }}>
         <div className="container text-center">
           <h3 style={{ color: "#1a1a2e" }}>No products available</h3>
-          <p style={{ color: "#666" }}>Check back later for our SaaS solutions.</p>
+          <p style={{ color: "#666" }}>
+            Check back later for our SaaS solutions.
+          </p>
         </div>
       </section>
     );
@@ -456,13 +458,20 @@ export default function TabbedSaaSProducts({
         }
         .payment-icon {
           transition: transform 0.3s ease;
+          cursor: pointer;
         }
         .payment-icon:hover {
           transform: scale(1.1);
         }
       `}</style>
 
-      <section style={{ background: "#ffffff", padding: "16px 0", borderBottom: "1px solid #e5e7eb" }}>
+      <section
+        style={{
+          background: "#ffffff",
+          padding: "16px 0",
+          borderBottom: "1px solid #e5e7eb",
+        }}
+      >
         <div className="container">
           <div
             ref={stripRef}
@@ -509,7 +518,11 @@ export default function TabbedSaaSProducts({
               <div>
                 <h2
                   className="mb-1"
-                  style={{ fontSize: "2rem", fontWeight: "bold", color: "#1a1a2e" }}
+                  style={{
+                    fontSize: "2rem",
+                    fontWeight: "bold",
+                    color: "#1a1a2e",
+                  }}
                 >
                   {active.title}
                 </h2>
@@ -520,7 +533,10 @@ export default function TabbedSaaSProducts({
                     {active.tagline}
                   </p>
                 )}
-                <p className="mt-3" style={{ maxWidth: "800px", color: "#666" }}>
+                <p
+                  className="mt-3"
+                  style={{ maxWidth: "800px", color: "#666" }}
+                >
                   {active.shortDescription}
                 </p>
               </div>
@@ -556,7 +572,9 @@ export default function TabbedSaaSProducts({
             <div className="row g-4">
               <div className="col-lg-6">
                 <div className="feature-card-light">
-                  <h4 className="mb-4" style={{ color: "#1a1a2e" }}>Key Features</h4>
+                  <h4 className="mb-4" style={{ color: "#1a1a2e" }}>
+                    Key Features
+                  </h4>
                   {parsedKeyFeatures.length > 0 ? (
                     <ul className="list-unstyled mb-0">
                       {parsedKeyFeatures.map((feature, index) => (
@@ -578,14 +596,18 @@ export default function TabbedSaaSProducts({
                       ))}
                     </ul>
                   ) : (
-                    <p style={{ color: "#666" }} className="mb-0">No features listed.</p>
+                    <p style={{ color: "#666" }} className="mb-0">
+                      No features listed.
+                    </p>
                   )}
                 </div>
               </div>
 
               <div className="col-lg-6">
                 <div className="feature-card-light">
-                  <h4 className="mb-4" style={{ color: "#1a1a2e" }}>Project Price</h4>
+                  <h4 className="mb-4" style={{ color: "#1a1a2e" }}>
+                    Project Price
+                  </h4>
                   {parsedPricingPlans.length > 0 ? (
                     <>
                       <div
@@ -606,7 +628,11 @@ export default function TabbedSaaSProducts({
                       </div>
                       <div className="text-center py-4">
                         <span
-                          style={{ fontSize: "2.5rem", fontWeight: "bold", color: "#1a1a2e" }}
+                          style={{
+                            fontSize: "2.5rem",
+                            fontWeight: "bold",
+                            color: "#1a1a2e",
+                          }}
                         >
                           {currentPlan?.price1Month || "$0"}
                         </span>
@@ -618,14 +644,19 @@ export default function TabbedSaaSProducts({
                           paddingTop: "16px",
                         }}
                       >
-                        <p className="text-center small mb-2" style={{ color: "#666" }}>
+                        <p
+                          className="text-center small mb-2"
+                          style={{ color: "#666" }}
+                        >
                           You can pay by
                         </p>
                         <PaymentIcons />
                       </div>
                     </>
                   ) : (
-                    <p style={{ color: "#666" }} className="mb-0">Contact for pricing</p>
+                    <p style={{ color: "#666" }} className="mb-0">
+                      Contact for pricing
+                    </p>
                   )}
                 </div>
               </div>
@@ -733,8 +764,12 @@ export default function TabbedSaaSProducts({
                           style={{ fontSize: "2rem", color: "#f5a623" }}
                         ></i>
                       </div>
-                      <h5 className="mb-2" style={{ color: "#1a1a2e" }}>{card.title}</h5>
-                      <p className="mb-0" style={{ color: "#666" }}>{card.description}</p>
+                      <h5 className="mb-2" style={{ color: "#1a1a2e" }}>
+                        {card.title}
+                      </h5>
+                      <p className="mb-0" style={{ color: "#666" }}>
+                        {card.description}
+                      </p>
                     </div>
                   </div>
                 ))}
