@@ -159,7 +159,6 @@ export default function TabbedSaaSProducts({
   const active = products.find((p) => p.id === activeId) || products[0];
   const stripRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
-  const reviewsCarouselRef = useRef<HTMLDivElement>(null);
 
   const parsedKeyFeatures = safeJsonParse<KeyFeature>(active?.keyFeatures);
   const parsedPricingPlans = safeJsonParse<PricingPlan>(active?.pricingPlans);
@@ -188,6 +187,44 @@ export default function TabbedSaaSProducts({
   useEffect(() => {
     setSelectedPlanIndex(0);
   }, [activeId]);
+
+  useEffect(() => {
+    const initCarousel = () => {
+      if (typeof window === 'undefined') return;
+      const $ = (window as any).jQuery || (window as any).$;
+      if (!$ || !$.fn.owlCarousel) return;
+      
+      const $carousel = $('#saas-testimonial-carousel');
+      if ($carousel.length) {
+        if ($carousel.hasClass('owl-loaded')) {
+          $carousel.trigger('destroy.owl.carousel');
+          $carousel.removeClass('owl-loaded owl-drag owl-hidden');
+          $carousel.find('.owl-stage-outer').children().unwrap();
+          $carousel.find('.owl-nav, .owl-dots').remove();
+        }
+        
+        setTimeout(() => {
+          $carousel.owlCarousel({
+            loop: true,
+            margin: 30,
+            nav: true,
+            navText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
+            dots: true,
+            autoplay: true,
+            autoplayTimeout: 4000,
+            responsive: {
+              0: { items: 1 },
+              600: { items: 2 },
+              1000: { items: 3 }
+            }
+          });
+        }, 100);
+      }
+    };
+
+    const timer = setTimeout(initCarousel, 200);
+    return () => clearTimeout(timer);
+  }, [activeId, parsedClientReviews]);
 
   const handleTabClick = useCallback(
     (id: number) => {
@@ -232,47 +269,10 @@ export default function TabbedSaaSProducts({
     [products, handleTabClick],
   );
 
-  const renderStars = (rating: number) => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalf = rating % 1 >= 0.5;
-    for (let i = 0; i < 5; i++) {
-      if (i < fullStars) {
-        stars.push(
-          <i key={i} className="fa fa-star" style={{ color: "#f5a623" }}></i>,
-        );
-      } else if (i === fullStars && hasHalf) {
-        stars.push(
-          <i
-            key={i}
-            className="fa fa-star-half-o"
-            style={{ color: "#f5a623" }}
-          ></i>,
-        );
-      } else {
-        stars.push(
-          <i key={i} className="fa fa-star-o" style={{ color: "#ccc" }}></i>,
-        );
-      }
-    }
-    return stars;
-  };
-
   const calculateAverageRating = (reviews: ClientReview[]) => {
     if (reviews.length === 0) return 0;
     const total = reviews.reduce((sum, review) => sum + review.rating, 0);
     return total / reviews.length;
-  };
-
-  const scrollReviews = (direction: 'left' | 'right') => {
-    if (!reviewsCarouselRef.current) return;
-    const container = reviewsCarouselRef.current;
-    const scrollAmount = 360;
-    if (direction === 'left') {
-      container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    } else {
-      container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    }
   };
 
   if (!products.length) {
@@ -373,161 +373,6 @@ export default function TabbedSaaSProducts({
         }
         .pricing-tab-light:hover {
           color: #333;
-        }
-        .reviews-section-header {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          margin-bottom: 40px;
-        }
-        .reviews-badge {
-          display: inline-block;
-          background: #333;
-          color: #fff;
-          padding: 6px 16px;
-          border-radius: 4px;
-          font-size: 13px;
-          font-weight: 500;
-          margin-bottom: 16px;
-          text-transform: capitalize;
-        }
-        .reviews-rating-display {
-          font-size: 3rem;
-          font-weight: 300;
-          color: #fff;
-          line-height: 1;
-        }
-        .reviews-rating-display span {
-          font-weight: 300;
-        }
-        .reviews-carousel-container {
-          position: relative;
-          overflow: hidden;
-        }
-        .reviews-carousel {
-          display: flex;
-          gap: 24px;
-          overflow-x: auto;
-          scroll-behavior: smooth;
-          scrollbar-width: none;
-          -ms-overflow-style: none;
-          padding: 10px 5px;
-        }
-        .reviews-carousel::-webkit-scrollbar {
-          display: none;
-        }
-        .review-card {
-          flex: 0 0 calc(33.333% - 16px);
-          min-width: 320px;
-          background: #ffffff;
-          border-radius: 16px;
-          padding: 32px 24px;
-          text-align: center;
-          transition: all 0.3s ease;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-        @media (max-width: 992px) {
-          .review-card {
-            flex: 0 0 calc(50% - 12px);
-            min-width: 280px;
-          }
-        }
-        @media (max-width: 576px) {
-          .review-card {
-            flex: 0 0 100%;
-            min-width: 280px;
-          }
-        }
-        .review-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-        .review-avatar {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          object-fit: cover;
-          margin-bottom: 16px;
-          border: 3px solid #f5a623;
-        }
-        .review-avatar-placeholder {
-          width: 80px;
-          height: 80px;
-          border-radius: 50%;
-          background: linear-gradient(135deg, #f5a623 0%, #e8940f 100%);
-          color: #000;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 28px;
-          font-weight: bold;
-          margin-bottom: 16px;
-          border: 3px solid #f5a623;
-        }
-        .review-author-name {
-          font-size: 16px;
-          font-weight: 600;
-          color: #1a1a2e;
-          margin-bottom: 4px;
-        }
-        .review-author-role {
-          font-size: 13px;
-          color: #666;
-          margin-bottom: 16px;
-        }
-        .review-quote {
-          font-size: 14px;
-          line-height: 1.7;
-          color: #444;
-          flex: 1;
-          margin-bottom: 20px;
-        }
-        .review-stars {
-          display: flex;
-          gap: 4px;
-          justify-content: center;
-        }
-        .review-stars i {
-          color: #f5a623;
-          font-size: 16px;
-        }
-        .carousel-nav-btn {
-          position: absolute;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 48px;
-          height: 48px;
-          border-radius: 50%;
-          background: rgba(255, 255, 255, 0.1);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          color: #fff;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: all 0.3s ease;
-          z-index: 10;
-        }
-        .carousel-nav-btn:hover {
-          background: #f5a623;
-          border-color: #f5a623;
-          color: #000;
-        }
-        .carousel-nav-btn.prev {
-          left: -24px;
-        }
-        .carousel-nav-btn.next {
-          right: -24px;
-        }
-        @media (max-width: 768px) {
-          .carousel-nav-btn.prev {
-            left: 8px;
-          }
-          .carousel-nav-btn.next {
-            right: 8px;
-          }
         }
         .demo-btn {
           display: inline-flex;
@@ -877,57 +722,46 @@ export default function TabbedSaaSProducts({
         )}
 
         {parsedClientReviews.length > 0 && (
-          <section style={{ background: "#000000", padding: "64px 0" }}>
+          <section className="bg-dark-2 text-light">
             <div className="container">
-              <div className="reviews-section-header">
-                <span className="reviews-badge">Customer reviews</span>
-                <div className="reviews-rating-display">
-                  {calculateAverageRating(parsedClientReviews).toFixed(2)} <span>out of 5</span>
+              <div className="row">
+                <div className="col-md-12">
+                  <div className="subtitle s2 mb20">Customer reviews</div>
+                  <h2 className="wow fadeInUp">{calculateAverageRating(parsedClientReviews).toFixed(2)} out of 5</h2>
+                  <div className="spacer-20"></div>
                 </div>
               </div>
-              
-              <div className="reviews-carousel-container">
-                {parsedClientReviews.length > 3 && (
-                  <>
-                    <button
-                      onClick={() => scrollReviews('left')}
-                      className="carousel-nav-btn prev"
-                      aria-label="Previous reviews"
-                    >
-                      <i className="fa fa-chevron-left"></i>
-                    </button>
-                    <button
-                      onClick={() => scrollReviews('right')}
-                      className="carousel-nav-btn next"
-                      aria-label="Next reviews"
-                    >
-                      <i className="fa fa-chevron-right"></i>
-                    </button>
-                  </>
-                )}
-                
-                <div ref={reviewsCarouselRef} className="reviews-carousel">
+            </div>
+            <div className="container-fluid">
+              <div className="row">
+                <div
+                  className="owl-carousel owl-theme wow fadeInUp"
+                  id="saas-testimonial-carousel"
+                >
                   {parsedClientReviews.map((review, index) => (
-                    <div key={index} className="review-card">
-                      {review.authorImage ? (
-                        <img
-                          src={review.authorImage}
-                          alt={review.authorName}
-                          className="review-avatar"
-                        />
-                      ) : (
-                        <div className="review-avatar-placeholder">
-                          {review.authorName.charAt(0)}
-                        </div>
-                      )}
-                      <div className="review-author-name">{review.authorName}</div>
-                      {review.authorRole && (
-                        <div className="review-author-role">{review.authorRole}</div>
-                      )}
-                      <p className="review-quote">
-                        &ldquo;{review.quote}&rdquo;
-                      </p>
-                      <div className="review-stars">{renderStars(review.rating)}</div>
+                    <div key={index} className="item">
+                      <div className="de_testi s2">
+                        <blockquote>
+                          <div className="de_testi_by">
+                            <img 
+                              alt={review.authorName || 'Reviewer'} 
+                              src={review.authorImage || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(review.authorName || 'U') + '&background=f5a623&color=000&size=80'} 
+                            />
+                            <div>
+                              {review.authorName || 'Anonymous'}
+                              <span>{review.authorRole || ''}</span>
+                            </div>
+                          </div>
+                          <p>&quot;{review.quote}&quot;</p>
+                          <div className="de-rating-ext">
+                            <span className="d-stars">
+                              {[...Array(review.rating || 5)].map((_, i) => (
+                                <i key={i} className="fa fa-star"></i>
+                              ))}
+                            </span>
+                          </div>
+                        </blockquote>
+                      </div>
                     </div>
                   ))}
                 </div>

@@ -73,6 +73,24 @@ export default function ScriptInitializer() {
             });
           }
 
+          const $saasTestimonialCarousel = $('#saas-testimonial-carousel');
+          if ($saasTestimonialCarousel.length && !$saasTestimonialCarousel.hasClass('owl-loaded')) {
+            $saasTestimonialCarousel.owlCarousel({
+              loop: true,
+              margin: 30,
+              nav: true,
+              navText: ['<i class="fa fa-chevron-left"></i>', '<i class="fa fa-chevron-right"></i>'],
+              dots: true,
+              autoplay: true,
+              autoplayTimeout: 4000,
+              responsive: {
+                0: { items: 1 },
+                600: { items: 2 },
+                1000: { items: 3 }
+              }
+            });
+          }
+
           const $clientCarousel = $('#client-carousel, .client-carousel');
           $clientCarousel.each(function(this: HTMLElement) {
             const $this = $(this);
