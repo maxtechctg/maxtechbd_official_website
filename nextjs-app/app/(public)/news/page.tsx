@@ -108,12 +108,26 @@ export default async function NewsPage() {
           hasParallax={!!data.newsBannerImage}
         />
 
+        <style>{`
+          .news-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #ffffff;
+            transition: all 0.3s ease;
+          }
+          .news-card:hover {
+            border-color: #f5a623;
+            box-shadow: 8px 8px 0 #f5a623;
+            transform: translate(-4px, -4px);
+          }
+        `}</style>
         <section style={{ paddingTop: '60px' }}>
           <div className="container">
             <div className="row g-4">
               {data.blogPosts.map((post) => (
                 <div key={post.id} className="col-lg-4 col-md-6 mb10">
-                  <div className="bloglist item">
+                  <div className="bloglist item news-card">
                     <div className="post-content">
                       <div className="post-image">
                         <div className="d-tagline">
