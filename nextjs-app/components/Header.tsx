@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 interface MenuItem {
@@ -29,6 +30,18 @@ export default function Header({
   settings,
   transparent = false,
 }: HeaderProps) {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    handleScroll();
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const renderMenuItem = (item: MenuItem) => {
     const hasChildren = item.children && item.children.length > 0;
 
@@ -53,7 +66,7 @@ export default function Header({
   };
 
   return (
-    <header className={`header-full ${transparent ? "transparent" : ""}`}>
+    <header className={`header-full ${transparent ? "transparent" : ""} ${isScrolled ? "header-scrolled" : ""}`}>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12">

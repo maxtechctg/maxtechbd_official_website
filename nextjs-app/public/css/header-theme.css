@@ -1,4 +1,4 @@
-/* Header Theme Switching - Dark/Light Background Detection */
+/* Header Theme Switching - Scroll-based styling */
 
 /* Transition for smooth color changes */
 header.header-full {
@@ -13,69 +13,74 @@ header.header-full .h-phone span {
 }
 
 header.header-full .btn-line {
-  transition: color 0.3s ease, border-color 0.3s ease;
+  transition: color 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
 }
 
-/* Light background mode - dark text */
-header.header-full.header-light-bg {
-  background-color: rgba(255, 255, 255, 0.95) !important;
+/* Default state - White text on transparent/dark background */
+header.header-full .btn-line:hover {
+  color: #fff !important;
+  background-color: #CC181F !important;
+  border-color: #CC181F !important;
+}
+
+/* Scrolled state - White background with dark text */
+header.header-full.header-scrolled {
+  background-color: #ffffff !important;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
 }
 
-header.header-full.header-light-bg #mainmenu > li > a,
-header.header-full.header-light-bg .menu-item {
-  color: #1D1D1F !important;
+header.header-full.header-scrolled #mainmenu > li > a,
+header.header-full.header-scrolled .menu-item {
+  color: #404135 !important;
 }
 
-header.header-full.header-light-bg #mainmenu > li > a:hover,
-header.header-full.header-light-bg .menu-item:hover {
-  color: #f0b90b !important;
+header.header-full.header-scrolled #mainmenu > li > a:hover,
+header.header-full.header-scrolled .menu-item:hover {
+  color: #CC181F !important;
 }
 
-header.header-full.header-light-bg .h-phone {
-  color: #1D1D1F !important;
+header.header-full.header-scrolled .h-phone {
+  color: #404135 !important;
 }
 
-header.header-full.header-light-bg .h-phone span {
+header.header-full.header-scrolled .h-phone span {
   color: #666 !important;
 }
 
-header.header-full.header-light-bg .btn-line {
-  color: #1D1D1F !important;
-  border-color: #1D1D1F !important;
+header.header-full.header-scrolled .btn-line {
+  color: #404135 !important;
+  border-color: #404135 !important;
 }
 
-header.header-full.header-light-bg .btn-line:hover {
+header.header-full.header-scrolled .btn-line:hover {
   color: #fff !important;
-  background-color: #1D1D1F !important;
+  background-color: #CC181F !important;
+  border-color: #CC181F !important;
 }
 
-/* Menu numbering color */
-header.header-full.header-light-bg #mainmenu > li > a::before {
-  color: #f0b90b !important;
+/* Menu numbering color when scrolled */
+header.header-full.header-scrolled #mainmenu > li > a::before {
+  color: #CC181F !important;
 }
 
-/* Dropdown menu styling when header is light */
-header.header-full.header-light-bg #mainmenu li ul {
+/* Dropdown menu styling when header is scrolled */
+header.header-full.header-scrolled #mainmenu li ul {
   background-color: #fff;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-header.header-full.header-light-bg #mainmenu li ul li a {
-  color: #1D1D1F !important;
+header.header-full.header-scrolled #mainmenu li ul li a {
+  color: #404135 !important;
 }
 
-header.header-full.header-light-bg #mainmenu li ul li a:hover {
-  color: #f0b90b !important;
+header.header-full.header-scrolled #mainmenu li ul li a:hover {
+  color: #CC181F !important;
 }
 
-/* Mobile menu button color */
-header.header-full.header-light-bg #menu-btn::before,
-header.header-full.header-light-bg #menu-btn::after {
-  background-color: #1D1D1F;
-}
-
-/* Scrolled state - ensure proper styling */
-header.header-full.scrollOn.header-light-bg {
-  background-color: rgba(255, 255, 255, 0.98) !important;
+/* Mobile menu button color when scrolled */
+header.header-full.header-scrolled #menu-btn::before,
+header.header-full.header-scrolled #menu-btn::after {
+  background-color: #404135;
 }

@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import Link from 'next/link';
+import { useEffect, useRef } from "react";
+import Link from "next/link";
 
 declare global {
   interface Window {
@@ -32,8 +32,8 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 
   useEffect(() => {
     const initSwiper = () => {
-      if (typeof window === 'undefined' || !window.Swiper) return;
-      
+      if (typeof window === "undefined" || !window.Swiper) return;
+
       if (swiperRef.current) {
         swiperRef.current.destroy(true, true);
         swiperRef.current = null;
@@ -42,22 +42,22 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
       const container = containerRef.current;
       if (!container) return;
 
-      container.querySelectorAll('[data-bgimage]').forEach((el) => {
-        const bgImage = el.getAttribute('data-bgimage');
+      container.querySelectorAll("[data-bgimage]").forEach((el) => {
+        const bgImage = el.getAttribute("data-bgimage");
         if (bgImage) {
           (el as HTMLElement).style.backgroundImage = bgImage;
         }
       });
 
-      const swiperEl = container.querySelector('.swiper');
+      const swiperEl = container.querySelector(".swiper");
       if (!swiperEl) return;
 
       swiperRef.current = new window.Swiper(swiperEl, {
         autoplay: {
           delay: 3000,
-          disableOnInteraction: false
+          disableOnInteraction: false,
         },
-        direction: 'horizontal',
+        direction: "horizontal",
         loop: true,
         speed: 1200,
         watchSlidesProgress: true,
@@ -67,8 +67,8 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
           type: "fraction",
         },
         navigation: {
-          nextEl: '.swiper-button-next',
-          prevEl: '.swiper-button-prev',
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
         },
       });
     };
@@ -98,20 +98,26 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
     if (parts.length === 1) return title;
     return (
       <>
-        {parts[0]}<span className="underline">{highlight}</span>{parts[1]}
+        {parts[0]}
+        <span className="underline">{highlight}</span>
+        {parts[1]}
       </>
     );
   };
 
   return (
-    <section ref={containerRef} className="text-light no-top no-bottom position-relative z-1000" data-header-theme="dark">
+    <section
+      ref={containerRef}
+      className="text-light no-top no-bottom position-relative z-1000"
+      data-header-theme="dark"
+    >
       <div className="v-center">
         <div className="swiper">
           <div className="swiper-wrapper">
             {slides.map((slide) => (
               <div key={slide.id} className="swiper-slide">
-                <div 
-                  className="swiper-inner" 
+                <div
+                  className="swiper-inner"
                   data-bgimage={`url(${slide.backgroundImage})`}
                   style={{ backgroundImage: `url(${slide.backgroundImage})` }}
                 >
@@ -119,23 +125,53 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                     <div className="container">
                       <div className="row gx-5 align-items-center">
                         <div className="col-lg-8 mb-sm-20">
-                          <div className="subtitle s2 mb-4">{slide.subtitle}</div>
+                          <div className="subtitle s2 mb-4">
+                            {slide.subtitle}
+                          </div>
                           <h1 className="slider-title">
                             {formatTitle(slide.title, slide.titleHighlight)}
                           </h1>
                         </div>
+
                         <div className="col-lg-6">
                           <p className="slider-teaser">{slide.description}</p>
                           <hr className="s2" />
                           <div className="spacer-10"></div>
+                          {/* PRIMARY BUTTON (solid #CC181F) */}
                           {slide.primaryBtnText && slide.primaryBtnUrl && (
-                            <Link className="btn-main mb10" href={slide.primaryBtnUrl}>
+                            <Link
+                              className="btn-main mb10"
+                              href={slide.primaryBtnUrl}
+                              style={{
+                                backgroundColor: "#CC181F",
+                                borderColor: "#CC181F",
+                              }}
+                            >
                               {slide.primaryBtnText}
                             </Link>
                           )}
                           &nbsp;
+                          {/* SECONDARY BUTTON (hover = #CC181F) */}
                           {slide.secondaryBtnText && slide.secondaryBtnUrl && (
-                            <Link className="btn-line mb10" href={slide.secondaryBtnUrl}>
+                            <Link
+                              className="btn-line mb10"
+                              href={slide.secondaryBtnUrl}
+                              style={{
+                                borderColor: "#CC181F",
+                                color: "#CC181F",
+                                transition: "all 0.3s ease",
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor =
+                                  "#CC181F";
+                                e.currentTarget.style.color = "#fff";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor =
+                                  "transparent";
+                                e.currentTarget.style.color = "#CC181F";
+                              }}
+                            >
                               {slide.secondaryBtnText}
                             </Link>
                           )}
@@ -148,6 +184,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
               </div>
             ))}
           </div>
+
           <div className="swiper-pagination"></div>
           <div className="swiper-button-prev"></div>
           <div className="swiper-button-next"></div>
