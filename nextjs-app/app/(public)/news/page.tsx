@@ -41,6 +41,7 @@ async function getData() {
     blogPosts,
     socialLinks,
     footerLinks,
+    newsBannerImage: settings?.newsBannerImage || null,
   };
 }
 
@@ -103,6 +104,8 @@ export default async function NewsPage() {
             { label: 'Home', href: '/' },
             { label: 'News' },
           ]}
+          backgroundImage={data.newsBannerImage || undefined}
+          hasParallax={!!data.newsBannerImage}
         />
 
         <section className="no-top">

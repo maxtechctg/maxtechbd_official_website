@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import Link from 'next/link';
 import { DeleteButton } from '@/components/admin/AdminCrud';
 
@@ -28,15 +28,25 @@ export default function NewsManagerPage() {
   const [generationLogs, setGenerationLogs] = useState<GenerationLog[]>([]);
   const [generating, setGenerating] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [bannerImage, setBannerImage] = useState<string | null>(null);
+  const [bannerUploading, setBannerUploading] = useState(false);
+  const [bannerUrlInput, setBannerUrlInput] = useState('');
+  const [isDragging, setIsDragging] = useState(false);
+  const bannerFileRef = useRef<HTMLInputElement>(null);
 
   const fetchData = async () => {
     try {
-      const [postsRes, logsRes] = await Promise.all([
+      const [postsRes, logsRes, bannerRes] = await Promise.all([
         fetch('/api/admin/blog'),
-        fetch('/api/admin/blog/logs')
+        fetch('/api/admin/blog/logs'),
+        fetch('/api/admin/news-banner')
       ]);
       if (postsRes.ok) setPosts(await postsRes.json());
       if (logsRes.ok) setGenerationLogs(await logsRes.json());
+      if (bannerRes.ok) {
+        const bannerData = await bannerRes.json();
+        setBannerImage(bannerData.newsBannerImage);
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
     } finally {
@@ -47,6 +57,82 @@ export default function NewsManagerPage() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const handleBannerUpload = async (file: File) => {
+    setBannerUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+      const res = await fetch('/api/admin/news-banner', {
+        method: 'POST',
+        body: formData,
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setBannerImage(data.newsBannerImage);
+      } else {
+        alert('Failed to upload banner');
+      }
+    } catch (error) {
+      alert('Failed to upload banner');
+    } finally {
+      setBannerUploading(false);
+    }
+  };
+
+  const handleBannerUrlSubmit = async () => {
+    if (!bannerUrlInput.trim()) return;
+    setBannerUploading(true);
+    try {
+      const formData = new FormData();
+      formData.append('imageUrl', bannerUrlInput.trim());
+      const res = await fetch('/api/admin/news-banner', {
+        method: 'POST',
+        body: formData,
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setBannerImage(data.newsBannerImage);
+        setBannerUrlInput('');
+      } else {
+        alert('Failed to set banner URL');
+      }
+    } catch (error) {
+      alert('Failed to set banner URL');
+    } finally {
+      setBannerUploading(false);
+    }
+  };
+
+  const handleBannerRemove = async () => {
+    if (!confirm('Remove the banner image?')) return;
+    try {
+      const res = await fetch('/api/admin/news-banner', { method: 'DELETE' });
+      if (res.ok) {
+        setBannerImage(null);
+      }
+    } catch (error) {
+      alert('Failed to remove banner');
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      handleBannerUpload(file);
+    }
+  };
 
   const handleGenerateAI = async () => {
     setGenerating(true);
@@ -81,6 +167,109 @@ export default function NewsManagerPage() {
             disabled={generating}
           >
             {generating ? 'Generating...' : 'Generate AI Article'}
+          </button>
+        </div>
+      </div>
+
+      <div className="admin-card" style={{ marginBottom: '1.5rem' }}>
+        <h3 style={{ marginBottom: '1rem', color: '#f5a623' }}>Page Header Banner</h3>
+        <p style={{ color: '#6c757d', marginBottom: '1rem', fontSize: '0.9rem' }}>
+          Upload a banner image to display in the News page header. Recommended size: 1920x400px.
+        </p>
+        
+        {bannerImage ? (
+          <div style={{ marginBottom: '1rem' }}>
+            <div style={{ 
+              position: 'relative', 
+              borderRadius: '8px', 
+              overflow: 'hidden',
+              maxWidth: '600px'
+            }}>
+              <img 
+                src={bannerImage} 
+                alt="News Banner" 
+                style={{ 
+                  width: '100%', 
+                  height: '150px', 
+                  objectFit: 'cover',
+                  display: 'block'
+                }} 
+              />
+              <button
+                onClick={handleBannerRemove}
+                style={{
+                  position: 'absolute',
+                  top: '8px',
+                  right: '8px',
+                  background: '#dc3545',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '4px',
+                  padding: '4px 12px',
+                  cursor: 'pointer',
+                  fontSize: '0.85rem'
+                }}
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+            onClick={() => bannerFileRef.current?.click()}
+            style={{
+              border: `2px dashed ${isDragging ? '#f5a623' : '#dee2e6'}`,
+              borderRadius: '8px',
+              padding: '2rem',
+              textAlign: 'center',
+              cursor: 'pointer',
+              marginBottom: '1rem',
+              background: isDragging ? 'rgba(245, 166, 35, 0.1)' : '#ffffff',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <input
+              ref={bannerFileRef}
+              type="file"
+              accept="image/*"
+              style={{ display: 'none' }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleBannerUpload(file);
+              }}
+            />
+            <div style={{ fontSize: '2rem', color: '#6c757d', marginBottom: '0.5rem' }}>
+              <i className="fa fa-cloud-upload"></i>
+            </div>
+            <p style={{ margin: 0, color: '#6c757d' }}>
+              {bannerUploading ? 'Uploading...' : 'Drag & drop an image or click to browse'}
+            </p>
+          </div>
+        )}
+
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <input
+            type="text"
+            placeholder="Or enter image URL..."
+            value={bannerUrlInput}
+            onChange={(e) => setBannerUrlInput(e.target.value)}
+            style={{
+              flex: 1,
+              padding: '0.5rem 0.75rem',
+              borderRadius: '4px',
+              border: '1px solid #dee2e6',
+              fontSize: '0.9rem'
+            }}
+          />
+          <button
+            onClick={handleBannerUrlSubmit}
+            disabled={!bannerUrlInput.trim() || bannerUploading}
+            className="admin-btn admin-btn-secondary"
+          >
+            Set URL
           </button>
         </div>
       </div>
