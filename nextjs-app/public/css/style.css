@@ -19879,7 +19879,10 @@ img {
   }
 
   .container-timeline ul li::before {
-    left: 0
+    left: 0;
+  }
+}
+
 /* Fix dropdown menu positioning - make it continuous with nav tab */
 header #mainmenu > li > ul {
   top: 100% !important;

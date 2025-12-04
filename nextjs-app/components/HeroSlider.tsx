@@ -74,11 +74,8 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
     };
 
     const checkAndInit = () => {
-      if (window.Swiper) {
-        initSwiper();
-      } else {
-        setTimeout(checkAndInit, 100);
-      }
+      if (window.Swiper) initSwiper();
+      else setTimeout(checkAndInit, 100);
     };
 
     const timer = setTimeout(checkAndInit, 50);
@@ -94,12 +91,23 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
 
   const formatTitle = (title: string, highlight: string | null) => {
     if (!highlight) return title;
+
     const parts = title.split(highlight);
     if (parts.length === 1) return title;
+
     return (
       <>
         {parts[0]}
-        <span className="underline">{highlight}</span>
+        <span
+          className="underline"
+          style={{
+            backgroundColor: "#CC181F",
+            height: "6px",
+            display: "inline-block",
+          }}
+        >
+          {highlight}
+        </span>
         {parts[1]}
       </>
     );
@@ -125,19 +133,34 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                     <div className="container">
                       <div className="row gx-5 align-items-center">
                         <div className="col-lg-8 mb-sm-20">
-                          <div className="subtitle s2 mb-4">
+                          {/* 🔥 SUBTITLE MORE WHITE */}
+                          <div
+                            className="subtitle s2 mb-4"
+                            style={{ color: "#FFFFFF" }}
+                          >
                             {slide.subtitle}
                           </div>
-                          <h1 className="slider-title">
+
+                          {/* 🔥 TITLE WITH RED UNDERLINE */}
+                          <h1
+                            className="slider-title"
+                            style={{ textTransform: "lowercase" }}
+                          >
                             {formatTitle(slide.title, slide.titleHighlight)}
                           </h1>
                         </div>
 
                         <div className="col-lg-6">
-                          <p className="slider-teaser">{slide.description}</p>
+                          {/* 🔥 DESCRIPTION MORE WHITE */}
+                          <p
+                            className="slider-teaser"
+                            style={{ color: "#FFFFFF" }}
+                          >
+                            {slide.description}
+                          </p>
                           <hr className="s2" />
                           <div className="spacer-10"></div>
-                          {/* PRIMARY BUTTON (solid #CC181F) */}
+                          {/* 🔴 PRIMARY BUTTON (solid red + red hover shadow) */}
                           {slide.primaryBtnText && slide.primaryBtnUrl && (
                             <Link
                               className="btn-main mb10"
@@ -145,31 +168,42 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                               style={{
                                 backgroundColor: "#CC181F",
                                 borderColor: "#CC181F",
+                                color: "#fff",
+                                transition: "all 0.3s ease",
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.boxShadow =
+                                  "0 8px 20px rgba(204, 24, 31, 0.45)";
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.boxShadow = "none";
                               }}
                             >
                               {slide.primaryBtnText}
                             </Link>
                           )}
                           &nbsp;
-                          {/* SECONDARY BUTTON (hover = #CC181F) */}
+                          {/* ⚪ SECONDARY BUTTON (white text + white border + red hover) */}
                           {slide.secondaryBtnText && slide.secondaryBtnUrl && (
                             <Link
                               className="btn-line mb10"
                               href={slide.secondaryBtnUrl}
                               style={{
-                                borderColor: "#CC181F",
-                                color: "#CC181F",
+                                borderColor: "#FFFFFF",
+                                color: "#FFFFFF",
                                 transition: "all 0.3s ease",
                               }}
                               onMouseEnter={(e) => {
                                 e.currentTarget.style.backgroundColor =
                                   "#CC181F";
                                 e.currentTarget.style.color = "#fff";
+                                e.currentTarget.style.borderColor = "#CC181F";
                               }}
                               onMouseLeave={(e) => {
                                 e.currentTarget.style.backgroundColor =
                                   "transparent";
-                                e.currentTarget.style.color = "#CC181F";
+                                e.currentTarget.style.color = "#fff";
+                                e.currentTarget.style.borderColor = "#FFFFFF";
                               }}
                             >
                               {slide.secondaryBtnText}
@@ -179,6 +213,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                       </div>
                     </div>
                   </div>
+
                   <div className="sw-overlay s2"></div>
                 </div>
               </div>
