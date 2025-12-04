@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 interface Testimonial {
   id: number;
@@ -15,10 +15,10 @@ interface TestimonialsCarouselProps {
   rating?: string;
 }
 
-export default function TestimonialsCarousel({ 
+export default function TestimonialsCarousel({
   testimonials,
-  subtitle = 'Customer reviews',
-  rating = '4.85 out of 5'
+  subtitle = "Customer reviews",
+  rating = "4.85 out of 5",
 }: TestimonialsCarouselProps) {
   const renderStars = (ratingValue: number) => {
     return Array.from({ length: ratingValue }, (_, i) => (
@@ -39,14 +39,20 @@ export default function TestimonialsCarousel({
       </div>
       <div className="container-fluid">
         <div className="row">
-          <div className="owl-carousel owl-theme wow fadeInUp" id="testimonial-carousel">
+          <div
+            className="owl-carousel owl-theme wow fadeInUp"
+            id="testimonial-carousel"
+          >
             {testimonials.map((testimonial) => (
               <div key={testimonial.id} className="item">
                 <div className="de_testi s2">
                   <blockquote>
                     <div className="de_testi_by">
                       {testimonial.authorImage && (
-                        <img alt={testimonial.authorName} src={testimonial.authorImage} />
+                        <img
+                          alt={testimonial.authorName}
+                          src={testimonial.authorImage}
+                        />
                       )}
                       <div>
                         {testimonial.authorName}
