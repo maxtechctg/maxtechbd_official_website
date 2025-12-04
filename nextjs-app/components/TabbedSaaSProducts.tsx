@@ -90,6 +90,7 @@ const PaymentIcons = () => (
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        cursor: "pointer",
       }}
     >
       <span style={{ color: "#fff", fontWeight: "bold", fontSize: "12px" }}>
@@ -107,6 +108,7 @@ const PaymentIcons = () => (
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        cursor: "pointer",
       }}
     >
       <i className="fab fa-paypal text-white"></i>
@@ -122,6 +124,7 @@ const PaymentIcons = () => (
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        cursor: "pointer",
       }}
     >
       <span style={{ color: "#fff", fontWeight: "bold", fontSize: "14px" }}>
@@ -139,6 +142,7 @@ const PaymentIcons = () => (
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        cursor: "pointer",
       }}
     >
       <i className="fab fa-bitcoin text-white"></i>
