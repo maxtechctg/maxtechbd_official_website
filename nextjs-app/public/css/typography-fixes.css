@@ -1,0 +1,344 @@
+/* Typography Fixes - Letter Spacing & Line Height Corrections */
+/* This file corrects spacing issues for improved readability */
+/* Only affects letter-spacing and line-height, preserving all other styles */
+
+/* =================================================== */
+/* Base Typography Normalization */
+/* =================================================== */
+
+body {
+  line-height: 1.7em;
+  letter-spacing: 0.01em;
+}
+
+p {
+  line-height: 1.7em;
+  letter-spacing: 0.01em;
+}
+
+/* =================================================== */
+/* Heading Typography */
+/* =================================================== */
+
+h1, .h1 {
+  line-height: 1.15em;
+  letter-spacing: -0.02em;
+}
+
+h2, .h2 {
+  line-height: 1.2em;
+  letter-spacing: -0.01em;
+}
+
+h3, .h3 {
+  line-height: 1.25em;
+  letter-spacing: 0;
+}
+
+h4, .h4 {
+  line-height: 1.3em;
+  letter-spacing: 0;
+}
+
+h5, .h5 {
+  line-height: 1.35em;
+  letter-spacing: 0;
+}
+
+h6, .h6 {
+  line-height: 1.4em;
+  letter-spacing: 0;
+}
+
+/* =================================================== */
+/* Navigation Typography */
+/* =================================================== */
+
+#mainmenu a,
+#mainmenu li a,
+.menu-item {
+  letter-spacing: 0.02em;
+  line-height: 1.5em;
+}
+
+#mainmenu li li a {
+  letter-spacing: 0;
+  line-height: 1.6em;
+}
+
+.h-phone {
+  letter-spacing: 0.01em;
+  line-height: 1.4em;
+}
+
+/* =================================================== */
+/* Button Typography */
+/* =================================================== */
+
+.btn-line,
+.btn-main,
+a.btn-main,
+a.btn-line {
+  letter-spacing: 0.03em;
+  line-height: 1.5em;
+}
+
+/* =================================================== */
+/* Subtitle & Labels */
+/* =================================================== */
+
+.subtitle {
+  letter-spacing: 0.1em;
+  line-height: 1.5em;
+}
+
+.de-card-category,
+.d-tag,
+.badge {
+  letter-spacing: 0.05em;
+  line-height: 1.4em;
+}
+
+/* =================================================== */
+/* Content Sections */
+/* =================================================== */
+
+.de_testi blockquote {
+  line-height: 1.7em;
+  letter-spacing: 0.01em;
+}
+
+.de_testi .de_testi_by {
+  line-height: 1.5em;
+  letter-spacing: 0;
+}
+
+.feature-box p,
+.de-box p,
+.icon-box p {
+  line-height: 1.7em;
+  letter-spacing: 0.01em;
+}
+
+/* =================================================== */
+/* Service Cards & Boxes */
+/* =================================================== */
+
+.de-box h4,
+.feature-box h4,
+.icon-box h4 {
+  letter-spacing: 0;
+  line-height: 1.3em;
+}
+
+/* =================================================== */
+/* Blog/News Typography */
+/* =================================================== */
+
+.blog-list h4,
+.post-content h2,
+.blog-read h2 {
+  letter-spacing: -0.01em;
+  line-height: 1.3em;
+}
+
+.blog-list p,
+.post-content p,
+.blog-read p {
+  line-height: 1.75em;
+  letter-spacing: 0.01em;
+}
+
+.date-box .month {
+  letter-spacing: 0.1em;
+  line-height: 1.3em;
+}
+
+/* =================================================== */
+/* Portfolio/Project Cards */
+/* =================================================== */
+
+.gallery-item h4,
+.de-item h4,
+.hover-content h4 {
+  letter-spacing: 0;
+  line-height: 1.3em;
+}
+
+.gallery-item p,
+.de-item p {
+  line-height: 1.6em;
+  letter-spacing: 0.01em;
+}
+
+/* =================================================== */
+/* Footer Typography */
+/* =================================================== */
+
+footer p {
+  line-height: 1.7em;
+  letter-spacing: 0.01em;
+}
+
+footer h5 {
+  letter-spacing: 0.02em;
+  line-height: 1.4em;
+}
+
+footer a {
+  letter-spacing: 0;
+  line-height: 1.6em;
+}
+
+/* =================================================== */
+/* Form Elements */
+/* =================================================== */
+
+input,
+textarea,
+select,
+.form-control {
+  letter-spacing: 0.01em;
+  line-height: 1.5em;
+}
+
+label {
+  letter-spacing: 0.02em;
+  line-height: 1.4em;
+}
+
+/* =================================================== */
+/* Page Headers & Subheaders */
+/* =================================================== */
+
+#subheader h1,
+.page-header h1 {
+  letter-spacing: -0.01em;
+  line-height: 1.2em;
+}
+
+.breadcrumb,
+.crumb {
+  letter-spacing: 0.02em;
+  line-height: 1.5em;
+}
+
+/* =================================================== */
+/* List Items */
+/* =================================================== */
+
+ul li,
+ol li {
+  line-height: 1.7em;
+  letter-spacing: 0.01em;
+}
+
+/* =================================================== */
+/* Tabbed Content */
+/* =================================================== */
+
+.de_tab .de_nav li span {
+  letter-spacing: 0.02em;
+  line-height: 1.4em;
+}
+
+.tab-content p {
+  line-height: 1.7em;
+  letter-spacing: 0.01em;
+}
+
+/* =================================================== */
+/* Pricing Tables */
+/* =================================================== */
+
+.pricing-table h2,
+.pricing-s1 h2 {
+  letter-spacing: -0.01em;
+  line-height: 1.2em;
+}
+
+.pricing-table p,
+.pricing-s1 p {
+  line-height: 1.6em;
+  letter-spacing: 0.01em;
+}
+
+.pricing-table li,
+.pricing-s1 li {
+  line-height: 1.7em;
+  letter-spacing: 0;
+}
+
+/* =================================================== */
+/* Mobile Responsive Typography */
+/* =================================================== */
+
+@media only screen and (max-width: 992px) {
+  body {
+    line-height: 1.65em;
+    letter-spacing: 0.01em;
+  }
+  
+  h1, .h1 {
+    line-height: 1.2em;
+    letter-spacing: -0.01em;
+  }
+  
+  h2, .h2 {
+    line-height: 1.25em;
+    letter-spacing: 0;
+  }
+  
+  p {
+    line-height: 1.65em;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  body {
+    line-height: 1.6em;
+  }
+  
+  h1, .h1 {
+    line-height: 1.15em;
+    letter-spacing: -0.01em;
+  }
+  
+  h2, .h2 {
+    line-height: 1.2em;
+    letter-spacing: 0;
+  }
+  
+  h3, .h3 {
+    line-height: 1.25em;
+  }
+  
+  p {
+    line-height: 1.6em;
+  }
+  
+  #mainmenu a,
+  .menu-item {
+    letter-spacing: 0.01em;
+  }
+}
+
+@media only screen and (max-width: 576px) {
+  body {
+    line-height: 1.55em;
+    letter-spacing: 0;
+  }
+  
+  h1, .h1 {
+    line-height: 1.1em;
+    letter-spacing: 0;
+  }
+  
+  h2, .h2 {
+    line-height: 1.15em;
+  }
+  
+  p {
+    line-height: 1.55em;
+  }
+}

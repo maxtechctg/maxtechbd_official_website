@@ -1,39 +1,34 @@
-import prisma from '@/lib/prisma';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-import PageHeader from '@/components/PageHeader';
-import Link from 'next/link';
+import prisma from "@/lib/prisma";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import PageHeader from "@/components/PageHeader";
+import Link from "next/link";
 
-export const dynamic = 'force-dynamic';
+export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 async function getData() {
-  const [
-    settings,
-    menuItems,
-    blogPosts,
-    socialLinks,
-    footerLinks,
-  ] = await Promise.all([
-    prisma.siteSettings.findFirst(),
-    prisma.menuItem.findMany({
-      where: { parentId: null },
-      include: { children: true },
-      orderBy: { order: 'asc' },
-    }),
-    prisma.blogPost.findMany({
-      where: { active: true, publishedAt: { not: null } },
-      orderBy: { publishedAt: 'desc' },
-    }),
-    prisma.socialLink.findMany({
-      where: { isActive: true },
-      orderBy: { order: 'asc' },
-    }),
-    prisma.footerLink.findMany({
-      where: { isActive: true },
-      orderBy: { order: 'asc' },
-    }),
-  ]);
+  const [settings, menuItems, blogPosts, socialLinks, footerLinks] =
+    await Promise.all([
+      prisma.siteSettings.findFirst(),
+      prisma.menuItem.findMany({
+        where: { parentId: null },
+        include: { children: true },
+        orderBy: { order: "asc" },
+      }),
+      prisma.blogPost.findMany({
+        where: { active: true, publishedAt: { not: null } },
+        orderBy: { publishedAt: "desc" },
+      }),
+      prisma.socialLink.findMany({
+        where: { isActive: true },
+        orderBy: { order: "asc" },
+      }),
+      prisma.footerLink.findMany({
+        where: { isActive: true },
+        orderBy: { order: "asc" },
+      }),
+    ]);
 
   return {
     settings,
@@ -46,19 +41,19 @@ async function getData() {
 }
 
 function formatDate(date: Date | null): string {
-  if (!date) return '';
+  if (!date) return "";
   const now = new Date();
   const diffTime = Math.abs(now.getTime() - date.getTime());
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  
-  if (diffDays === 1) return '1 day ago';
+
+  if (diffDays === 1) return "1 day ago";
   if (diffDays < 7) return `${diffDays} days ago`;
   if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
-  
-  return date.toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+
+  return date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 }
 
@@ -88,10 +83,10 @@ export default async function NewsPage() {
 
   return (
     <>
-      <Header 
-        menuItems={data.menuItems} 
-        settings={headerSettings} 
-        transparent={true} 
+      <Header
+        menuItems={data.menuItems}
+        settings={headerSettings}
+        transparent={true}
       />
 
       <div className="no-bottom no-top" id="content">
@@ -100,10 +95,7 @@ export default async function NewsPage() {
         <PageHeader
           subtitle="Latest News"
           title="Providing best IT solutions"
-          breadcrumb={[
-            { label: 'Home', href: '/' },
-            { label: 'News' },
-          ]}
+          breadcrumb={[{ label: "Home", href: "/" }, { label: "News" }]}
           backgroundImage={data.newsBannerImage || undefined}
           hasParallax={!!data.newsBannerImage}
         />
@@ -147,7 +139,7 @@ export default async function NewsPage() {
             flex: 1;
           }
         `}</style>
-        <section style={{ paddingTop: '60px' }}>
+        <section style={{ paddingTop: "60px" }}>
           <div className="container">
             <div className="row g-4 news-cards-row">
               {data.blogPosts.map((post) => (
@@ -159,28 +151,42 @@ export default async function NewsPage() {
                           {post.category && <span>{post.category}</span>}
                         </div>
                         {post.featuredImage ? (
-                          <img alt={post.title} src={post.featuredImage} className="lazy" />
+                          <img
+                            alt={post.title}
+                            src={post.featuredImage}
+                            className="lazy"
+                          />
                         ) : (
-                          <div style={{ 
-                            width: '100%', 
-                            height: '200px', 
-                            background: 'linear-gradient(135deg, #0a0f1a 0%, #1a2744 100%)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            color: '#f5a623',
-                            fontSize: '3rem'
-                          }}>
+                          <div
+                            style={{
+                              width: "100%",
+                              height: "200px",
+                              background:
+                                "linear-gradient(135deg, #0a0f1a 0%, #1a2744 100%)",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              color: "#f5a623",
+                              fontSize: "3rem",
+                            }}
+                          >
                             <i className="fa fa-newspaper-o"></i>
                           </div>
                         )}
                       </div>
                       <div className="post-text">
-                        <div className="d-date">{formatDate(post.publishedAt)}</div>
-                        <h4>
-                          <Link href={`/news/${post.slug}`}>{post.title}</Link>
+                        <div className="d-date">
+                          {formatDate(post.publishedAt)}
+                        </div>
+                        <h4 style={{ color: "#CC181F" }}>
+                          <Link
+                            href={`/news/${post.slug}`}
+                            style={{ color: "#CC181F", textDecoration: "none" }}
+                          >
+                            {post.title}
+                          </Link>
                         </h4>
-                        <p>{post.metaDescription || ''}</p>
+                        <p>{post.metaDescription || ""}</p>
                       </div>
                     </div>
                   </div>
@@ -191,7 +197,7 @@ export default async function NewsPage() {
         </section>
       </div>
 
-      <Footer 
+      <Footer
         settings={footerSettings}
         socialLinks={data.socialLinks}
         footerLinks={data.footerLinks}

@@ -15,19 +15,32 @@ export default function ServicesGrid({ services }: ServicesGridProps) {
       <div className="container">
         <div className="row g-4 mt-100 sm-mt-0 z-1000">
           <div className="spacer-single d-lg-none d-sm-block"></div>
+
           {services.map((service) => (
             <div key={service.id} className="col-lg-3 col-md-6">
               <div>
                 {service.image && (
-                  <img 
-                    src={service.image} 
-                    className="img-fullwidth rounded-20 mb20" 
-                    alt={service.title} 
+                  <img
+                    src={service.image}
+                    className="img-fullwidth rounded-20 mb20"
+                    alt={service.title}
                   />
                 )}
-                <h4>{service.title}</h4>
+
+                {/* 🔥 Title in red */}
+                <h4 style={{ color: "#CC181F" }}>{service.title}</h4>
+
                 <hr className="s2" />
-                <p>{service.description}</p>
+
+                {/* 🔥 Subcontent styled */}
+                <p
+                  style={{
+                    color: "#404135",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {service.description}
+                </p>
               </div>
             </div>
           ))}

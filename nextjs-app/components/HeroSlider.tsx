@@ -90,23 +90,23 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
   }, [slides]);
 
   const formatTitle = (title: string, highlight: string | null) => {
-    if (!highlight) return title;
+    if (!highlight) return title.toUpperCase();
 
-    const parts = title.split(highlight);
-    if (parts.length === 1) return title;
+    const parts = title.toUpperCase().split(highlight.toUpperCase());
 
     return (
       <>
         {parts[0]}
         <span
-          className="underline"
           style={{
-            backgroundColor: "#CC181F",
-            height: "6px",
             display: "inline-block",
+            borderBottom: "6px solid #CC181F",
+            paddingBottom: "6px",
+            lineHeight: "1",
+            color: "#FFFFFF",
           }}
         >
-          {highlight}
+          {highlight.toUpperCase()}
         </span>
         {parts[1]}
       </>
@@ -133,7 +133,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                     <div className="container">
                       <div className="row gx-5 align-items-center">
                         <div className="col-lg-8 mb-sm-20">
-                          {/* 🔥 SUBTITLE MORE WHITE */}
+                          {/* Subtitle */}
                           <div
                             className="subtitle s2 mb-4"
                             style={{ color: "#FFFFFF" }}
@@ -141,17 +141,20 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                             {slide.subtitle}
                           </div>
 
-                          {/* 🔥 TITLE WITH RED UNDERLINE */}
+                          {/* TITLE IN UPPERCASE + RED UNDERLINE */}
                           <h1
                             className="slider-title"
-                            style={{ textTransform: "lowercase" }}
+                            style={{
+                              textTransform: "uppercase",
+                              color: "#FFFFFF",
+                            }}
                           >
                             {formatTitle(slide.title, slide.titleHighlight)}
                           </h1>
                         </div>
 
                         <div className="col-lg-6">
-                          {/* 🔥 DESCRIPTION MORE WHITE */}
+                          {/* Description */}
                           <p
                             className="slider-teaser"
                             style={{ color: "#FFFFFF" }}
@@ -160,7 +163,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                           </p>
                           <hr className="s2" />
                           <div className="spacer-10"></div>
-                          {/* 🔴 PRIMARY BUTTON (solid red + red hover shadow) */}
+                          {/* PRIMARY BUTTON */}
                           {slide.primaryBtnText && slide.primaryBtnUrl && (
                             <Link
                               className="btn-main mb10"
@@ -183,7 +186,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                             </Link>
                           )}
                           &nbsp;
-                          {/* ⚪ SECONDARY BUTTON (white text + white border + red hover) */}
+                          {/* SECONDARY BUTTON */}
                           {slide.secondaryBtnText && slide.secondaryBtnUrl && (
                             <Link
                               className="btn-line mb10"
@@ -192,6 +195,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                                 borderColor: "#FFFFFF",
                                 color: "#FFFFFF",
                                 transition: "all 0.3s ease",
+                                backgroundColor: "transparent",
                               }}
                               onMouseEnter={(e) => {
                                 e.currentTarget.style.backgroundColor =
