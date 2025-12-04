@@ -1,192 +1,89 @@
-/* Typography Fixes - Letter Spacing & Line Height Corrections */
-/* This file corrects spacing issues for improved readability */
-/* Only affects letter-spacing and line-height, preserving all other styles */
+/* Typography Fixes - Targeted Letter Spacing & Line Height Corrections */
+/* Only fixes specific problematic areas, preserving intentional decorative styles */
 
 /* =================================================== */
-/* Base Typography Normalization */
+/* Body Text Improvements (subtle, non-destructive) */
 /* =================================================== */
 
-body {
-  line-height: 1.7em;
-  letter-spacing: 0.01em;
-}
-
-p {
-  line-height: 1.7em;
-  letter-spacing: 0.01em;
-}
-
-/* =================================================== */
-/* Heading Typography */
-/* =================================================== */
-
-h1, .h1 {
-  line-height: 1.15em;
-  letter-spacing: -0.02em;
-}
-
-h2, .h2 {
-  line-height: 1.2em;
-  letter-spacing: -0.01em;
-}
-
-h3, .h3 {
-  line-height: 1.25em;
-  letter-spacing: 0;
-}
-
-h4, .h4 {
-  line-height: 1.3em;
-  letter-spacing: 0;
-}
-
-h5, .h5 {
-  line-height: 1.35em;
-  letter-spacing: 0;
-}
-
-h6, .h6 {
-  line-height: 1.4em;
-  letter-spacing: 0;
-}
-
-/* =================================================== */
-/* Navigation Typography */
-/* =================================================== */
-
-#mainmenu a,
-#mainmenu li a,
-.menu-item {
-  letter-spacing: 0.02em;
-  line-height: 1.5em;
-}
-
-#mainmenu li li a {
-  letter-spacing: 0;
-  line-height: 1.6em;
-}
-
-.h-phone {
-  letter-spacing: 0.01em;
-  line-height: 1.4em;
-}
-
-/* =================================================== */
-/* Button Typography */
-/* =================================================== */
-
-.btn-line,
-.btn-main,
-a.btn-main,
-a.btn-line {
-  letter-spacing: 0.03em;
-  line-height: 1.5em;
-}
-
-/* =================================================== */
-/* Subtitle & Labels */
-/* =================================================== */
-
-.subtitle {
-  letter-spacing: 0.1em;
-  line-height: 1.5em;
-}
-
-.de-card-category,
-.d-tag,
-.badge {
-  letter-spacing: 0.05em;
-  line-height: 1.4em;
-}
-
-/* =================================================== */
-/* Content Sections */
-/* =================================================== */
-
-.de_testi blockquote {
-  line-height: 1.7em;
-  letter-spacing: 0.01em;
-}
-
-.de_testi .de_testi_by {
-  line-height: 1.5em;
-  letter-spacing: 0;
-}
-
-.feature-box p,
-.de-box p,
-.icon-box p {
-  line-height: 1.7em;
-  letter-spacing: 0.01em;
-}
-
-/* =================================================== */
-/* Service Cards & Boxes */
-/* =================================================== */
-
-.de-box h4,
-.feature-box h4,
-.icon-box h4 {
-  letter-spacing: 0;
-  line-height: 1.3em;
-}
-
-/* =================================================== */
-/* Blog/News Typography */
-/* =================================================== */
-
-.blog-list h4,
-.post-content h2,
-.blog-read h2 {
-  letter-spacing: -0.01em;
-  line-height: 1.3em;
-}
-
-.blog-list p,
-.post-content p,
-.blog-read p {
+/* Improve body paragraph readability without changing base styles */
+.text-content p,
+.service-content p,
+.about-content p,
+article p,
+.blog-read p,
+.post-content p {
   line-height: 1.75em;
   letter-spacing: 0.01em;
 }
 
-.date-box .month {
-  letter-spacing: 0.1em;
-  line-height: 1.3em;
-}
-
 /* =================================================== */
-/* Portfolio/Project Cards */
+/* Navigation Refinements */
 /* =================================================== */
 
-.gallery-item h4,
-.de-item h4,
-.hover-content h4 {
-  letter-spacing: 0;
-  line-height: 1.3em;
-}
-
-.gallery-item p,
-.de-item p {
-  line-height: 1.6em;
-  letter-spacing: 0.01em;
-}
-
-/* =================================================== */
-/* Footer Typography */
-/* =================================================== */
-
-footer p {
-  line-height: 1.7em;
-  letter-spacing: 0.01em;
-}
-
-footer h5 {
+/* Fix navigation letter-spacing for better readability */
+/* Only applies to main nav, not decorative variants */
+header.header-scrolled #mainmenu > li > a {
   letter-spacing: 0.02em;
-  line-height: 1.4em;
 }
 
-footer a {
-  letter-spacing: 0;
+/* Dropdown menu items need tighter spacing */
+#mainmenu li ul li a {
+  line-height: 1.6em;
+}
+
+/* =================================================== */
+/* Content Section Typography */
+/* =================================================== */
+
+/* Service boxes and feature descriptions */
+.de-box .d-text,
+.feature-box .d-text,
+.icon-box .d-text,
+.de-box p,
+.feature-box p,
+.icon-box p {
+  line-height: 1.7em;
+}
+
+/* Testimonial quotes - improve readability */
+.de_testi blockquote p,
+.de_testi .de_testi_content {
+  line-height: 1.65em;
+  letter-spacing: 0.01em;
+}
+
+/* =================================================== */
+/* Blog/News Specific */
+/* =================================================== */
+
+/* Blog card descriptions */
+.blog-list .blog-text,
+.blog-snippet,
+.post-info p {
+  line-height: 1.7em;
+}
+
+/* Blog article body content */
+.blog-read .blog-content,
+.post-content .content-body {
+  line-height: 1.8em;
+  letter-spacing: 0.01em;
+}
+
+/* =================================================== */
+/* Pricing Table Fixes */
+/* =================================================== */
+
+/* Pricing features list */
+.pricing-table ul li,
+.pricing-s1 ul li,
+.pricing-s2 ul li {
+  line-height: 1.8em;
+}
+
+/* Pricing descriptions */
+.pricing-table .pricing-info,
+.pricing-s1 p {
   line-height: 1.6em;
 }
 
@@ -194,151 +91,124 @@ footer a {
 /* Form Elements */
 /* =================================================== */
 
-input,
-textarea,
-select,
-.form-control {
-  letter-spacing: 0.01em;
-  line-height: 1.5em;
-}
-
-label {
+/* Form labels and input text */
+.form-group label,
+form label {
   letter-spacing: 0.02em;
   line-height: 1.4em;
 }
 
-/* =================================================== */
-/* Page Headers & Subheaders */
-/* =================================================== */
-
-#subheader h1,
-.page-header h1 {
-  letter-spacing: -0.01em;
-  line-height: 1.2em;
-}
-
-.breadcrumb,
-.crumb {
-  letter-spacing: 0.02em;
+/* Input and textarea readability */
+.form-control,
+input[type="text"],
+input[type="email"],
+textarea {
   line-height: 1.5em;
 }
 
 /* =================================================== */
-/* List Items */
+/* Footer Content */
 /* =================================================== */
 
-ul li,
-ol li {
+/* Footer paragraphs and links */
+footer .widget p,
+footer .footer-content p {
   line-height: 1.7em;
-  letter-spacing: 0.01em;
+}
+
+footer .widget ul li,
+footer .menu li {
+  line-height: 1.8em;
 }
 
 /* =================================================== */
-/* Tabbed Content */
+/* Tab Content */
 /* =================================================== */
 
-.de_tab .de_nav li span {
-  letter-spacing: 0.02em;
-  line-height: 1.4em;
-}
-
-.tab-content p {
+/* Tab panel content text */
+.tab-content p,
+.tab-pane p,
+.de_tab .de_tab_content p {
   line-height: 1.7em;
-  letter-spacing: 0.01em;
 }
 
 /* =================================================== */
-/* Pricing Tables */
+/* List Items in Content Areas */
 /* =================================================== */
 
-.pricing-table h2,
-.pricing-s1 h2 {
-  letter-spacing: -0.01em;
-  line-height: 1.2em;
+/* Content lists (not navigation) */
+.content ul li,
+.text-content ul li,
+article ul li,
+.blog-content ul li {
+  line-height: 1.8em;
 }
 
-.pricing-table p,
-.pricing-s1 p {
+.content ol li,
+.text-content ol li,
+article ol li,
+.blog-content ol li {
+  line-height: 1.8em;
+}
+
+/* =================================================== */
+/* Contact Page Specific */
+/* =================================================== */
+
+/* Contact info blocks */
+.contact-info p,
+.address-wrap p {
   line-height: 1.6em;
-  letter-spacing: 0.01em;
-}
-
-.pricing-table li,
-.pricing-s1 li {
-  line-height: 1.7em;
-  letter-spacing: 0;
 }
 
 /* =================================================== */
-/* Mobile Responsive Typography */
+/* Card Descriptions */
+/* =================================================== */
+
+/* General card text content */
+.de-card-content p,
+.card-body p,
+.item-desc {
+  line-height: 1.65em;
+}
+
+/* =================================================== */
+/* Mobile Responsive Fixes */
 /* =================================================== */
 
 @media only screen and (max-width: 992px) {
-  body {
-    line-height: 1.65em;
-    letter-spacing: 0.01em;
-  }
-  
-  h1, .h1 {
-    line-height: 1.2em;
-    letter-spacing: -0.01em;
-  }
-  
-  h2, .h2 {
-    line-height: 1.25em;
-    letter-spacing: 0;
-  }
-  
-  p {
-    line-height: 1.65em;
+  /* Paragraphs need slightly tighter line-height on tablet */
+  .text-content p,
+  article p,
+  .blog-read p {
+    line-height: 1.7em;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  body {
-    line-height: 1.6em;
+  /* Mobile paragraph adjustments */
+  .text-content p,
+  article p,
+  .blog-read p,
+  .service-content p {
+    line-height: 1.65em;
   }
   
-  h1, .h1 {
-    line-height: 1.15em;
-    letter-spacing: -0.01em;
-  }
-  
-  h2, .h2 {
-    line-height: 1.2em;
-    letter-spacing: 0;
-  }
-  
-  h3, .h3 {
-    line-height: 1.25em;
-  }
-  
-  p {
-    line-height: 1.6em;
-  }
-  
-  #mainmenu a,
-  .menu-item {
-    letter-spacing: 0.01em;
+  /* Mobile list spacing */
+  .content ul li,
+  article ul li {
+    line-height: 1.7em;
   }
 }
 
 @media only screen and (max-width: 576px) {
-  body {
-    line-height: 1.55em;
-    letter-spacing: 0;
+  /* Small mobile adjustments */
+  .text-content p,
+  article p {
+    line-height: 1.6em;
   }
   
-  h1, .h1 {
-    line-height: 1.1em;
-    letter-spacing: 0;
-  }
-  
-  h2, .h2 {
-    line-height: 1.15em;
-  }
-  
-  p {
-    line-height: 1.55em;
+  footer .widget p {
+    line-height: 1.6em;
   }
 }
